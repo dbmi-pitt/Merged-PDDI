@@ -1,0 +1,77 @@
+body{
+font-family: Verdana;
+font-size: 14px;
+}
+
+div{
+width: 720px;
+margin: 0px auto;
+
+}
+
+.headerArea{
+height: 100px;
+}
+
+.pageTitle{
+font-size: 40px;
+font-weight: bold;
+position: auto;
+float: left;
+}
+
+.loginForm{
+font-size: 12px;
+position: auto;
+float: right;
+width: 200px;
+}
+
+.loginForm input.text{
+width: 100%
+}
+
+.newAccount{font-size:8px;}
+
+.infoButton{
+background-color: #CCFFCC;
+height: 30px;
+}
+
+.sourceButton{
+background-color: #CCCCFF;
+height: 30px;
+}
+
+
+.drugField{width:300px;}
+
+.drugs{
+margin-top: 30px;
+}
+
+.image{
+text-align:center;
+}
+
+.intro{
+text-align:center;
+}
+
+.stepHeader{
+font-size: 16px;
+font-weight: bold;
+}
+.filters{
+
+}
+
+.results{
+
+
+}
+
+.resultsField{
+
+
+}
