@@ -1,0 +1,6 @@
+com/ddi/Drug.class
+com/ddi/DDIServlet.class
+com/ddi/drug_ajax.class
+com/ddi/Results.class
+com/ddi/ReverseServlet.class
+com/ddi/SearchServlet.class
