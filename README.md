@@ -6,7 +6,7 @@ design: mockup ppt
 data: 6 sources dataset in CSV, schema drugData in SQL
 scripts: python script purpose for merge new mappings (ex. drug classes)
 
-maven-src: prototype in maven 
+maven-src: prototype in maven (DIKB-Prototype)
 netbeans-src: prototype in netbeans (original version from IS team)
 
 ### Techs:
@@ -34,3 +34,9 @@ $ sudo cp target/DIKB-Prototype /var/lib/tomcat6/webapps/
 $ sudo service tomcat6 restart
 
 (4) access prototype at : http://localhost:8080/DIKB-Prototype
+
+Tips:
+maven to eclipse: mvn eclipse:eclipse
+STS(based on eclipse 3.2) can be editor of prototype (shared with domeo)
+
+ 
