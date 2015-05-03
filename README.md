@@ -1,4 +1,7 @@
-DIKB-Prototype (Code to prototype the new Drug Interaction Knowledge Base)
+Potential drug-drug interaction information from publicly
+available sources (Code to prototype the new Drug Interaction Knowledge Base)
+
+A service provided by the University of Pittsburgh Drug Interaction Knowledge Base (DIKB)
 
 ### Repository layout:
 
