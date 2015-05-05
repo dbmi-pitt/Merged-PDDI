@@ -17,7 +17,7 @@ netbeans-src: prototype in netbeans (original version from IS team)
 Java Servlet, JSP, JSTL, Ajax, Jquery, SQL
 
 
-### depoly prototype:
+### deploy prototype:
 
 (1) requirements (http://www.tutorialspoint.com/maven/maven_environment_setup.htm):
 
