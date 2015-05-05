@@ -1,0 +1,43 @@
+/*
+This is old CSS no longer in use but kept just in case.
+*/
+/* 
+    Created on : Apr 17, 2015, 1:19:23 PM
+    Author     : Jacky
+*/
+
+.pageTitle{
+font-size: 40px;
+font-weight: bold;
+float: left;
+}
+
+.loginForm{
+font-size: 12px;
+float: right;
+width: 220px;
+}
+
+#login, #pw{
+    float:right;
+}
+
+.loginP{
+    margin: 1px;
+    padding: 1px;
+}
+
+.loginButton{
+    margin-right: auto;
+    margin-left: auto;
+    text-align: center;
+}
+
+.loginForm input.text{
+width: 100%
+}
+
+.newAccount{
+    font-size:8px;
+    text-align: center;      
+}
