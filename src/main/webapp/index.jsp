@@ -73,7 +73,7 @@
                         </c:forEach>
                         <div id="submitButton"><input class="clear regButton" type="submit" value="Reverse Object/Precipitant"/></div>
                     </form>
-                        <p class="centered">Click <a href="/DDI">here</a> to search for 2 new drugs</p>
+                        <p class="centered">Click <a href="/DIKB-Prototype">here</a> to search for 2 new drugs</p>
                 </div>
                 <div id="dataButtons">
                     <div id="legend" class="centered">
@@ -167,38 +167,38 @@
                     <p class="showAll hide researchStatementLabel"><span class="bold">Research Statement Label - </span> ${results.get(25)}</p>
                     <p class="showAll hide researchStatement"><span class="bold">Research Statement  - </span> ${results.get(26)}</p>
                     </div>
-                    <div id="comments" class="centered">
-                        <h4>Comments about this interaction</h4>
-                        <div id="existingComment">
-                            <p class="comment">
-                                <span class="bold">User: </span>Jacky Ramsey<br>
-                                <span class="bold">Email: </span>jmr205@pitt.edu<br>
-                                <span class="bold">Date: </span>03/15/2015<br>
-                                <span class="bold">Comment: </span>Information about the XXXX is not complete.  Consider adding this additional information:<br>
-                            </p>
-                            <p class="comment">
-                                <span class="bold">User: </span>Maggie Shipley<br>
-                                <span class="bold">Email: </span>mas111@pitt.edu<br>
-                                <span class="bold">Date: </span>04/1/2015<br>
-                                <span class="bold">Comment: </span>This source also has additional information about XXXX: <br>
-                            </p>
-                        </div>
-                        <div id="newComment">
-                            <p class="bold">Leave a Comment</p>
-                            <form class="xtraPadding">
-                                <label>
-                                    <p>User: <input type="text" name="user" placeholder="Your Username" required max="50"></p>
-                                </label>
-                                <label>
-                                    <p>Email: <input type="email" name="email" placeholder="yourEmail@email.com" required max="75"></p>
-                                </label>
-                                <label>
-                                    <p>Comment: <textarea name="comment" required placeholder="Your Comment"></textarea></p>
-                                </label>
-                                <button class="regButton xtraPadding" name="submitComment">Submit Comment</button>
-                            </form>
-                        </div>
-                    </div>
+                    <!-- <div id="comments" class="centered"> -->
+                    <!--     <h4>Comments about this interaction</h4> -->
+                    <!--     <div id="existingComment"> -->
+                    <!--         <p class="comment"> -->
+                    <!--             <span class="bold">User: </span>Jacky Ramsey<br> -->
+                    <!--             <span class="bold">Email: </span>jmr205@pitt.edu<br> -->
+                    <!--             <span class="bold">Date: </span>03/15/2015<br> -->
+                    <!--             <span class="bold">Comment: </span>Information about the XXXX is not complete.  Consider adding this additional information:<br> -->
+                    <!--         </p> -->
+                    <!--         <p class="comment"> -->
+                    <!--             <span class="bold">User: </span>Maggie Shipley<br> -->
+                    <!--             <span class="bold">Email: </span>mas111@pitt.edu<br> -->
+                    <!--             <span class="bold">Date: </span>04/1/2015<br> -->
+                    <!--             <span class="bold">Comment: </span>This source also has additional information about XXXX: <br> -->
+                    <!--         </p> -->
+                    <!--     </div> -->
+                    <!--     <div id="newComment"> -->
+                    <!--         <p class="bold">Leave a Comment</p> -->
+                    <!--         <form class="xtraPadding"> -->
+                    <!--             <label> -->
+                    <!--                 <p>User: <input type="text" name="user" placeholder="Your Username" required max="50"></p> -->
+                    <!--             </label> -->
+                    <!--             <label> -->
+                    <!--                 <p>Email: <input type="email" name="email" placeholder="yourEmail@email.com" required max="75"></p> -->
+                    <!--             </label> -->
+                    <!--             <label> -->
+                    <!--                 <p>Comment: <textarea name="comment" required placeholder="Your Comment"></textarea></p> -->
+                    <!--             </label> -->
+                    <!--             <button class="regButton xtraPadding" name="submitComment">Submit Comment</button> -->
+                    <!--         </form> -->
+                    <!--     </div> -->
+                    <!-- </div> -->
                     <hr class="clear">
                 </div>
             </c:forEach>

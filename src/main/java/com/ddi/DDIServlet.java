@@ -81,7 +81,7 @@ public class DDIServlet extends HttpServlet {
 //			}
 //			System.out.println("");
 
-			
+			System.out.println("[INFO:] save drug beans to session....");
 
 			HttpSession session = request.getSession();
 			session.setAttribute("DrugBean", drug);
@@ -89,6 +89,8 @@ public class DDIServlet extends HttpServlet {
 			// forward the request (not redirect)
 			RequestDispatcher dispatcher = request
 					.getRequestDispatcher("DDIhome.jsp");
+
+			System.out.println("[INFO:] forward from DDI Servlet to DDIhome.jsp ....");
 			
 			dispatcher.forward(request, response);
 
