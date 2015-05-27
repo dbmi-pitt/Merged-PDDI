@@ -151,9 +151,9 @@ public class SearchServlet extends HttpServlet {
 							noSources = true;
 					}
 					if (noSources == false)
-						sourceCSS.add("goodSource");
+						sourceCSS.add("goodSource displayed buttons");
 					else
-						sourceCSS.add("noSource");
+						sourceCSS.add("noSource buttons");
 				}
 			}
 

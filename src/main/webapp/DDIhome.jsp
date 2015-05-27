@@ -1,5 +1,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8" session="true" import="java.util.*,com.ddi.*" isELIgnored="false" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%> 
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+
 
 <!DOCTYPE html>
     <head>
@@ -27,29 +29,40 @@
       }
     });
   });
+
+  
+
   </script>
 
 
     </head>
     <body>
 
+      <!-- show description dialog if it's first time visit this page -->
+      <% String visit = (String) session.getAttribute("visited"); 
+	 if (visit == null){
+	 %>
       <div id="dialog-message" title="Description:">
-
-	<!-- <span class="ui-icon ui-icon-circle-check" style="float:left; margin:0 7px 50px 0;"></span> -->
-
-	<p>This site provides access (via download and search) to publicly available sources of potential drug-drug interaction (PDDI) information that were identified using a comprehensive and broad search.
+	<p>
+	<b>Note - This potential drug-drug information source is
+	  intended for informatics and pharmacovigilance research and
+	  is not a drug-drug interaction checking tool!</b> Rather, it
+	  provides access to a combined dataset (available via
+	  download) that merges together data from fourteen different
+	  sources (as of Fall 2014) including 5 clinically-oriented
+	  information sources, 4 Natural Language Processing (NLP)
+	  Corpora, and 5 Bioinformatics/Pharmacovigilance information
+	  sources. <i>The search interface allows access to a subset
+	  of 6 data sources so that interested persons can
+	  explore.</i>
 	</p>
 
 	<p>
-	The combined dataset (available via download) merges together fourteen different sources including 5 clinically-oriented information sources, 4 Natural Language Processing (NLP) Corpora, and 5 Bioinformatics/Pharmacovigilance information sources. The search interface below allows access to a subset of 6 data sources.
-	</p>
-
-	<p>
-	  As a comprehensive PDDI source, the merged dataset might benefit the
-	  pharmacovigilance text mining community by making it possible to compare
-	  the representativeness of NLP corpora for PDDI text extraction tasks,
-	  and specifying elements that can be useful for future PDDI extraction
-	  purposes.
+	  The merged dataset might benefit
+	  the pharmacovigilance text mining community by making it
+	  possible to compare the representativeness of NLP corpora
+	  for PDDI text extraction tasks, and specifying elements that
+	  can be useful for future PDDI extraction purposes.
 	</p>
 
 	<p>
@@ -59,31 +72,51 @@
 	  web site.
 	</p>
 
+	<p>
+	  Ayvaz S, Horn J, Hassanzadeh O, Zhu Q, Stan J, Tatonetti NP, Vilar S,
+	  Brochhausen M, Samwald M, Rastegar-Mojarad M, Dumontier M, Boyce RD,
+	  Toward a complete dataset of drug-drug interaction information from
+	  publicly available sources, Journal of Biomedical
+	  Informatics,doi:10.1016/j.jbi.2015.04.006
+	<p>
+
       </div>
+
+
+	  <%  } 
+	      // mark the page as visited
+	      session.setAttribute("visited","visited");
+	      %>
+
+	<!-- <span class="ui-icon ui-icon-circle-check" style="float:left; margin:0 7px 50px 0;"></span> -->
+
 
       <div id="page">
             <header>
-                    <h1 class="centered">Potential drug-drug interaction information from publicly available sources</h1>
+                    <h1 class="centered">A tool to explore potential drug-drug interaction (PDDI) information from publicly available sources</h1>
 
             </header>		
             <div class="intro">
-                <p> A service provided by the University of Pittsburgh Drug
-Interaction Knowledge Base (DIKB)
+                <p> A service provided by the University of Pittsburgh <a href="http://dbmi-icode-01.dbmi.pitt.edu/dikb-evidence/front-page.html">Drug Interaction Knowledge Base (DIKB)</a>
 		</p>
+
 		<p>
-		  Welcome to the DDI Search Engine. The engine will help you locate interactions between two prescription drugs. Below, enter the drugs you would like to search for, then select the type of sources and type of information you are interested in viewing.</p>	
+		  This site will help you explore potential drug-drug interaction information (PDDIs) between two prescription drugs as listed <i>from a subset</i> of publicly available sources (or, <a href="#downloadAll">you may download all sources</a>). Enter the drugs you would like to search for, then select the type of sources and type of information you are interested in viewing.</p>	
             </div>
 
             <form name="drugForm" action="SearchServlet" method="POST">
             <div class="drugs centered">			
                 <p class="stepHeader">Step 1: Please choose 2 drugs to compare</p>
                 <div id="drugSelection1">
-                    <h4 class="bold centered">Drug 1 - Object</h4>
+                    <h4 class="bold centered">Drug 1</h4>
+
+		    <!-- ${fn:replace(string1, 'first', 'second')} -->
                     <select name="drugList1" id="drugList1" onchange="getAvailablePrecipitants();">
                         <c:forEach items="${sessionScope.DrugBean.drugNames}" var = "dn">
-                            <option value="${dn}">${dn}</option>
+                            <option value="${dn}">${fn:replace(dn,'_',' ')}</option>
                         </c:forEach>
-                        </select>
+                    </select>
+
                     <script>
                         $(function(){
                             $('select[id="drugList1"]').listbox({
@@ -93,6 +126,7 @@ Interaction Knowledge Base (DIKB)
                         
                      	// get list of drug 2 based on drug 1
                         var calledOnce = false;
+
                         function getAvailablePrecipitants(){
                             var currentSelectedDrug = $('select[id="drugList1"]').val();
                             $.get( "drug_ajax", {drug: currentSelectedDrug} )   
@@ -101,7 +135,7 @@ Interaction Knowledge Base (DIKB)
                                     var drug2List = ajaxData.split(",");
                                     $('select[id="drugList2"]').empty();
                                     for(var i=0; i < drug2List.length; i++){
-                                         $('select[id="drugList2"]').append($('<option>').text(drug2List[i]).attr('value', drug2List[i]));
+                                         $('select[id="drugList2"]').append($('<option>').text(drug2List[i].replace('_',' ')).attr('value', drug2List[i]));
                                     }
                                     if(calledOnce){
                                         $(".lbjs")[1].remove();
@@ -119,7 +153,7 @@ Interaction Knowledge Base (DIKB)
                     </script>
                 </div>
                 <div id="drugSelection2">
-                    <h4 class="bold centered">Drug 2 - Precipitant</h4>
+                    <h4 class="bold centered">Drug 2</h4>
                     <select name="drugList2" id="drugList2"></select>
                 </div>
             </div>
@@ -191,13 +225,20 @@ Interaction Knowledge Base (DIKB)
                 </div>
             </div>
                 <div class="test centered">
-                    <div id="submitButton"><input id="findInteractionsSubmit" class="clear regButton" type="submit" value="Find Interactions"/></div>
+                    <div id="submitButton"><input id="findInteractionsSubmit" class="clear regButton" type="submit" value="List PDDI information"/></div>
                     <div id="warningMessage" class="centered warning"></div>
                 </div>
             </form>
         </div>
 
 
+<BR><BR>
+<a name="downloadAll"/>
+<h3>Download all 14 merged PDDI datasets </h3>
+      <p>
+	<a href="/PDDI-Datasets/CombinedDatasetConservative.csv.zip">More conservative dataset</a>
+	<a href="/PDDI-Datasets/CombinedDatasetNotConservative.csv.zip">Less conservative dataset</a>
+      </p>
 <BR><BR>
 <h3>Citations for PDDI sources </h3>
 
@@ -250,10 +291,10 @@ I. Segura-Bedmar, P. Martınez, and M. Herrero-Zazo, “Semeval-2013 task 9: Ext
 </p>
 
 <p>PK DDI Corpus - a reference standard used to develop NLP to identify pharmacokinetic PDDIs mentioned in product labeling
-<a href="http://dbmi-icode-01.dbmi.pitt.edu/dikb-evidence/package-insert-DDI-NLP-corpus.html">Download</a> 
 
 R. Boyce, G. Gardner, and H. Harkema, “Using Natural Language Processing to Extract
 Drug-Drug Interaction Information from Package Inserts,” in BioNLP: Proceedings of the 2012 Workshop on Biomedical Natural Language Processing, Montréal, Canada, 2012, pp.206–213.
+<br><a href="http://dbmi-icode-01.dbmi.pitt.edu/dikb-evidence/package-insert-DDI-NLP-corpus.html">Download</a> 
 </p>
  
 <p>NLM CV DDI Corpus - a reference standard used to develop NLP to identify

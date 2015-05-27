@@ -70,7 +70,7 @@ public class DDIServlet extends HttpServlet {
 			
 
 			while (rs2.next()) {
-				drugNames.add(rs2.getString("object").toLowerCase());
+			    drugNames.add(rs2.getString("object").toLowerCase());
 			}
 			drug.setDrugNames(drugNames);
 			
@@ -91,7 +91,7 @@ public class DDIServlet extends HttpServlet {
 					.getRequestDispatcher("DDIhome.jsp");
 
 			System.out.println("[INFO:] forward from DDI Servlet to DDIhome.jsp ....");
-			
+
 			dispatcher.forward(request, response);
 
 		} catch (Exception e) {
