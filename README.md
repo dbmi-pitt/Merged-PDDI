@@ -28,7 +28,14 @@ MySQL 5.1
 
 (2) setup database
 
-Mysql -u root -p drugData < data/drugData.sql
+$ Mysql -u {$DB_USERNAME} -p {$DB_SCHEMA} < data/drugData.sql
+
+create a db config file at "Merged-PDDI/src/main/resources/db-connection.properties"
+
+database={$DB_SCHEMA}
+dbuser={$DB_USERNAME}
+dbpassword={$DB_PASSWORD}
+
 
 (3) use maven compile and deploy to tomcat
 
@@ -36,7 +43,7 @@ $ mvn clean compile war:war
 $ sudo cp target/DIKB-Prototype /var/lib/tomcat6/webapps/
 $ sudo service tomcat6 restart
 
-(4) access prototype at : http://localhost:8080/DIKB-Prototype
+(4) access prototype at : http://localhost:8080/Merged-PDDI
 
 Tips:
 maven to eclipse: mvn eclipse:eclipse

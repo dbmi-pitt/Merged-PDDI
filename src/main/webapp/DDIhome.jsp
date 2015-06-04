@@ -239,6 +239,12 @@
 	<a href="/PDDI-Datasets/CombinedDatasetConservative.csv.zip">More conservative dataset</a>
 	<a href="/PDDI-Datasets/CombinedDatasetNotConservative.csv.zip">Less conservative dataset</a>
       </p>
+<p>
+More conservative is limited matches between a DrugBank and UNII record to those cases where an exact case-insensitive match was identified for both an InChI identifier and either the drug preferred term or synonym. 
+</p>
+<p>
+Less conservative approach involves a match on InChI key or an exact case-insensitive match of preferred term or a synonym. The latter approach resulted in a greater number of mappings (1613 and 2139 mappings respectively).
+</p>
 <BR><BR>
 <h3>Citations for PDDI sources </h3>
 

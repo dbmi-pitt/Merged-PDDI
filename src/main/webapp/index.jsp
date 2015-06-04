@@ -91,7 +91,7 @@
 
 	      <!-- list search condition been selected -->
 
-              <p class="left">New Search &nbsp;&nbsp; <a href="/DIKB-Prototype">DIKB-Prototype/SearchServlet</a></p> 
+              <p class="left">New Search &nbsp;&nbsp; <a href="/Merged-PDDI">Merged-PDDI/SearchServlet</a></p> 
 
                     <form name="drugForm" action="SearchServlet" method="POST">
 		      <table>
@@ -176,7 +176,7 @@
             </div>
         </header>
         <hr>
-            <c:if test="${ResultBean.results.size() == 0}"><span class="noResults">No results for selected drugs. Click <a href="/DIKB-Prototype">here</a> to search again.</span></c:if>
+            <c:if test="${ResultBean.results.size() == 0}"><span class="noResults">No results for selected drugs. Click <a href="/Merged-PDDI">here</a> to search again.</span></c:if>
 	    <c:set var="ddiFirst" value="yes" scope="session"  />
             
             <c:forEach items= "${ResultBean.results}" var="results">
