@@ -9,7 +9,7 @@ design: mockup ppt
 data: 6 sources dataset in CSV, schema drugData in SQL
 scripts: python script purpose for merge new mappings (ex. drug classes)
 
-maven-src: prototype in maven (DIKB-Prototype)
+maven-src: prototype in maven (Merged-PDDI)
 netbeans-src: prototype in netbeans (original version from IS team)
 
 ### Techs:
@@ -40,7 +40,7 @@ dbpassword={$DB_PASSWORD}
 (3) use maven compile and deploy to tomcat
 
 $ mvn clean compile war:war
-$ sudo cp target/DIKB-Prototype /var/lib/tomcat6/webapps/
+$ sudo cp target/Merged-PDDI /var/lib/tomcat6/webapps/
 $ sudo service tomcat6 restart
 
 (4) access prototype at : http://localhost:8080/Merged-PDDI
