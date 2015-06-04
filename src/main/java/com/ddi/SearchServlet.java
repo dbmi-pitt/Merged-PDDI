@@ -20,17 +20,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import com.dao.DBConnection;
 
-/**
- * 
- * @author cwm24
- */
 
 public class SearchServlet extends HttpServlet {
 
-	private Connection conn;
-	private Statement st;
-	private ResultSet rs = null;
+    private ResultSet rs = null;
 
 	/**
 	 * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -52,8 +47,8 @@ public class SearchServlet extends HttpServlet {
 		Results results = new Results();
 
 		try {
-			String drug1 = request.getParameter("drug2");
-			String drug2 = request.getParameter("drug1");
+			String drug1 = request.getParameter("drug1");
+			String drug2 = request.getParameter("drug2");
 
 			String[] sources = request.getParameterValues("sourcesList");
 
@@ -71,17 +66,13 @@ public class SearchServlet extends HttpServlet {
 			results.setSources(sourceQuery);
 			results.setSourcesList(sources);
 
-			System.out.println("Drug inputs: 1>" + drug1 + "|2>");
+			System.out.println("Drug inputs: 1>" + drug1 + "|2>" + drug2);
 
 			if (drug1 == null && drug2 == null) {
 				drug1 = request.getParameterValues("drugList1")[0];
 				drug2 = request.getParameterValues("drugList2")[0];
 			}
 
-			Class.forName("com.mysql.jdbc.Driver").newInstance();
-			conn = DriverManager.getConnection(
-					"jdbc:mysql://localhost:3306/drugData", "root", "5bboys");
-			st = conn.createStatement();
 
 			String selectAllDrugs = "select * from interactions1 where object = '"
 					+ drug1
@@ -94,7 +85,7 @@ public class SearchServlet extends HttpServlet {
 			
 			System.out.println("[INFO] Search Servlet - execute query:" + selectAllDrugs);
 
-			rs = st.executeQuery(selectAllDrugs);
+			rs = DBConnection.executeQuery(selectAllDrugs);
 
 			ArrayList<ArrayList> totalResults = new ArrayList<ArrayList>();
 			ArrayList<String> sourceCSS = new ArrayList<String>();
@@ -180,18 +171,7 @@ public class SearchServlet extends HttpServlet {
 		} catch (Exception e) {
 			System.out.println("Exception" + e.getMessage());
 			e.printStackTrace();
-		} finally {
-			try {
-				if (conn != null && !conn.isClosed()) {
-					conn.close();
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-				System.out.println("Failed to close connection");
-			}
-
-		}
-
+		} 
 	}
 
 	// <editor-fold defaultstate="collapsed"

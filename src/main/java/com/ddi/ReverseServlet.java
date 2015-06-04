@@ -18,16 +18,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import com.dao.DBConnection;
 
-/**
- *
- * @author chrismartin
- */
 public class ReverseServlet extends HttpServlet {
 
-    
-    private Connection conn;
-    private Statement st;
+
     private ResultSet rs=null;
     
     /**
@@ -51,13 +46,9 @@ public class ReverseServlet extends HttpServlet {
             
             String drug1 = request.getParameter("drug1");
             String drug2 = request.getParameter("drug2");
-
-            Class.forName("com.mysql.jdbc.Driver").newInstance();
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/drugData","root", "5bboys");
-            st = conn.createStatement();
             
             String selectAllDrugs = "select * from interactions1 where object = '" + drug2 + "' and precipitant = '"+ drug1+"'" + " order by object, precipitant";
-            rs = st.executeQuery(selectAllDrugs);
+            rs = DBConnection.executeQuery(selectAllDrugs);
             
             ArrayList<ArrayList> totalResults = new ArrayList<ArrayList>();
             

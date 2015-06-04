@@ -20,11 +20,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import com.dao.DBConnection;
 
-/**
- * 
- * @author cwm24
- */
 public class DDIServlet extends HttpServlet {
 
 	private Connection conn;
@@ -56,18 +53,12 @@ public class DDIServlet extends HttpServlet {
 
 		try {
 
-			Class.forName("com.mysql.jdbc.Driver").newInstance();
-			//String connectionURL = "jdbc:mysql://localhost:3306/drugData?";
-			conn = DriverManager.getConnection(
-					"jdbc:mysql://localhost:3306/drugData", "root", "5bboys");
-			st = conn.createStatement();
+			String selectAllDrugsQuery = "select distinct(object) from interactions1 where object not like '%4-%' order by object";
+			
+			System.out.println("[INFO] DDI Servlet - execute query:" + selectAllDrugsQuery);
+			
 
-			String selectAllDrugs = "select distinct(object) from interactions1 where object not like '%4-%' order by object";
-			
-			System.out.println("[INFO] DDI Servlet - execute query:" + selectAllDrugs);
-			
-			rs2 = st.executeQuery(selectAllDrugs);
-			
+			rs2 = DBConnection.executeQuery(selectAllDrugsQuery);
 
 			while (rs2.next()) {
 			    drugNames.add(rs2.getString("object").toLowerCase());

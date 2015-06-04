@@ -18,15 +18,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import com.dao.DBConnection;
 
-/**
- *
- * @author chrismartin
- */
 public class drug_ajax extends HttpServlet {
 
-    private Connection conn;
-    private Statement st;
     private ResultSet rs=null;
     
     /**
@@ -46,16 +41,11 @@ public class drug_ajax extends HttpServlet {
         String result = "";
         try{
             
-            String drug1 = request.getParameter("drug");
-            
-//            String drug1 = "warfarin";
-            
-            Class.forName("com.mysql.jdbc.Driver").newInstance();
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/drugData","root", "5bboys");
-            st = conn.createStatement();
+            String drug1 = request.getParameter("drug");            
             
             String selectAllDrugs = "select precipitant from interactions1 where object = '" + drug1 + "'";
-            rs = st.executeQuery(selectAllDrugs);
+
+            rs = DBConnection.executeQuery(selectAllDrugs);
             
             result += "[";
             
@@ -69,9 +59,7 @@ public class drug_ajax extends HttpServlet {
 		result = "['No results']";
             
             result += "]";
-            
-
-                        
+                                    
         }
         catch(Exception e){
             result += "]";
