@@ -236,8 +236,8 @@
 <a name="downloadAll"/>
 <h3>Download all 14 merged PDDI datasets </h3>
       <p>
-	<a href="/PDDI-Datasets/CombinedDatasetConservative.csv.zip">More conservative dataset</a>
-	<a href="/PDDI-Datasets/CombinedDatasetNotConservative.csv.zip">Less conservative dataset</a>
+	<a href="https://dbmi-icode-01.dbmi.pitt.edu/dikb-evidence/pddi-sets/CombinedDatasetConservative.csv.zip">More conservative dataset</a>
+	<a href="https://dbmi-icode-01.dbmi.pitt.edu/dikb-evidence/pddi-sets/CombinedDatasetNotConservative.csv.zip">Less conservative dataset</a>
       </p>
 <p>
 More conservative is limited matches between a DrugBank and UNII record to those cases where an exact case-insensitive match was identified for both an InChI identifier and either the drug preferred term or synonym. 
