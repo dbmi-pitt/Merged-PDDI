@@ -26,6 +26,11 @@ Maven 3.3.1
 Versions for tomcat, JSP, JSP-EL: http://tomcat.apache.org/whichversion.html
 MySQL 5.1
 
+Linux:
+$ sudo apt-get install mysql-server
+$ sudo apt-get install maven
+$ sudo apt-get install tomcat7
+
 (2) setup database
 
 $ Mysql -u {$DB_USERNAME} -p {$DB_SCHEMA} < data/drugData.sql
