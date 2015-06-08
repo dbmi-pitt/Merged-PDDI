@@ -11,8 +11,6 @@ import java.io.InputStream;
 import java.util.Properties;
 
 
-
-//test
 /**
  * DBConnection
  * @author Yifan Ning
@@ -66,7 +64,6 @@ public abstract class DBConnection {
 		String driver = "com.mysql.jdbc.Driver";
 		String user = prop.getProperty("dbuser");
 		String pass = prop.getProperty("dbpassword");
-
 		url = url + db;
 		Class.forName(driver).newInstance();
 		conn = DriverManager.getConnection(url, user, pass);

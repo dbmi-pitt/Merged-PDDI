@@ -111,11 +111,13 @@
                     <h4 class="bold centered">Drug 1</h4>
 
 		    <!-- ${fn:replace(string1, 'first', 'second')} -->
+                    <div align="left">
                     <select name="drugList1" id="drugList1" onchange="getAvailablePrecipitants();">
                         <c:forEach items="${sessionScope.DrugBean.drugNames}" var = "dn">
                             <option value="${dn}">${fn:replace(dn,'_',' ')}</option>
                         </c:forEach>
                     </select>
+                    </div>
 
                     <script>
                         $(function(){
@@ -154,7 +156,9 @@
                 </div>
                 <div id="drugSelection2">
                     <h4 class="bold centered">Drug 2</h4>
+                    <div align="left">
                     <select name="drugList2" id="drugList2"></select>
+                    </div>
                 </div>
             </div>
 

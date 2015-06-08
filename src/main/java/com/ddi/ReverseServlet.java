@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import com.ddi.*;
 import com.dao.DBConnection;
 
 public class ReverseServlet extends HttpServlet {
@@ -40,7 +41,7 @@ public class ReverseServlet extends HttpServlet {
         
 		System.out.println("Reverse Servlet ......................");
         
-        com.ddi.Results results = new com.ddi.Results(); 
+        Results results = new Results(); 
         
         try{
             
