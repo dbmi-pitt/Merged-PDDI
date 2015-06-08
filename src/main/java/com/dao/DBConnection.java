@@ -10,10 +10,14 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.Properties;
 
+
+
+//test
 /**
  * DBConnection
  * @author Yifan Ning
  */
+
 public abstract class DBConnection {
 
 	
