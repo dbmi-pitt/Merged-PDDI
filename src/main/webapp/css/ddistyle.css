@@ -245,7 +245,7 @@ text-align:center;
 }
 
 #scrollheader{
-    position: fixed;
+    
     top: 0;
     width: 820px;
     background-color: white;
@@ -341,7 +341,7 @@ table {
 	font-size:12px;
 	text-shadow: 1px 1px 0px #fff;
 	background:#eaebec;
-	margin:20px;
+	margin:5px;
 	border:#ccc 1px solid;
 
 	-moz-border-radius:3px;
@@ -351,9 +351,10 @@ table {
 	-moz-box-shadow: 0 1px 2px #d1d1d1;
 	-webkit-box-shadow: 0 1px 2px #d1d1d1;
 	box-shadow: 0 1px 2px #d1d1d1;
+	
 }
 table th {
-	padding:21px 25px 22px 25px;
+	padding:5px 5px 5px 5px;
 	border-top:1px solid #fafafa;
 	border-bottom:1px solid #e0e0e0;
 
@@ -363,7 +364,7 @@ table th {
 }
 table th:first-child {
 	text-align: left;
-	padding-left:20px;
+	padding-left:2px;
 }
 table tr:first-child th:first-child {
 	-moz-border-radius-topleft:3px;
@@ -377,19 +378,19 @@ table tr:first-child th:last-child {
 }
 table tr {
 	text-align: center;
-	padding-left:20px;
+	padding-left:5px;
 }
 table td:first-child {
 	text-align: left;
-	padding-left:20px;
+	padding-left:5px;
 	border-left: 0;
 }
-table td {
-	padding:18px;
+table td.general {
+	padding:8px;
 	border-top: 1px solid #ffffff;
 	border-bottom:1px solid #e0e0e0;
 	border-left: 1px solid #e0e0e0;
-
+	font-weight:bold;
 	background: #fafafa;
 	background: -webkit-gradient(linear, left top, left bottom, from(#fbfbfb), to(#fafafa));
 	background: -moz-linear-gradient(top,  #fbfbfb,  #fafafa);
@@ -412,8 +413,64 @@ table tr:last-child td:last-child {
 	-webkit-border-bottom-right-radius:3px;
 	border-bottom-right-radius:3px;
 }
-table tr:hover td {
+table tr td:hover {
 	background: #f2f2f2;
 	background: -webkit-gradient(linear, left top, left bottom, from(#f2f2f2), to(#f0f0f0));
 	background: -moz-linear-gradient(top,  #f2f2f2,  #f0f0f0);	
+}
+
+.outer {position:relative}
+.inner {
+  overflow-x:scroll;
+  overflow-y:visible;
+  
+  margin-right:20px;
+}
+
+
+table td.availabletd{
+	background: #D5EBD1;
+}
+
+
+table td.longfields {
+	padding:2px;
+	border-top: 1px solid #ffffff;
+	border-bottom:1px solid #e0e0e0;
+	border-left: 1px solid #e0e0e0;
+	height: 25px;
+	font-weight:bold;
+	background: #fafafa;
+	background: -webkit-gradient(linear, left top, left bottom, from(#fbfbfb), to(#fafafa));
+	background: -moz-linear-gradient(top,  #fbfbfb,  #fafafa);
+}
+
+blockquote {
+  padding: 5px 20px;
+  margin: 0 30px 30px;
+  font-size: 14px;
+  
+  border-left: 5px solid #eee;
+  
+	page-break-inside: avoid;
+}
+
+
+.title2{
+	font-size:15px;
+	font-weight:bold;
+	color:#6C6E6B;
+}
+
+
+.title1{
+	font-size:20px;
+	font-weight:bold;
+	color:#414241;
+	margin-left: 15px;
+}
+
+hr{
+	color:#6C6E6B;
+	height:1px;
 }
