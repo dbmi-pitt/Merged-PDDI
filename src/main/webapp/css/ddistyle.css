@@ -423,7 +423,6 @@ table tr td:hover {
 .inner {
   overflow-x:scroll;
   overflow-y:visible;
-  
   margin-right:20px;
 }
 
@@ -434,7 +433,7 @@ table td.availabletd{
 
 
 table td.longfields {
-	padding:2px;
+	padding:5px;
 	border-top: 1px solid #ffffff;
 	border-bottom:1px solid #e0e0e0;
 	border-left: 1px solid #e0e0e0;
@@ -449,10 +448,8 @@ blockquote {
   padding: 5px 20px;
   margin: 0 30px 30px;
   font-size: 14px;
-  
   border-left: 5px solid #eee;
-  
-	page-break-inside: avoid;
+  page-break-inside: avoid;
 }
 
 
