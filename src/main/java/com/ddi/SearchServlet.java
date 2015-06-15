@@ -60,10 +60,10 @@ public class SearchServlet extends HttpServlet {
 		String drugClass2 = null;
 		//ArrayList<String> temprecords = new ArrayList<String>();
 		String[] attributesUpper = {"Certainty", "Contraindication", "ddiPkEffect", "ddiPkMechanism", "ddiType", "Homepage", "Severity", 
-				"Label", "Source", "URI", "Management Options", "Date Annotated", "Who Annotated", "Effect Concept", "Numeric Value", 
+				"Label", "URI", "Management Options", "Date Annotated", "Who Annotated", "Effect Concept", "Numeric Value", 
 				"Pathway", "Precaution", "Evidence", "Evidence Source", "Evidence Statement", "Research Statement Label", "Research Statement"};
 		String[] attributes = {"certainty", "contrindication", "ddiPkEffect", "ddiPkMechanism", "ddiType", "homepage", "severity", 
-				"label", "source", "uri", "managementOptions", "dateAnnotated", "whoAnnotated", "effectConcept", "numericVal", 
+				"label", "uri", "managementOptions", "dateAnnotated", "whoAnnotated", "effectConcept", "numericVal", 
 				"pathway", "precaution", "evidence", "evidenceSource", "evidenceStatement", "researchStatementLabel", "researchStatement"};
 		
 		try {
@@ -123,12 +123,12 @@ public class SearchServlet extends HttpServlet {
 					drugClass2 = rs.getString("DrugClass2");
 				
 				
-				tempTag = drug1 + "_" + drug2 + "_";
+				tempTag = drug1 + "+" + drug2 + "+";
 				
 				for(String attribute : attributes)
 				{
 					
-					resultTag = tempTag + attribute + "_" + source;
+					resultTag = tempTag + attribute + "+" + source;
 					
 					
 					if(!rs.getString(attribute).contains("None"))

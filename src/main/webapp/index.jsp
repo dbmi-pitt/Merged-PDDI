@@ -6,8 +6,15 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <script src="http://code.jquery.com/jquery-latest.min.js"></script>
         <link rel="stylesheet" type="text/css" href="css/ddistyle.css" />
+        
+        <!-- Hover Panel -->
+        <link rel="stylesheet" type="text/css" media="all" href="css/HoverPanel.css">
+        
+        <!-- Back to Top -->
+        <link rel="stylesheet" href="css/BacktoTop.css">
+		<script src="js/modernizr.js"></script>
+		
         <title>Drug Interaction Search Results</title>
         <script>
             function toggleVisible(toggleClass){
@@ -80,7 +87,8 @@
             <%
             HashMap<String, ArrayList<String>> results = new HashMap<String, ArrayList<String>>();
             results = result.getResults();
-            String tempTag;
+            String tempTag, testTag = null;
+            int recordNum = 0;
             String[] tagArray;
             String drug1 = result.getDrug1();
             String drug2 = result.getDrug2();
@@ -88,7 +96,7 @@
             for (Map.Entry entry : results.entrySet()) {
                     if (entry.getKey() != null) {
                         tempTag = (String)entry.getKey();
-                        tagArray = tempTag.split("_");
+                        tagArray = tempTag.split("\\+");
                         if(keySet.containsKey(tagArray[2]))
                         {
                         	keySet.get(tagArray[2]).add(tagArray[3]);
@@ -102,7 +110,7 @@
             }
             %>
             
-            <br>
+            
 
             <div id="scrollheader">
 
@@ -114,10 +122,11 @@
                   </c:if>
 	      <!-- list search condition been selected -->
 
-              <p class="left">&nbsp;&nbsp; <a href="/Merged-PDDI" class="title2"><%="<< " %>New Search</a></p></br>
+              <p class="left" align="center">&nbsp;&nbsp; <a href="/Merged-PDDI" class="title2"><%="<< " %>New Search</a></p></br>
 
                     <form name="drugForm" action="SearchServlet" method="POST">
-		      <table>
+		    <div align= "center">
+		    <table align="center">
 			<tr>
 			  <td class="general">
 			    drug 1 as Object
@@ -140,33 +149,64 @@
 			</tr>
 
 		      </table>
+		     </div>
+		     
 		      
-		      <h1 align="center">Catalog</h1>
-		      <div class="outer">
-		      <div class="inner">
+	  
+      
+		      <p align = "center" class="title2">(${ResultBean.drug1} / ${ResultBean.drug2})</p>
+		      <!--<div align= "center" class="outer">-->
+		      <!--<div class="inner">-->
+		      <div class="table-container">
+    		  <div class="headcol">
 		      <table>
+		      <thead>
+		      <th class="longfields"></th>
+		      </thead>
+		      <tbody>
+		      <c:forEach items="${ResultBean.attributesUpper}" var="attribute">
 		      <tr>
-		      <td class="longfields">
-		      </td>
-		      <c:forEach items="${ResultBean.attributesUpper}" var="attributesUpper">
-		      <td class="longfields">${attributesUpper}</td>
-		      </c:forEach>
+		      <td class="generalhead">${attribute}</td>
 		      </tr>
+		      </c:forEach>
+		      </tbody>
+		      </table>
+		      </div>
+		      
+		      <div class="right">
+		      <table>
+		      <thead>
+		      
+		      <c:forEach items="${ResultBean.sourcesList}" var="source">
+		      <th class="longfields">${source}</th>
+		      </c:forEach>
+		      </thead>
+		      <tbody>
+		      <c:forEach items="${ResultBean.attributes}" var="attribute">
+		      <tr>
 		      
 		      <c:forEach items="${ResultBean.sourcesList}" var="sources">
-		      <tr>
-		      <td class="general">${sources}</td>
-		      <c:forEach items="${ResultBean.attributes}" var="attribute">
 		      
 		      <%
+		      
 		      String tempAttribute = (String)pageContext.getAttribute("attribute");
 		      String tempSource = (String)pageContext.getAttribute("sources");
+		      ArrayList<String> valueArray = new ArrayList<String>(); 
+		      testTag = drug1 + "+" + drug2 + "+" + tempAttribute + "+" + tempSource;
 		      if(keySet.containsKey(tempAttribute))
 		      {
 		      //ArrayList<String> trueSource = (ArrayList<String>)keySet.get(tempAttribute);
 		      	if(keySet.get(tempAttribute).contains(tempSource))
 		      	{
-		    	  	out.print("<td class='availabletd'><a href='#"+ tempAttribute + "'>Click</a></td>");
+		    	  	out.print("<td class='availabletd'><div class='thumbs'><a class='pseudolink' href='#'><div id='100' name='" + tempAttribute + "' class='" + tempSource + "' ><bold>Available</bold></div></a>");
+		    	  	valueArray = (ArrayList<String>)results.get(testTag);
+		    	  	out.print("<meta class='desc' content='");
+		    	  	recordNum = 0;
+		    	  	for(String subValue : valueArray)
+                    {
+		    	  		out.print(++recordNum + ". " + subValue + "<br>");
+                    }
+		    	  	out.print("'></div></td>");
 		      	}else
 		      	{
 		    	  out.print("<td class='general'></td>");
@@ -178,9 +218,18 @@
 		      //if(keySet.get(tempA).equals("Drugbank")) {out.print("Click");}
 		      %>
 		      </c:forEach>
+		      
 		      </tr>
+		      
 		      </c:forEach>
+		      </tbody>
 		      </table>
+		      <!-- setup details pane template -->
+      <div id="details-pane" style="display: none;">
+        <h4 class="title"></h4>
+        <p align = "left" class="desc"></p>
+        <br>
+      </div>
 		      </div>
 		      </div>
                         <c:forEach items="${sessionScope.ResultBean.sourcesList}" var="sources">
@@ -191,63 +240,87 @@
 
                 </div>
         </header>
-        <br>
-        <hr>
+        
+        
         <br>
 		    
             <c:if test="${ResultBean.results.size() == 0}"><span class="noResults">No results for selected drugs. Click <a href="/Merged-PDDI">here</a> to search again.</span></c:if>
-			<c:if test="${ResultBean.drugClass1 != null}">
+			<c:if test="${ResultBean.drugClass1 != 'None'}">
 			<div class = "title1">Object Drug Class</div><br>
 			<blockquote>
 			<p>${ResultBean.drugClass1}</p>
 			</blockquote>
 			</c:if>
-			<c:if test="${ResultBean.drugClass2 != null}">
+			<c:if test="${ResultBean.drugClass2 != 'None'}">
 			<div class = "title1">Precipitant Drug Class</div><br>
 			<blockquote><p>${ResultBean.drugClass2}</p></blockquote>
 			
 			</c:if>
-            <%
-            String testTag;
-            int s = 0;
-            int a = 0;
-            ArrayList<String> valueArray = new ArrayList<String>();
-            for(String tempAttribute : result.getAttributes())
-            {
-            	a = 0;
-            	for(String tempSource : result.getSourcesList())
-            	{
-            		s = 0;
-            		testTag = drug1 + "_" + drug2 + "_" + tempAttribute + "_" + tempSource;
-            		if(results.containsKey(testTag))
-            		{
-            			if(a == 0)
-            			{
-            				a++;
-            				//out.print("</p><hr class='clear'>" );
-            				out.print("<div class='title1'><a name='" + tempAttribute + "'>" + tempAttribute + "</a></div><br>");
-            				
-            			}
-            			if(s == 0)
-            			{
-            				s++;
-            				out.print("<blockquote>");
-            				out.print("<div class='title2'>" + tempSource + "</div><br>");
-            			}
-            			valueArray = (ArrayList<String>)results.get(testTag);
-            			
-                        
-                        for(String subValue : valueArray)
-                        {
-                            out.print(subValue + "<br>");
-                            
-                        }
-                        out.print("</blockquote>");
-            		}
-            	}
-            }%>
 
             <p class="whiteText">Leave this here for CSS purposes</p>
         </div>
+        
+        <a href="#0" class="cd-top">Top</a>
+        
+		<script src="js/jquery-1.11.1.min.js"></script>
+		<script src="js/main.js"></script>
+		<script type="text/javascript">
+$(function(){
+  $('.thumbs div').on('mouseover', function(e){
+    var dpane      = $('#details-pane');
+    var dpanetitle = $('#details-pane .title');
+    var dpanedesc  = $('#details-pane .desc');
+    var newtitle   = $(this).attr('name');
+    newtitle += " (";
+    newtitle += $(this).attr("class");
+    newtitle += ")";
+    var newdate    = $(this).attr('name');
+    var newdesc    = $(this).parent().next('meta.desc').attr('content');
+    if(newdesc.includes("http"))
+	{
+		dpanedesc.css('word-break','break-all');
+	}
+    
+    var position = $(this).offset();
+    var imgwidth = $(this).attr('id');
+    /*if(position.bottom / $(window).height() >= 0.5) {
+      var ycoord   = position.bottom - 340;
+    } else {
+      var ycoord   = position.bottom;
+    }*/
+    var ycoord   = position.top - 340;
+    //xcoord = position.left;
+    if(position.left / $(window).width() >= 0.5) {
+      var xcoord = position.left - 400;//250;
+      // details pane is 530px fixed width
+      // if the img position is beyond 50% of the page, we move the pane to the left side
+    } else {
+      var xcoord = position.left - 400//200;
+    }
+    
+    dpanetitle.html(newtitle);
+    dpanedesc.html(newdesc);
+    
+    dpane.css({ 'left': xcoord, 'top': ycoord, 'display': 'block'});
+    
+  }).on('mouseout', function(e){
+    $('#details-pane').css('display','none');
+  });
+  
+  // when hovering the details pane keep displayed, otherwise hide
+  $('#details-pane').on('mouseover', function(e){
+    $(this).css('display','block');
+  });
+  $('#details-pane').on('mouseout', function(e){
+    //this is the original element the event handler was assigned to
+    var e = e.toElement || e.relatedTarget;
+    if (e.parentNode == this || e.parentNode.parentNode == this || e.parentNode.parentNode.parentNode == this || e == this || e.nodeName == 'IMG') {
+      return;
+    }
+    $(this).css('display','none');
+    //console.log(e.nodeName)
+  });
+});
+</script>
     </body>
 </html>

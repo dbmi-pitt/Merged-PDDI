@@ -10,7 +10,10 @@
         <meta charset="UTF-8">
         <script src="js/jquery-1.11.1.min.js"></script>
         <link href="css/listbox.css" rel="stylesheet" />
+        <link rel="stylesheet" href="css/BacktoTop.css">
+		<script src="js/modernizr.js"></script>
         <script src="js/listbox.js"></script>
+		<script src="js/main.js"></script>
 
 	<!-- references for dialog -->
 	<link rel="stylesheet" href="css/jquery-dialog-ui.css">
@@ -107,6 +110,7 @@
             <form name="drugForm" action="SearchServlet" method="POST">
             <div class="drugs centered">			
                 <p class="stepHeader">Step 1: Please choose 2 drugs to compare</p>
+                <div align="center">
                 <div id="drugSelection1">
                     <h4 class="bold centered">Drug 1</h4>
 
@@ -159,6 +163,7 @@
                     <div align="left">
                     <select name="drugList2" id="drugList2"></select>
                     </div>
+                </div>
                 </div>
             </div>
 
@@ -400,7 +405,7 @@ We created this <a href="http://www.freenetlaw.com/free-medical-disclaimer/">med
 
 </p>
 </font>
-
+<a href="#0" class="cd-top">Top</a>
 <P><HR>
 <span style="width: 60px"></span> 
 <FONT SIZE="-1"><P>Copyright &#169 Copyright (C) 2014 - 2015 Richard D. Boyce<BR>All Rights Reserved<BR>
