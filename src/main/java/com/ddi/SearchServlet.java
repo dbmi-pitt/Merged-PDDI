@@ -33,7 +33,8 @@ public class SearchServlet extends HttpServlet {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private ResultSet rs = null;
+	public ResultSet rs = null;
+	public Results results = new Results();
 
 	/**
 	 * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -52,19 +53,21 @@ public class SearchServlet extends HttpServlet {
 			HttpServletResponse response) throws ServletException, IOException {
 
 		System.out.println("[DEBUG] SearchServlet ...............");
-		Results results = new Results();
+		
 		HashMap<String, ArrayList<String>> searchResults= new HashMap<String, ArrayList<String>>();
 		String resultTag = null; //"drug1_drug2_field_source"
 		String tempTag = null;
 		String drugClass1 = null;
 		String drugClass2 = null;
+		String tempAttribute = null;
+		String filterAttribute = null;
 		//ArrayList<String> temprecords = new ArrayList<String>();
-		String[] attributesUpper = {"Certainty", "Contraindication", "ddiPkEffect", "ddiPkMechanism", "ddiType", "Homepage", "Severity", 
-				"Label", "URI", "Management Options", "Date Annotated", "Who Annotated", "Effect Concept", "Numeric Value", 
-				"Pathway", "Precaution", "Evidence", "Evidence Source", "Evidence Statement", "Research Statement Label", "Research Statement"};
-		String[] attributes = {"certainty", "contrindication", "ddiPkEffect", "ddiPkMechanism", "ddiType", "homepage", "severity", 
-				"label", "uri", "managementOptions", "dateAnnotated", "whoAnnotated", "effectConcept", "numericVal", 
-				"pathway", "precaution", "evidence", "evidenceSource", "evidenceStatement", "researchStatementLabel", "researchStatement"};
+		String[] attributesUpper = {"Object Drug Class", "Precipitant Drug Class", "Certainty", "Contraindication", "ddiPkEffect", "ddiPkMechanism", "ddiType", "Homepage", "Severity", 
+				"Label", "URI", "Management Options", "Evidence", "Evidence Source", "Evidence Statement","Date Annotated", "Who Annotated", "Effect Concept", "Numeric Value", 
+				"Pathway", "Precaution", "Research Statement Label", "Research Statement"};
+		String[] attributes = {"DrugClass1", "DrugClass2", "certainty", "contrindication", "ddiPkEffect", "ddiPkMechanism", "ddiType", "homepage", "severity", 
+				"label", "uri", "managementOptions", "evidence", "evidenceSource", "evidenceStatement", "dateAnnotated", "whoAnnotated", "effectConcept", "numericVal", 
+				"pathway", "precaution", "researchStatementLabel", "researchStatement"};
 		
 		try {
 			String drug1 = request.getParameter("drug1");
@@ -81,7 +84,6 @@ public class SearchServlet extends HttpServlet {
 				sourceQuery += "'" + source + "'" + ", ";
 			}
 			sourceQuery = sourceQuery.substring(0, sourceQuery.length() - 2);
-
 			results.setSources(sourceQuery);
 			results.setSourcesList(sources);
 			results.setAttributes(attributes);
@@ -133,20 +135,31 @@ public class SearchServlet extends HttpServlet {
 					
 					if(!rs.getString(attribute).contains("None"))
 					{
+						tempAttribute = rs.getString(attribute);
+						if(tempAttribute.contains("|"))
+						{
+							filterAttribute = tempAttribute.replace("|","");
+							System.out.println("***********"+filterAttribute);
+						}else{
+							filterAttribute = tempAttribute;
+						}
 						if((searchResults.containsKey(resultTag))||(searchResults.get(resultTag) != null))
 						{
 							System.out.println("_______________________________________");
 							System.out.println(">>1" + searchResults.get(resultTag));
 							//temprecords = (ArrayList<String>)searchResults.get(resultTag);
-							searchResults.get(resultTag).add(rs.getString(attribute));
+							if(!searchResults.get(resultTag).contains(filterAttribute))
+							{
+								searchResults.get(resultTag).add(filterAttribute);
+							}
 							
 						}else
 						{
-						ArrayList<String> temprecords = new ArrayList<String>();
-						temprecords.add(rs.getString(attribute));
-						searchResults.put(resultTag, new ArrayList<String>(temprecords));
-						System.out.println(resultTag);
-						System.out.println(searchResults.get(resultTag));
+							ArrayList<String> temprecords = new ArrayList<String>();
+							temprecords.add(filterAttribute);
+							searchResults.put(resultTag, new ArrayList<String>(temprecords));
+							System.out.println(resultTag);
+							System.out.println(searchResults.get(resultTag));
 						}
 						
 						//System.out.println(searchResults.get("http://bio2rdf.org/drugbank:DB00641_http://bio2rdf.org/drugbank:DB01026_whoAnnotated_DIKB"));
@@ -247,7 +260,7 @@ public class SearchServlet extends HttpServlet {
 	 *             if an I/O error occurs
 	 */
 	@Override
-	protected void doPost(HttpServletRequest request,
+	public void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		processRequest(request, response);
 	}

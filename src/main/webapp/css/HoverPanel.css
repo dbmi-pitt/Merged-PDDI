@@ -1,0 +1,76 @@
+
+
+
+
+#topbar {
+  background: #4f4a41;
+  padding: 10px 0 10px 0;
+  text-align: center;
+  height: 36px;
+  overflow: hidden;
+}
+#topbar a {
+  color: #fff;
+  font-size:1.3em;
+  line-height: 1.25em;
+  text-decoration: none;
+  opacity: 0.5;
+  font-weight: bold;
+}
+#topbar a:hover {
+  opacity: 1;
+}
+
+/** page structure **/
+
+
+
+
+.thumbs {
+  padding: 0 0;
+  text-align: center;
+}
+
+
+
+/** detail panel **/
+#details-pane {
+  display: block;
+  color: #414141;
+  background: #f1f1f1;
+  border: 1px solid #a9a9a9;
+  position: absolute;
+  z-index: 99999;
+  width: 300px;
+  padding: 6px 8px;
+  text-align: justify; 
+  -webkit-box-shadow: 1px 3px 3px rgba(0,0,0,0.4);
+  -moz-box-shadow: 1px 3px 3px rgba(0,0,0,0.4);
+  box-shadow: 1px 3px 3px rgba(0,0,0,0.4);
+}
+
+#details-pane h3 {
+  font-size: 2.0em;
+  line-height: 1.1em;
+  margin-bottom: 4px;
+}
+
+#details-pane h3 span {
+  font-size: 0.75em;
+  font-style: italic;
+  color: #555;
+  padding-left: 15px;
+}
+
+#details-pane .desc {
+  font-size: 0.8em;
+  margin-bottom: 6px;
+  text-align: justify; 
+}
+
+/** clearfix **/
+.clearfix:after { content: "."; display: block; clear: both; visibility: hidden; line-height: 0; height: 0; }
+.clearfix { display: inline-block; }
+ 
+html[xmlns] .clearfix { display: block; }
+* html .clearfix { height: 1%; }

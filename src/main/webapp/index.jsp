@@ -245,6 +245,7 @@
         <br>
 		    
             <c:if test="${ResultBean.results.size() == 0}"><span class="noResults">No results for selected drugs. Click <a href="/Merged-PDDI">here</a> to search again.</span></c:if>
+			<!--  
 			<c:if test="${ResultBean.drugClass1 != 'None'}">
 			<div class = "title1">Object Drug Class</div><br>
 			<blockquote>
@@ -254,8 +255,8 @@
 			<c:if test="${ResultBean.drugClass2 != 'None'}">
 			<div class = "title1">Precipitant Drug Class</div><br>
 			<blockquote><p>${ResultBean.drugClass2}</p></blockquote>
-			
 			</c:if>
+			-->
 
             <p class="whiteText">Leave this here for CSS purposes</p>
         </div>
@@ -279,16 +280,19 @@ $(function(){
     if(newdesc.includes("http"))
 	{
 		dpanedesc.css('word-break','break-all');
+		//alert("success");
+	}else{
+		dpanedesc.css('word-break', 'normal');
 	}
     
     var position = $(this).offset();
     var imgwidth = $(this).attr('id');
-    /*if(position.bottom / $(window).height() >= 0.5) {
-      var ycoord   = position.bottom - 340;
+    if(position.top / $(window).height() >= 0.5) {
+      var ycoord   = position.top - 340;
     } else {
-      var ycoord   = position.bottom;
-    }*/
-    var ycoord   = position.top - 340;
+      var ycoord   = position.top - 200;
+    }
+    //var ycoord   = position.top - 340;
     //xcoord = position.left;
     if(position.left / $(window).width() >= 0.5) {
       var xcoord = position.left - 400;//250;
