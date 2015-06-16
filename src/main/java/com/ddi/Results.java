@@ -7,13 +7,14 @@
 package com.ddi;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  *
  * @author cwm24
  */
 public class Results {
-    private ArrayList<ArrayList> results;
+    private HashMap<String, ArrayList<String>> results;
     private ArrayList<String> sourceCSS;
     private String drug1;
     private String drug2;
@@ -21,18 +22,22 @@ public class Results {
     private String drug2ID;
     private String sources;
     private String[] sourcesList;
+    private String[] attributes;
+    private String[] attributesUpper;
+    private String drugClass1;
+    private String drugClass2;
 
     /**
      * @return the results
      */
-    public ArrayList<ArrayList> getResults() {
+    public HashMap<String, ArrayList<String>> getResults() {
         return results;
     }
 
     /**
      * @param results the results to set
      */
-    public void setResults(ArrayList<ArrayList> results) {
+    public void setResults(HashMap<String, ArrayList<String>> results) {
         this.results = results;
     }
 
@@ -64,6 +69,34 @@ public class Results {
         this.drug2 = drug2;
     }
 
+    /**
+     * @return the drugClass1
+     */
+    public String getDrugClass1() {
+        return drugClass1;
+    }
+
+    /**
+     * @param drugClass1 the drugClass1 to set
+     */
+    public void setDrugClass1(String drugClass1) {
+        this.drugClass1 = drugClass1;
+    }
+    
+    /**
+     * @return the drugClass2
+     */
+    public String getDrugClass2() {
+        return drugClass2;
+    }
+
+    /**
+     * @param drugClass2 the drugClass2 to set
+     */
+    public void setDrugClass2(String drugClass2) {
+        this.drugClass2 = drugClass2;
+    }
+    
     /**
      * @return the drug1ID
      */
@@ -132,6 +165,34 @@ public class Results {
      */
     public void setSourcesList(String[] sourcesList) {
         this.sourcesList = sourcesList;
+    }
+    
+    /**
+     * @param attributeList the attributeList to set
+     */
+    public void setAttributes(String[] attributes) {
+        this.attributes = attributes;
+    }
+    
+    /**
+     * @return the attributeList
+     */
+    public String[] getAttributes() {
+        return attributes;
+    }
+    
+    /**
+     * @param attributeUpperList the attributeUpperList to set
+     */
+    public void setAttributesUpper(String[] attributesUpper) {
+        this.attributesUpper = attributesUpper;
+    }
+    
+    /**
+     * @return the attributeUpperList
+     */
+    public String[] getAttributesUpper() {
+        return attributesUpper;
     }
 
 

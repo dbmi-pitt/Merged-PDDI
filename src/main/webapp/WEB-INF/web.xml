@@ -14,10 +14,7 @@ xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns
         <servlet-name>SearchServlet</servlet-name>
         <servlet-class>com.ddi.SearchServlet</servlet-class>
     </servlet>
-    <servlet>
-        <servlet-name>ReverseServlet</servlet-name>
-        <servlet-class>com.ddi.ReverseServlet</servlet-class>
-    </servlet>
+
     <servlet>
         <servlet-name>drug_ajax</servlet-name>
         <servlet-class>com.ddi.drug_ajax</servlet-class>
@@ -30,10 +27,7 @@ xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns
         <servlet-name>SearchServlet</servlet-name>
         <url-pattern>/SearchServlet</url-pattern>
     </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>ReverseServlet</servlet-name>
-        <url-pattern>/ReverseServlet</url-pattern>
-    </servlet-mapping>
+
     <servlet-mapping>
         <servlet-name>drug_ajax</servlet-name>
         <url-pattern>/drug_ajax</url-pattern>
