@@ -35,37 +35,45 @@
 
 /** detail panel **/
 #details-pane {
-  display: block;
+  
   color: #414141;
   background: #f1f1f1;
-  border: 1px solid #a9a9a9;
+  border: 0px solid #a9a9a9;
   position: absolute;
   z-index: 99999;
-  width: 300px;
+  width: 240px;
   padding: 6px 8px;
-  text-align: justify; 
+  text-align: center; 
   -webkit-box-shadow: 1px 3px 3px rgba(0,0,0,0.4);
   -moz-box-shadow: 1px 3px 3px rgba(0,0,0,0.4);
   box-shadow: 1px 3px 3px rgba(0,0,0,0.4);
+  right:3px;
+  height:300px;
+  overflow:scroll;
+  
 }
 
-#details-pane h3 {
-  font-size: 2.0em;
-  line-height: 1.1em;
-  margin-bottom: 4px;
+#verticalcenter{
+	
 }
 
-#details-pane h3 span {
+.title {
+  
+}
+
+#details-pane h4 span {
   font-size: 0.75em;
   font-style: italic;
   color: #555;
   padding-left: 15px;
+  
 }
 
-#details-pane .desc {
+.desc {
   font-size: 0.8em;
-  margin-bottom: 6px;
-  text-align: justify; 
+  /*margin-bottom: 6px;*/
+  /*text-align: justify; */
+  
 }
 
 /** clearfix **/

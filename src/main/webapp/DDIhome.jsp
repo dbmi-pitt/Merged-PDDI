@@ -109,7 +109,7 @@
 
             <form name="drugForm" action="SearchServlet" method="POST">
             <div class="drugs centered">			
-                <p class="stepHeader">Step 1: Please choose 2 drugs to compare</p>
+                <div class="stepHeader">Step 1: Please choose 2 drugs to compare</div>
                 <div align="center">
                 <div id="drugSelection1">
                     <h4 class="bold centered">Drug 1</h4>
@@ -141,6 +141,7 @@
                                     var drug2List = ajaxData.split(",");
                                     $('select[id="drugList2"]').empty();
                                     for(var i=0; i < drug2List.length; i++){
+                                    	
                                          $('select[id="drugList2"]').append($('<option>').text(drug2List[i].replace('_',' ')).attr('value', drug2List[i]));
                                     }
                                     if(calledOnce){
@@ -234,13 +235,13 @@
                 </div>
             </div>
                 <div class="test centered">
-                    <div id="submitButton"><input id="findInteractionsSubmit" class="clear regButton" type="submit" value="List PDDI information"/></div>
+                    <div id="submitButton1"><input id="findInteractionsSubmit" class="clear regButton1" type="submit" value="List PDDI information"/></div>
                     <div id="warningMessage" class="centered warning"></div>
                 </div>
             </form>
         </div>
 
-
+<div class="firstpagemargin">
 <BR><BR>
 <a name="downloadAll"/>
 <h3>Download all 14 merged PDDI datasets </h3>
@@ -254,7 +255,7 @@ More conservative is limited matches between a DrugBank and UNII record to those
 <p>
 Less conservative approach involves a match on InChI key or an exact case-insensitive match of preferred term or a synonym. The latter approach resulted in a greater number of mappings (1613 and 2139 mappings respectively).
 </p>
-<BR><BR>
+<BR>
 <h3>Citations for PDDI sources </h3>
 
 <b>Five of the sources were developed for clinical application</b>
@@ -410,7 +411,7 @@ We created this <a href="http://www.freenetlaw.com/free-medical-disclaimer/">med
 <span style="width: 60px"></span> 
 <FONT SIZE="-1"><P>Copyright &#169 Copyright (C) 2014 - 2015 Richard D. Boyce<BR>All Rights Reserved<BR>
 </FONT>
-
+</div>
 
     </body>
 </html>

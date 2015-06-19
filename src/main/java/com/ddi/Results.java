@@ -26,6 +26,7 @@ public class Results {
     private String[] attributesUpper;
     private String drugClass1;
     private String drugClass2;
+    private HashMap<String, String> attributeSet;
 
     /**
      * @return the results
@@ -195,5 +196,17 @@ public class Results {
         return attributesUpper;
     }
 
-
+    /**
+     * @param attributeSet the attributeSet to set
+     */
+    public void setAttributeSet(HashMap<String,String> attributeSet) {
+        this.attributeSet = attributeSet;
+    }
+    
+    /**
+     * @return the attributeUpperList
+     */
+    public HashMap<String,String> getAttributeSet() {
+        return attributeSet;
+    }
 }

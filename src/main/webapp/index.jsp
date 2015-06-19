@@ -17,7 +17,35 @@
 		
         <title>Drug Interaction Search Results</title>
         <script>
-            function toggleVisible(toggleClass){
+		// Specify the normal table row background color
+		//   and the background color for when the mouse 
+		//   hovers over the table row.
+
+		var TableBackgroundNormalColor = "#ffffff";
+		var TableBackgroundMouseoverColor = "#9999ff";
+		
+
+		// These two functions need no customization.
+		function ChangeBackgroundColor(row) {
+			var tempcol = $(row).attr('id');
+			var thecol = document.getElementById(tempcol);
+			$(thecol).css('background', '#FFCC99');
+			var temprow = $(row).attr('name');
+			var therow = document.getElementById(temprow);
+			$(therow).css('background', '#FFCC99');
+			}
+			
+		function RestoreBackgroundColor(row) {
+			var tempcol = $(row).attr('id');
+			var thecol = document.getElementById(tempcol);
+			$(thecol).css('background','none'); 
+			var temprow = $(row).attr('name');
+			var therow = document.getElementById(temprow);
+			$(therow).css('background', '#fafafa');
+
+			}
+		
+        function toggleVisible(toggleClass){
 	        var ddiFirst = 'no'
                 var elements = document.getElementsByClassName(toggleClass);
                 for (var i = 0; i < elements.length; i++) {
@@ -71,6 +99,42 @@
                     $(buttons[i]).addClass('displayed');
                 }
             }
+            
+            function presentTag(tablecell){
+            	var dpane      = document.getElementById('details-pane');
+                var dpanetitle = document.getElementsByClassName('title');
+                var dpanedesc  = document.getElementsByClassName('desc');
+                
+                var newtitle   = $(tablecell).attr('name');
+                newtitle += "<br>(";
+                newtitle += $(tablecell).attr("class");
+                newtitle += ")";
+                //alert(newtitle);
+                //var newdate    = $(tablecell).attr('name');
+                //var newsibling    = $(tablecell).parentNode.nextSibling;
+                //alert(newtitle);
+                var newdesc    =  $(tablecell).attr('id');
+                //alert(newdesc);
+                if(newdesc.indexOf("http") !== -1)
+            	{
+            		$(dpanedesc).css('word-break','break-all');
+            		//alert("success");
+            	}else{
+            		$(dpanedesc).css('word-break', 'normal');
+            	}
+                
+                //var position = $(tablecell).offset();
+                
+                //var ycoord   = position.top - 340;
+                //xcoord = position.left;
+                
+                
+                dpanetitle[0].innerHTML = newtitle;
+                dpanedesc[0].innerHTML = newdesc;
+                dpane.style.display = "block";
+                dpane.style.top = "27%";
+                
+            }
         </script>
     </head>
     <body onload="hideStuff();">
@@ -78,16 +142,15 @@
         
             <header>
             
-            <%  Results result = (Results)session.getAttribute("ResultBean");
-            %>
-            
+            <%  Results result = (Results)session.getAttribute("ResultBean");%>
             <% System.out.println("drug1:" + result.getDrug1()); %>
-            <br>
             <% System.out.println("size of results" + result.getResults().size()); %>
             <%
             HashMap<String, ArrayList<String>> results = new HashMap<String, ArrayList<String>>();
+            HashMap<String, String> attributeSet = new HashMap<String, String>();
+            attributeSet = result.getAttributeSet();
             results = result.getResults();
-            String tempTag, testTag = null;
+            String attributeUpper, tempTag, testTag = null;
             int recordNum = 0;
             String[] tagArray;
             String drug1 = result.getDrug1();
@@ -122,21 +185,11 @@
                   </c:if>
 	      <!-- list search condition been selected -->
 
-              <p class="left" align="center">&nbsp;&nbsp; <a href="/Merged-PDDI" class="title2"><%="<< " %>New Search</a></p></br>
+              
 
                     <form name="drugForm" action="SearchServlet" method="POST">
 		    <div align= "center">
-		    <table align="center">
-			<tr>
-			  <td class="general">
-			    drug 1 as Object
-			  </td>
-			  <td class="general">
-			    drug 2 as Precipitant
-			  </td>
-			  <td class="general">
-			  </td>
-			</tr>
+		    <table align="center" hidden>
 			<tr>
 			  <td class="general">
                             <input name="drug2" value="${ResultBean.drug1}" readonly="readonly">
@@ -152,12 +205,19 @@
 		     </div>
 		     
 		      
-	  
-      
-		      <p align = "center" class="title2">(${ResultBean.drug1} / ${ResultBean.drug2})</p>
+	  		
+	  		<br>
+	  		<div class="centered">
+      			<div class="left"> <a href="/Merged-PDDI" class="title3"><%="<< " %>New Search</a></div>
+		        <div class="centerblock"><div class="title2">(${ResultBean.drug1} / ${ResultBean.drug2})</div></div>
+		        <div id="submitButton"><input class="clear regButton" type="submit" value="Reverse Object/Precipitant"/></div>
+		    </div>
+		    <p></p>
 		      <!--<div align= "center" class="outer">-->
 		      <!--<div class="inner">-->
+		      
 		      <div class="table-container">
+    		  
     		  <div class="headcol">
 		      <table>
 		      <thead>
@@ -166,7 +226,7 @@
 		      <tbody>
 		      <c:forEach items="${ResultBean.attributesUpper}" var="attribute">
 		      <tr>
-		      <td class="generalhead">${attribute}</td>
+		      <td class="generalhead" id="${attribute}">${attribute}</td>
 		      </tr>
 		      </c:forEach>
 		      </tbody>
@@ -176,9 +236,8 @@
 		      <div class="right">
 		      <table>
 		      <thead>
-		      
 		      <c:forEach items="${ResultBean.sourcesList}" var="source">
-		      <th class="longfields">${source}</th>
+		      <th class="longfields" id="${source}">${source}</th>
 		      </c:forEach>
 		      </thead>
 		      <tbody>
@@ -198,13 +257,20 @@
 		      //ArrayList<String> trueSource = (ArrayList<String>)keySet.get(tempAttribute);
 		      	if(keySet.get(tempAttribute).contains(tempSource))
 		      	{
-		    	  	out.print("<td class='availabletd'><div class='thumbs'><a class='pseudolink' href='#'><div id='100' name='" + tempAttribute + "' class='" + tempSource + "' ><bold>Available</bold></div></a>");
-		    	  	valueArray = (ArrayList<String>)results.get(testTag);
-		    	  	out.print("<meta class='desc' content='");
+		    	  	attributeUpper = attributeSet.get(tempAttribute);
+		      		out.print("<td class='availabletd' onmouseover='ChangeBackgroundColor(this)' onmouseout='RestoreBackgroundColor(this)' name='" +attributeUpper +"' id='"+tempSource+"'><div class='thumbs'><a class='pseudolink' href='#'><div id='");
+		      		valueArray = (ArrayList<String>)results.get(testTag);
+		      		recordNum = 0;
+		    	  	for(String subValue : valueArray)
+                    {
+		    	  		out.print( "<b>"+ ++recordNum + ". </b>" + subValue + "<br>");
+                    }
+		      		out.print("' name='" + attributeUpper + "' class='" + tempSource + "' onmousedown='presentTag(this)' ><bold>Click</bold></div></a>");
+		    	  	out.print("<meta content='");
 		    	  	recordNum = 0;
 		    	  	for(String subValue : valueArray)
                     {
-		    	  		out.print(++recordNum + ". " + subValue + "<br>");
+		    	  		out.print( "<b>"+ ++recordNum + ". </b>" + subValue + "<br>");
                     }
 		    	  	out.print("'></div></td>");
 		      	}else
@@ -224,14 +290,13 @@
 		      </c:forEach>
 		      </tbody>
 		      </table>
-		      <!-- setup details pane template -->
-      <div id="details-pane" style="display: none;">
-        <h4 class="title"></h4>
-        <p align = "left" class="desc"></p>
-        <br>
-      </div>
+		      
+      
 		      </div>
+		      
 		      </div>
+		      
+		      
                         <c:forEach items="${sessionScope.ResultBean.sourcesList}" var="sources">
                             <input name="sourcesList" type="hidden" value="${sources}">
                         </c:forEach>
@@ -260,17 +325,29 @@
 
             <p class="whiteText">Leave this here for CSS purposes</p>
         </div>
-        
+        <!-- setup details pane template -->
+		      <div id="details-pane" style="display: none;">
+		      <div id="verticalcenter">
+        		<h4 class="title"></h4>
+        		<p align="left" class="desc"></p>
+        		<br>
+      		  </div>
+      		  </div>
         <a href="#0" class="cd-top">Top</a>
         
-		<script src="js/jquery-1.11.1.min.js"></script>
-		<script src="js/main.js"></script>
-		<script type="text/javascript">
+		
+    </body>
+    
+<script src="js/jquery-1.11.1.min.js"></script>
+<script src="js/main.js"></script>
+<script type="text/javascript">
+
 $(function(){
-  $('.thumbs div').on('mouseover', function(e){
+  $('.thumbs div').on('mousedown', function(e){
+	  //function presentTag(cell){
     var dpane      = $('#details-pane');
-    var dpanetitle = $('#details-pane .title');
-    var dpanedesc  = $('#details-pane .desc');
+    var dpanetitle = $('.title');
+    var dpanedesc  = $('.desc');
     var newtitle   = $(this).attr('name');
     newtitle += " (";
     newtitle += $(this).attr("class");
@@ -287,28 +364,18 @@ $(function(){
     
     var position = $(this).offset();
     var imgwidth = $(this).attr('id');
-    if(position.top / $(window).height() >= 0.5) {
-      var ycoord   = position.top - 340;
-    } else {
-      var ycoord   = position.top - 200;
-    }
+    
     //var ycoord   = position.top - 340;
     //xcoord = position.left;
-    if(position.left / $(window).width() >= 0.5) {
-      var xcoord = position.left - 400;//250;
-      // details pane is 530px fixed width
-      // if the img position is beyond 50% of the page, we move the pane to the left side
-    } else {
-      var xcoord = position.left - 400//200;
-    }
+    
     
     dpanetitle.html(newtitle);
     dpanedesc.html(newdesc);
     
-    dpane.css({ 'left': xcoord, 'top': ycoord, 'display': 'block'});
+    dpane.css({'top': '27%', 'display': 'block'});
     
   }).on('mouseout', function(e){
-    $('#details-pane').css('display','none');
+    
   });
   
   // when hovering the details pane keep displayed, otherwise hide
@@ -321,10 +388,13 @@ $(function(){
     if (e.parentNode == this || e.parentNode.parentNode == this || e.parentNode.parentNode.parentNode == this || e == this || e.nodeName == 'IMG') {
       return;
     }
-    $(this).css('display','none');
+    //$(this).css('display','none');
+    //var thecol = document.getElementsByClassName("longfields");
+	//thecol[5].css('background','none');
+	//$(therow).css('background', '#fafafa');
     //console.log(e.nodeName)
   });
 });
 </script>
-    </body>
+
 </html>

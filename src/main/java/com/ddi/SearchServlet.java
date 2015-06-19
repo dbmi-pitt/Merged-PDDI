@@ -52,9 +52,10 @@ public class SearchServlet extends HttpServlet {
 	protected void processRequest(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 
-		System.out.println("[DEBUG] SearchServlet ...............");
+		//System.out.println("[DEBUG] SearchServlet ...............");
 		
 		HashMap<String, ArrayList<String>> searchResults= new HashMap<String, ArrayList<String>>();
+		HashMap<String, String> attributeSet= new HashMap<String, String>();
 		String resultTag = null; //"drug1_drug2_field_source"
 		String tempTag = null;
 		String drugClass1 = null;
@@ -68,6 +69,11 @@ public class SearchServlet extends HttpServlet {
 		String[] attributes = {"DrugClass1", "DrugClass2", "certainty", "contrindication", "ddiPkEffect", "ddiPkMechanism", "ddiType", "homepage", "severity", 
 				"label", "uri", "managementOptions", "evidence", "evidenceSource", "evidenceStatement", "dateAnnotated", "whoAnnotated", "effectConcept", "numericVal", 
 				"pathway", "precaution", "researchStatementLabel", "researchStatement"};
+		int ai = 0;
+		for(String attribute: attributes)
+		{
+			attributeSet.put(attribute, attributesUpper[ai++]);
+		}
 		
 		try {
 			String drug1 = request.getParameter("drug1");
@@ -88,6 +94,7 @@ public class SearchServlet extends HttpServlet {
 			results.setSourcesList(sources);
 			results.setAttributes(attributes);
 			results.setAttributesUpper(attributesUpper);
+			results.setAttributeSet(attributeSet);
 
 			System.out.println("Drug inputs: 1>" + drug1 + "|2>" + drug2);
 
@@ -106,7 +113,7 @@ public class SearchServlet extends HttpServlet {
 					+ source
 					+ "' order by object, precipitant";
 			
-			System.out.println("[INFO] Search Servlet - execute query:" + selectAllDrugs);
+			//System.out.println("[INFO] Search Servlet - execute query:" + selectAllDrugs);
 
 			rs = DBConnection.executeQuery(selectAllDrugs);
 
@@ -139,14 +146,14 @@ public class SearchServlet extends HttpServlet {
 						if(tempAttribute.contains("|"))
 						{
 							filterAttribute = tempAttribute.replace("|","");
-							System.out.println("***********"+filterAttribute);
+							//System.out.println("***********"+filterAttribute);
 						}else{
 							filterAttribute = tempAttribute;
 						}
 						if((searchResults.containsKey(resultTag))||(searchResults.get(resultTag) != null))
 						{
-							System.out.println("_______________________________________");
-							System.out.println(">>1" + searchResults.get(resultTag));
+							//System.out.println("_______________________________________");
+							//System.out.println(">>1" + searchResults.get(resultTag));
 							//temprecords = (ArrayList<String>)searchResults.get(resultTag);
 							if(!searchResults.get(resultTag).contains(filterAttribute))
 							{
@@ -158,8 +165,8 @@ public class SearchServlet extends HttpServlet {
 							ArrayList<String> temprecords = new ArrayList<String>();
 							temprecords.add(filterAttribute);
 							searchResults.put(resultTag, new ArrayList<String>(temprecords));
-							System.out.println(resultTag);
-							System.out.println(searchResults.get(resultTag));
+							//System.out.println(resultTag);
+							//System.out.println(searchResults.get(resultTag));
 						}
 						
 						//System.out.println(searchResults.get("http://bio2rdf.org/drugbank:DB00641_http://bio2rdf.org/drugbank:DB01026_whoAnnotated_DIKB"));
@@ -170,13 +177,13 @@ public class SearchServlet extends HttpServlet {
 					resultTag = null;
 					
 				}
-				System.out.println(searchResults.get("http://bio2rdf.org/drugbank:DB00641_http://bio2rdf.org/drugbank:DB01026_whoAnnotated_DIKB"));
+				
 				
 				
 			}
 			
 			
-			System.out.println("[DEBUG] Search servlet, total results:" + searchResults.size());
+			//System.out.println("[DEBUG] Search servlet, total results:" + searchResults.size());
 			/*
 			// sourceCSS=null;
 			if (totalResults.size() > 0) {
@@ -211,8 +218,8 @@ public class SearchServlet extends HttpServlet {
 			HttpSession session = request.getSession();
 			session.setAttribute("ResultBean", results);
 			
-			System.out.println("[DEBUG] Search servlet, results in session:");
-			System.out.println("[DEBUG] "+results.getDrug1()+ "|" + results.getDrug1ID());
+			//System.out.println("[DEBUG] Search servlet, results in session:");
+			//System.out.println("[DEBUG] "+results.getDrug1()+ "|" + results.getDrug1ID());
 
 
 			// forward the request (not redirect)
