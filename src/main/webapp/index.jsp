@@ -17,12 +17,88 @@
 		
         <title>Drug Interaction Search Results</title>
         <script>
-            function toggleVisible(toggleClass){
+		// Specify the normal table row background color
+		//   and the background color for when the mouse 
+		//   hovers over the table row.
+
+		var TableBackgroundNormalColor = "#ffffff";
+		var TableBackgroundMouseoverColor = "#9999ff";
+		
+
+		// These two functions need no customization.
+		function ChangeBackgroundColor(row) {
+			var allcol = document.getElementsByClassName("generalhead");
+			var i;
+			for(i = 0; i < allcol.length; i++)
+			{
+				allcol[i].style.backgroundColor = "#fafafa";
+			}
+			var allrow = document.getElementsByClassName("longfields");
+			for(i = 0; i < allrow.length; i++)
+			{
+				allrow[i].style.backgroundColor = "#ededed";
+			}
+			var allavailable = document.getElementsByClassName("availabletd");
+			for(i = 0; i < allavailable.length; i++)
+			{
+				allavailable[i].style.backgroundColor = "#D5EBD1";
+			}
+			row.style.backgroundColor = "#FFCC99";
+			var tempcol = $(row).attr('id');
+			var thecol = document.getElementById(tempcol);
+			$(thecol).css('background', '#FFCC99');
+			var temprow = $(row).attr('name');
+			var therow = document.getElementsByName(temprow);
+			$(therow[0]).css('background', '#FFCC99');
+			
+		}
+		
+		
+		function UserDeleteAttribute(deleterow) {
+			
+			//var tempdeleterow = $(deleterow).parentNode;
+			//alert("test");
+			var attributename = $(deleterow).attr('id');
+			var deleteall = document.getElementsByClassName(attributename);
+			var j;
+			for(j = 0; j < deleteall.length; j++)
+			{
+				//deleteall[j].style.display = "none";
+				if(deleteall[j].style.display == "none"){
+                    deleteall[j].style.display = "table-row";
+                }
+                else{
+                    deleteall[j].style.display = "none";
+                }
+			}
+		}
+		
+		/*
+		function OverChangeColor(cell){
+			$(cell).css('background', '#FFCC99');
+		}*/
+		
+		//function OutChangeColor(cell){
+			//$(cell).css('background', '#D5EBD1');
+		//}
+		
+		/*	
+		function RestoreBackgroundColor(row) {
+			var tempcol = $(row).attr('id');
+			var thecol = document.getElementById(tempcol);
+			$(thecol).css('background','none'); 
+			var temprow = $(row).attr('name');
+			var therow = document.getElementById(temprow);
+			$(therow).css('background', '#fafafa');
+
+			}
+		*/
+        function toggleVisible(toggleClass){
 	        var ddiFirst = 'no'
                 var elements = document.getElementsByClassName(toggleClass);
                 for (var i = 0; i < elements.length; i++) {
                     if(elements[i].style.display == "none"){
-                        elements[i].style.display = "block";
+                        elements[i].style.display = "table-row";
                     }
                     else{
                         elements[i].style.display = "none";
@@ -71,6 +147,42 @@
                     $(buttons[i]).addClass('displayed');
                 }
             }
+            
+            function presentTag(tablecell){
+            	var dpane      = document.getElementById('details-pane');
+                var dpanetitle = document.getElementsByClassName('title');
+                var dpanedesc  = document.getElementsByClassName('desc');
+                
+                var newtitle   = $(tablecell).attr('name');
+                newtitle += "<br>(";
+                newtitle += $(tablecell).attr("class");
+                newtitle += ")";
+                //alert(newtitle);
+                //var newdate    = $(tablecell).attr('name');
+                //var newsibling    = $(tablecell).parentNode.nextSibling;
+                //alert(newtitle);
+                var newdesc    =  $(tablecell).attr('id');
+                //alert(newdesc);
+                if(newdesc.indexOf("http") !== -1)
+            	{
+                	$(dpanedesc).css('word-break','break-all');
+            		//alert("success");
+            	}else{
+            		$(dpanedesc).css('word-break', 'normal');
+            	}
+                
+                //var position = $(tablecell).offset();
+                
+                //var ycoord   = position.top - 340;
+                //xcoord = position.left;
+                
+                
+                dpanetitle[0].innerHTML = newtitle;
+                dpanedesc[0].innerHTML = newdesc;
+                dpane.style.display = "block";
+                dpane.style.top = "7%";
+                
+            }
         </script>
     </head>
     <body onload="hideStuff();">
@@ -78,16 +190,19 @@
         
             <header>
             
-            <%  Results result = (Results)session.getAttribute("ResultBean");
-            %>
-            
+            <%  Results result = (Results)session.getAttribute("ResultBean");%>
             <% System.out.println("drug1:" + result.getDrug1()); %>
-            <br>
             <% System.out.println("size of results" + result.getResults().size()); %>
             <%
             HashMap<String, ArrayList<String>> results = new HashMap<String, ArrayList<String>>();
+            HashMap<String, String> attributeSet = new HashMap<String, String>();
+            String[] defaultAttributes = result.getDefaultAttributes();
+            String[] notDefaultAttributes = result.getNotDefaultAttributes();
+            List defaultValid = Arrays.asList(defaultAttributes);
+            List notDefaultValid = Arrays.asList(notDefaultAttributes);
+            attributeSet = result.getAttributeSet();
             results = result.getResults();
-            String tempTag, testTag = null;
+            String attributeUpper, tempTag, testTag = null;
             int recordNum = 0;
             String[] tagArray;
             String drug1 = result.getDrug1();
@@ -122,21 +237,11 @@
                   </c:if>
 	      <!-- list search condition been selected -->
 
-              <p class="left" align="center">&nbsp;&nbsp; <a href="/Merged-PDDI" class="title2"><%="<< " %>New Search</a></p></br>
+              
 
                     <form name="drugForm" action="SearchServlet" method="POST">
 		    <div align= "center">
-		    <table align="center">
-			<tr>
-			  <td class="general">
-			    drug 1 as Object
-			  </td>
-			  <td class="general">
-			    drug 2 as Precipitant
-			  </td>
-			  <td class="general">
-			  </td>
-			</tr>
+		    <table align="center" hidden>
 			<tr>
 			  <td class="general">
                             <input name="drug2" value="${ResultBean.drug1}" readonly="readonly">
@@ -152,21 +257,50 @@
 		     </div>
 		     
 		      
-	  
-      
-		      <p align = "center" class="title2">(${ResultBean.drug1} / ${ResultBean.drug2})</p>
+	  		
+	  		<br>
+	  		<div class="centered">
+      			<div class="left"> <a href="/Merged-PDDI" class="title3"><%="<< " %>New Search</a></div>
+		        <div class="centerblock"><div class="title2">(${ResultBean.drug1} / ${ResultBean.drug2})</div></div>
+		        <div id="submitButton"><input class="clear regButton" type="submit" value="Reverse Object/Precipitant"/></div>
+		    </div>
+		    <p></p>
 		      <!--<div align= "center" class="outer">-->
 		      <!--<div class="inner">-->
+		      
+		      <!-- setup attribute option template -->
+		      <div id="attribute-option">
+		      
+		      <table>
+		      <thead>
+		      <th class="optiontitle">
+        		Attributes can be added
+        	  </th>
+        	  </thead>
+        	  <tbody>
+        		<c:forEach items="${ResultBean.attributesUpper}" var="attribute">
+        		<tr class="<% String tempAttribute = (String)pageContext.getAttribute("attribute");String fixedAttribute = tempAttribute.replaceAll(" ","_");out.print(fixedAttribute);%>" <%if(!notDefaultValid.contains(tempAttribute)){out.print("style = 'display:none'");}else{out.print("style = 'display:table-row'");}%>><td class="generalhead">
+        		<div align="right" id="<%=fixedAttribute %>" onclick = "UserDeleteAttribute(this)" style = "font-size:12px">${attribute}  <img border="0" alt="W3Schools" src="images/plus.png" width="14" height="14"></div>
+        		</td></tr>
+        		</c:forEach>
+        	  </tbody>
+        	  </table>
+      		  
+      		  </div>
+      		  
 		      <div class="table-container">
+    		  
     		  <div class="headcol">
 		      <table>
 		      <thead>
-		      <th class="longfields"></th>
+		      <th class="longfields" style="width:173px"></th>
 		      </thead>
 		      <tbody>
-		      <c:forEach items="${ResultBean.attributesUpper}" var="attribute">
-		      <tr>
-		      <td class="generalhead">${attribute}</td>
+		      <c:forEach items="${ResultBean.attributes}" var="attribute">
+		      <% String tempAttribute = (String)pageContext.getAttribute("attribute");
+		      attributeUpper = attributeSet.get(tempAttribute);%>
+		      <tr class = "<%String fixedAttribute = attributeUpper.replaceAll(" ","_");out.print(fixedAttribute);%>" <% if(!defaultValid.contains(tempAttribute)){out.print("style='display:none'");}%>>
+		      <td class ="generalhead" id="<%=fixedAttribute%>" name="<%=attributeUpper%>" onclick = "UserDeleteAttribute(this)"><%=attributeUpper%> <img border="0" alt="W3Schools" src="images/minus.png" width="17" height="17"></td>
 		      </tr>
 		      </c:forEach>
 		      </tbody>
@@ -176,20 +310,22 @@
 		      <div class="right">
 		      <table>
 		      <thead>
-		      
 		      <c:forEach items="${ResultBean.sourcesList}" var="source">
-		      <th class="longfields">${source}</th>
+		      <th class="longfields" id="${source}">${source}</th>
 		      </c:forEach>
 		      </thead>
 		      <tbody>
 		      <c:forEach items="${ResultBean.attributes}" var="attribute">
-		      <tr>
+		      <% 
+		      String tempAttribute = (String)pageContext.getAttribute("attribute");
+		      attributeUpper = attributeSet.get(tempAttribute);%>
+		      <tr class = "<%String fixedAttribute = attributeUpper.replaceAll(" ","_");out.print(fixedAttribute);%>"  <% if(!defaultValid.contains(tempAttribute)){out.print("style='display:none'");}%>>
 		      
 		      <c:forEach items="${ResultBean.sourcesList}" var="sources">
 		      
 		      <%
 		      
-		      String tempAttribute = (String)pageContext.getAttribute("attribute");
+		      //String tempAttribute = (String)pageContext.getAttribute("attribute");
 		      String tempSource = (String)pageContext.getAttribute("sources");
 		      ArrayList<String> valueArray = new ArrayList<String>(); 
 		      testTag = drug1 + "+" + drug2 + "+" + tempAttribute + "+" + tempSource;
@@ -198,13 +334,32 @@
 		      //ArrayList<String> trueSource = (ArrayList<String>)keySet.get(tempAttribute);
 		      	if(keySet.get(tempAttribute).contains(tempSource))
 		      	{
-		    	  	out.print("<td class='availabletd'><div class='thumbs'><a class='pseudolink' href='#'><div id='100' name='" + tempAttribute + "' class='" + tempSource + "' ><bold>Available</bold></div></a>");
-		    	  	valueArray = (ArrayList<String>)results.get(testTag);
-		    	  	out.print("<meta class='desc' content='");
+		    	  	
+		      		out.print("<td class='availabletd' onclick='ChangeBackgroundColor(this)'  name='" +attributeUpper +"' id='"+tempSource+"'><div class='thumbs'><a class='pseudolink' href='#'><div id='");
+		      		valueArray = (ArrayList<String>)results.get(testTag);
+		      		recordNum = 0;
+		    	  	for(String subValue : valueArray)
+                    {
+		    	  		if(subValue.contains("http"))
+		    	  		{
+		    	  			out.print( "<b>"+ ++recordNum + ". </b><a target=_blank href=" + subValue + ">" + subValue + "</a><br>");
+		    	  		}else{
+		    	  			
+		    	  			out.print( "<b>"+ ++recordNum + ". </b>" + subValue + "<br>");
+		    	  		}
+                    }
+		      		out.print("' name='" + attributeUpper + "' class='" + tempSource + "' onmousedown='presentTag(this)' ><bold>Click</bold></div></a>");
+		    	  	out.print("<meta content='");
 		    	  	recordNum = 0;
 		    	  	for(String subValue : valueArray)
                     {
-		    	  		out.print(++recordNum + ". " + subValue + "<br>");
+		    	  		if(subValue.contains("http"))
+		    	  		{
+		    	  			out.print( "<b>"+ ++recordNum + ". </b><a href=" + subValue + ">" + subValue + "</a><br>");
+		    	  		}else{
+		    	  			
+		    	  			out.print( "<b>"+ ++recordNum + ". </b>" + subValue + "<br>");
+		    	  		}
                     }
 		    	  	out.print("'></div></td>");
 		      	}else
@@ -224,14 +379,13 @@
 		      </c:forEach>
 		      </tbody>
 		      </table>
-		      <!-- setup details pane template -->
-      <div id="details-pane" style="display: none;">
-        <h4 class="title"></h4>
-        <p align = "left" class="desc"></p>
-        <br>
-      </div>
+		      
+      
 		      </div>
+		      
 		      </div>
+		      
+		      
                         <c:forEach items="${sessionScope.ResultBean.sourcesList}" var="sources">
                             <input name="sourcesList" type="hidden" value="${sources}">
                         </c:forEach>
@@ -245,6 +399,7 @@
         <br>
 		    
             <c:if test="${ResultBean.results.size() == 0}"><span class="noResults">No results for selected drugs. Click <a href="/Merged-PDDI">here</a> to search again.</span></c:if>
+			<!--  
 			<c:if test="${ResultBean.drugClass1 != 'None'}">
 			<div class = "title1">Object Drug Class</div><br>
 			<blockquote>
@@ -254,22 +409,94 @@
 			<c:if test="${ResultBean.drugClass2 != 'None'}">
 			<div class = "title1">Precipitant Drug Class</div><br>
 			<blockquote><p>${ResultBean.drugClass2}</p></blockquote>
-			
 			</c:if>
+			-->
 
-            <p class="whiteText">Leave this here for CSS purposes</p>
+            
         </div>
+        <!-- setup details pane template -->
+		      <div id="details-pane" style="display: none;">
+		      <div id="verticalcenter">
+        		<h4 class="title"></h4>
+        		<p align="left" class="desc"></p>
+        		<br>
+      		  </div>
+      		  </div>
         
         <a href="#0" class="cd-top">Top</a>
         
-		<script src="js/jquery-1.11.1.min.js"></script>
-		<script src="js/main.js"></script>
-		<script type="text/javascript">
+        <div class="firstpagemargin">
+        <BR>
+<h3>License</h3>
+
+<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/88x31.png" /></a><br/>
+<span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Dataset" property="dct:title" rel="dct:type">Drug Interaction Knowledge Base (DIKB)</span> 
+by <a xmlns:cc="http://creativecommons.org/ns#" href="http://www.dbmi.pitt.edu/person/richard-boyce-phd" property="cc:attributionName" rel="cc:attributionURL">Richard D. Boyce</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License</a>.
+
+
+<BR>
+<font size="-2" color="#999999">
+<p>
+
+<h3>MEDICAL DISCLAIMER</h3>
+
+<b>No advice</b>
+This website contains general information about medical conditions and treatments.  The information is not advice, and should not be treated as such.
+
+<b>Limitation of warranties</b>
+
+The medical information on this website is provided "as is" without any representations or warranties, express or implied. Neither the author (Richard Boyce) or the University of Pittsburgh make any representations or warranties in relation to the medical information on this website.
+
+Without prejudice to the generality of the foregoing paragraph, Neither the author (Richard Boyce) or the University of Pittsburgh warrant that:
+
+<ul>
+  <li>the medical information on this website will be constantly available, or available at all; or</li>
+
+  <li>the medical information on this website is complete, true, accurate, up-to-date, or non-misleading.</li>
+</ul>
+
+<b>Professional assistance</b>
+
+You must not rely on the information on this website as an alternative to medical advice from your doctor or other professional healthcare provider.
+
+If you have any specific questions about any medical matter you should consult your doctor or other professional healthcare provider.
+
+If you think you may be suffering from any medical condition you should seek immediate medical attention.
+
+You should never delay seeking medical advice, disregard medical advice, or discontinue medical treatment because of information on this website.
+
+<BR>
+<b>Liability</b>
+<BR>
+Nothing in this medical disclaimer will limit any of our liabilities in any way that is not permitted under applicable law, or exclude any of our liabilities that may not be excluded under applicable law.
+<BR>
+<b>About this medical disclaimer</b>
+<BR>
+We created this <a href="http://www.freenetlaw.com/free-medical-disclaimer/">medical disclaimer</a> with the help of a Contractology precedent available at www.freenetlaw.com.
+    Premium templates available from Contractology include <a href="http://www.contractology.com/precedents/non-disclosure-agreement.html">confidential disclosure agreement forms</a>.
+
+</p>
+</font>
+<a href="#0" class="cd-top">Top</a>
+<P><HR>
+<span style="width: 60px"></span> 
+<BR><IMG src="images/logo.jpg" alt="logo.jpg" align="bottom">
+<FONT SIZE="-1"><P>Copyright &#169 Copyright (C) 2015 - 2016 Richard D. Boyce<BR>All Rights Reserved<BR>
+</FONT>
+        </div>
+		
+    </body>
+    
+<script src="js/jquery-1.11.1.min.js"></script>
+<script src="js/main.js"></script>
+<script type="text/javascript">
+
 $(function(){
-  $('.thumbs div').on('mouseover', function(e){
+  $('.thumbs div').on('mousedown', function(e){
+	  //function presentTag(cell){
     var dpane      = $('#details-pane');
-    var dpanetitle = $('#details-pane .title');
-    var dpanedesc  = $('#details-pane .desc');
+    var dpanetitle = $('.title');
+    var dpanedesc  = $('.desc');
     var newtitle   = $(this).attr('name');
     newtitle += " (";
     newtitle += $(this).attr("class");
@@ -279,32 +506,25 @@ $(function(){
     if(newdesc.includes("http"))
 	{
 		dpanedesc.css('word-break','break-all');
+		//alert("success");
+	}else{
+		dpanedesc.css('word-break', 'normal');
 	}
     
     var position = $(this).offset();
     var imgwidth = $(this).attr('id');
-    /*if(position.bottom / $(window).height() >= 0.5) {
-      var ycoord   = position.bottom - 340;
-    } else {
-      var ycoord   = position.bottom;
-    }*/
-    var ycoord   = position.top - 340;
+    
+    //var ycoord   = position.top - 340;
     //xcoord = position.left;
-    if(position.left / $(window).width() >= 0.5) {
-      var xcoord = position.left - 400;//250;
-      // details pane is 530px fixed width
-      // if the img position is beyond 50% of the page, we move the pane to the left side
-    } else {
-      var xcoord = position.left - 400//200;
-    }
+    
     
     dpanetitle.html(newtitle);
     dpanedesc.html(newdesc);
     
-    dpane.css({ 'left': xcoord, 'top': ycoord, 'display': 'block'});
+    dpane.css({'top': '27%', 'display': 'block'});
     
   }).on('mouseout', function(e){
-    $('#details-pane').css('display','none');
+    
   });
   
   // when hovering the details pane keep displayed, otherwise hide
@@ -317,10 +537,13 @@ $(function(){
     if (e.parentNode == this || e.parentNode.parentNode == this || e.parentNode.parentNode.parentNode == this || e == this || e.nodeName == 'IMG') {
       return;
     }
-    $(this).css('display','none');
+    //$(this).css('display','none');
+    //var thecol = document.getElementsByClassName("longfields");
+	//thecol[5].css('background','none');
+	//$(therow).css('background', '#fafafa');
     //console.log(e.nodeName)
   });
 });
 </script>
-    </body>
+
 </html>

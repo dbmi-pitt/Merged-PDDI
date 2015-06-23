@@ -24,8 +24,11 @@ public class Results {
     private String[] sourcesList;
     private String[] attributes;
     private String[] attributesUpper;
+    private String[] defaultAttributes;
+    private String[] notDefaultAttributes;
     private String drugClass1;
     private String drugClass2;
+    private HashMap<String, String> attributeSet;
 
     /**
      * @return the results
@@ -195,5 +198,46 @@ public class Results {
         return attributesUpper;
     }
 
-
+    /**
+     * @param attributeSet the attributeSet to set
+     */
+    public void setAttributeSet(HashMap<String,String> attributeSet) {
+        this.attributeSet = attributeSet;
+    }
+    
+    /**
+     * @return the attributeUpperList
+     */
+    public HashMap<String,String> getAttributeSet() {
+        return attributeSet;
+    }
+    
+    /**
+     * @param defaultAttributes the defaultAttributes to set
+     */
+    public void setDefaultAttributes(String[] defaultAttributes) {
+        this.defaultAttributes = defaultAttributes;
+    }
+    
+    /**
+     * @return the defaultAttribtues
+     */
+    public String[] getDefaultAttributes() {
+        return defaultAttributes;
+    }
+    
+    
+    /**
+     * @param notDefaultAttributes the notDefaultAttributes to set
+     */
+    public void setNotDefaultAttributes(String[] notDefaultAttributes) {
+        this.notDefaultAttributes = notDefaultAttributes;
+    }
+    
+    /**
+     * @return the attributeUpperList
+     */
+    public String[] getNotDefaultAttributes() {
+        return notDefaultAttributes;
+    }
 }

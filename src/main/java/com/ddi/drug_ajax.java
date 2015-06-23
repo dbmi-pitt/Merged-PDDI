@@ -43,7 +43,7 @@ public class drug_ajax extends HttpServlet {
             
             String drug1 = request.getParameter("drug");            
             
-            String selectAllDrugs = "select precipitant from interactions1 where object = '" + drug1 + "' order by precipitant ASC";
+            String selectAllDrugs = "select distinct(precipitant) from interactions1 where object = '" + drug1 + "' order by precipitant ASC";
 
             rs = DBConnection.executeQuery(selectAllDrugs);
             
