@@ -63,12 +63,16 @@ public class SearchServlet extends HttpServlet {
 		String tempAttribute = null;
 		String filterAttribute = null;
 		//ArrayList<String> temprecords = new ArrayList<String>();
-		String[] attributesUpper = {"Object Drug Class", "Precipitant Drug Class", "Certainty", "Contraindication", "ddiPkEffect", "ddiPkMechanism", "ddiType", "Homepage", "Severity", 
-				"Label", "URI", "Management Options", "Evidence", "Evidence Source", "Evidence Statement","Date Annotated", "Who Annotated", "Effect Concept", "Numeric Value", 
+		String[] attributesUpper = {"Object Drug Class", "Precipitant Drug Class", "Certainty", "Contraindication", "Effect", "PkMechanism", "ddiType", "Homepage", "Severity", 
+				"Description", "URI", "Management Options", "Evidence", "Evidence Source", "Evidence Statement","Date Annotated", "Who Annotated", "Numeric Value", 
 				"Pathway", "Precaution", "Research Statement Label", "Research Statement"};
-		String[] attributes = {"DrugClass1", "DrugClass2", "certainty", "contrindication", "ddiPkEffect", "ddiPkMechanism", "ddiType", "homepage", "severity", 
-				"label", "uri", "managementOptions", "evidence", "evidenceSource", "evidenceStatement", "dateAnnotated", "whoAnnotated", "effectConcept", "numericVal", 
+		String[] attributes = {"DrugClass1", "DrugClass2", "certainty", "contraindication", "ddiPkEffect", "ddiPkMechanism", "ddiType", "homepage", "severity", 
+				"label", "uri", "managementOptions", "evidence", "evidenceSource", "evidenceStatement", "dateAnnotated", "whoAnnotated", "numericVal", 
 				"pathway", "precaution", "researchStatementLabel", "researchStatement"};
+		String[] defaultAttributes = {"ddiPkMechanism", "label", "evidenceSource", "evidenceStatement", "ddiPkEffect"};
+		String[] notDefaultAttributes = {"Object Drug Class", "Precipitant Drug Class", "Certainty", "Contraindication", "ddiType", "Homepage", "Severity", 
+				"URI", "Management Options", "Evidence","Date Annotated", "Who Annotated", "Numeric Value", 
+				"Pathway", "Precaution", "Research Statement Label", "Research Statement"};
 		int ai = 0;
 		for(String attribute: attributes)
 		{
@@ -95,6 +99,8 @@ public class SearchServlet extends HttpServlet {
 			results.setAttributes(attributes);
 			results.setAttributesUpper(attributesUpper);
 			results.setAttributeSet(attributeSet);
+			results.setDefaultAttributes(defaultAttributes);
+			results.setNotDefaultAttributes(notDefaultAttributes);
 
 			System.out.println("Drug inputs: 1>" + drug1 + "|2>" + drug2);
 
@@ -171,10 +177,38 @@ public class SearchServlet extends HttpServlet {
 						
 						//System.out.println(searchResults.get("http://bio2rdf.org/drugbank:DB00641_http://bio2rdf.org/drugbank:DB01026_whoAnnotated_DIKB"));
 					}
-					
+					if(attribute == "ddiPkEffect")
+					{
+						attribute = "effectConcept";
+						if(!rs.getString(attribute).contains("None"))
+						{
+							tempAttribute = rs.getString(attribute);
+							//filter out "|"
+							if(tempAttribute.contains("|"))
+							{
+								filterAttribute = tempAttribute.replace("|","");
+							}else{
+								filterAttribute = tempAttribute;
+							}
+							//this tag already exists
+							if((searchResults.containsKey(resultTag))||(searchResults.get(resultTag) != null))
+							{
+								if(!searchResults.get(resultTag).contains(filterAttribute))
+								{
+									searchResults.get(resultTag).add(filterAttribute);
+								}
+							}else  //this tag starts up
+							{
+								ArrayList<String> temprecords = new ArrayList<String>();
+								temprecords.add(filterAttribute);
+								searchResults.put(resultTag, new ArrayList<String>(temprecords));
+							}
+						}
+					}
 					//System.out.println(">>2" + searchResults.get(resultTag));
 					//System.out.println(">>3" + searchResults.get(resultTag));
 					resultTag = null;
+					
 					
 				}
 				

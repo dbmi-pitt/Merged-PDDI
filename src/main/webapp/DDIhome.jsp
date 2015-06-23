@@ -256,6 +256,11 @@ More conservative is limited matches between a DrugBank and UNII record to those
 Less conservative approach involves a match on InChI key or an exact case-insensitive match of preferred term or a synonym. The latter approach resulted in a greater number of mappings (1613 and 2139 mappings respectively).
 </p>
 <BR>
+
+<h3>Funding Acknowledgements</h3>
+<p>This project is supported by a grant from the National Library of Medicine: "Addressing gaps in clinically useful evidence on drug-drug interactions"<br> (1R01LM011838-01)</p>
+
+<BR>
 <h3>Citations for PDDI sources </h3>
 
 <b>Five of the sources were developed for clinical application</b>
@@ -409,7 +414,8 @@ We created this <a href="http://www.freenetlaw.com/free-medical-disclaimer/">med
 <a href="#0" class="cd-top">Top</a>
 <P><HR>
 <span style="width: 60px"></span> 
-<FONT SIZE="-1"><P>Copyright &#169 Copyright (C) 2014 - 2015 Richard D. Boyce<BR>All Rights Reserved<BR>
+<BR><IMG src="images/logo.jpg" alt="logo.jpg" align="bottom">
+<FONT SIZE="-1"><P>Copyright &#169 Copyright (C) 2015 - 2016 Richard D. Boyce<BR>All Rights Reserved<BR>
 </FONT>
 </div>
 

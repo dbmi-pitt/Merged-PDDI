@@ -20,6 +20,7 @@ padding: 0px;
     margin-left: auto;
     margin-right: auto;
     margin-top:1px;
+    padding-bottom:150px;
 }
 
 .infoButton{
@@ -407,32 +408,32 @@ table td:first-child {
 }
 table td.general {
 	width: 90px;
-	height:18px;
+	height:21px;
 	border-top: 1px solid #ffffff;
 	border-bottom:1px solid #e0e0e0;
 	border-left: 1px solid #e0e0e0;
 	
 	background: #fafafa;
-	background: -webkit-gradient(linear, left top, left bottom, from(#fbfbfb), to(#fafafa));
-	background: -moz-linear-gradient(top,  #fbfbfb,  #fafafa);
+	/*background: -webkit-gradient(linear, left top, left bottom, from(#fbfbfb), to(#fafafa));
+	background: -moz-linear-gradient(top,  #fbfbfb,  #fafafa);*/
 }
 
 table td.availabletd{
 	background: #D5EBD1;
 	width: 90px;
-	height:18px;
+	height:21px;
 	border-top: 1px solid #ffffff;
 	border-bottom:1px solid #e0e0e0;
 	border-left: 1px solid #e0e0e0;
 }
 
-table td.availabletd:hover{
+/*table td.availabletd:hover{
 	background:#FFCC99;
-}
+}*/
 
 table td.generalhead {
-	width: 155px;
-	height:18px;
+	width: 173px;
+	height:21px;
 	border-top: 1px solid #ffffff;
 	border-bottom:1px solid #e0e0e0;
 	border-left: 1px solid #e0e0e0;
@@ -440,15 +441,25 @@ table td.generalhead {
 	text-align:right;
 	
 	padding-right:3px;
-	background: #ededed;
-	background: -webkit-gradient(linear, left top, left bottom, from(#fbfbfb), to(#fafafa));
-	background: -moz-linear-gradient(top,  #fbfbfb,  #fafafa);
+	background: #fafafa;
+	/*background: -webkit-gradient(linear, left top, left bottom, from(#fbfbfb), to(#fafafa));
+	background: -moz-linear-gradient(top,  #fbfbfb,  #fafafa);*/
 }
 
 table th.longfields {
 	
-	
+	width: 90px;
 	background: #ededed;
+	
+}
+
+table th.optiontitle {
+	
+	height: 30px;
+	width:185px;
+	background: #ededed;
+	font-size:15px;
+	color:#555;
 	
 }
 
@@ -471,9 +482,9 @@ table tr:last-child td:last-child {
 	border-bottom-right-radius:3px;
 }
 table tr td:hover {
-	background: #f2f2f2;
-	background: -webkit-gradient(linear, left top, left bottom, from(#f2f2f2), to(#f0f0f0));
-	background: -moz-linear-gradient(top,  #f2f2f2,  #f0f0f0);	
+	background: #FFCC99; /*#f2f2f2;*/
+	background: -webkit-gradient(linear, left top, left bottom, from(#FFCC99), to(#FFCC99));
+	background: -moz-linear-gradient(top,  #FFCC99,  #FFCC99);	
 }
 
 .outer {position:relative}
@@ -482,12 +493,6 @@ table tr td:hover {
   overflow-y:visible;
   
 }
-
-
-
-
-
-
 
 blockquote {
   padding: 5px 20px;
@@ -608,4 +613,5 @@ th{
 .firstpagemargin{
 	margin-right:40px;
 	margin-left:40px;
+	margin-top:110px;
 }

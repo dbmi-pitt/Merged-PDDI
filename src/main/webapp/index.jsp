@@ -27,14 +27,62 @@
 
 		// These two functions need no customization.
 		function ChangeBackgroundColor(row) {
+			var allcol = document.getElementsByClassName("generalhead");
+			var i;
+			for(i = 0; i < allcol.length; i++)
+			{
+				allcol[i].style.backgroundColor = "#fafafa";
+			}
+			var allrow = document.getElementsByClassName("longfields");
+			for(i = 0; i < allrow.length; i++)
+			{
+				allrow[i].style.backgroundColor = "#ededed";
+			}
+			var allavailable = document.getElementsByClassName("availabletd");
+			for(i = 0; i < allavailable.length; i++)
+			{
+				allavailable[i].style.backgroundColor = "#D5EBD1";
+			}
+			row.style.backgroundColor = "#FFCC99";
 			var tempcol = $(row).attr('id');
 			var thecol = document.getElementById(tempcol);
 			$(thecol).css('background', '#FFCC99');
 			var temprow = $(row).attr('name');
-			var therow = document.getElementById(temprow);
-			$(therow).css('background', '#FFCC99');
-			}
+			var therow = document.getElementsByName(temprow);
+			$(therow[0]).css('background', '#FFCC99');
 			
+		}
+		
+		
+		function UserDeleteAttribute(deleterow) {
+			
+			//var tempdeleterow = $(deleterow).parentNode;
+			//alert("test");
+			var attributename = $(deleterow).attr('id');
+			var deleteall = document.getElementsByClassName(attributename);
+			var j;
+			for(j = 0; j < deleteall.length; j++)
+			{
+				//deleteall[j].style.display = "none";
+				if(deleteall[j].style.display == "none"){
+                    deleteall[j].style.display = "table-row";
+                }
+                else{
+                    deleteall[j].style.display = "none";
+                }
+			}
+		}
+		
+		/*
+		function OverChangeColor(cell){
+			$(cell).css('background', '#FFCC99');
+		}*/
+		
+		//function OutChangeColor(cell){
+			//$(cell).css('background', '#D5EBD1');
+		//}
+		
+		/*	
 		function RestoreBackgroundColor(row) {
 			var tempcol = $(row).attr('id');
 			var thecol = document.getElementById(tempcol);
@@ -44,13 +92,13 @@
 			$(therow).css('background', '#fafafa');
 
 			}
-		
+		*/
         function toggleVisible(toggleClass){
 	        var ddiFirst = 'no'
                 var elements = document.getElementsByClassName(toggleClass);
                 for (var i = 0; i < elements.length; i++) {
                     if(elements[i].style.display == "none"){
-                        elements[i].style.display = "block";
+                        elements[i].style.display = "table-row";
                     }
                     else{
                         elements[i].style.display = "none";
@@ -117,7 +165,7 @@
                 //alert(newdesc);
                 if(newdesc.indexOf("http") !== -1)
             	{
-            		$(dpanedesc).css('word-break','break-all');
+                	$(dpanedesc).css('word-break','break-all');
             		//alert("success");
             	}else{
             		$(dpanedesc).css('word-break', 'normal');
@@ -132,7 +180,7 @@
                 dpanetitle[0].innerHTML = newtitle;
                 dpanedesc[0].innerHTML = newdesc;
                 dpane.style.display = "block";
-                dpane.style.top = "27%";
+                dpane.style.top = "7%";
                 
             }
         </script>
@@ -148,6 +196,10 @@
             <%
             HashMap<String, ArrayList<String>> results = new HashMap<String, ArrayList<String>>();
             HashMap<String, String> attributeSet = new HashMap<String, String>();
+            String[] defaultAttributes = result.getDefaultAttributes();
+            String[] notDefaultAttributes = result.getNotDefaultAttributes();
+            List defaultValid = Arrays.asList(defaultAttributes);
+            List notDefaultValid = Arrays.asList(notDefaultAttributes);
             attributeSet = result.getAttributeSet();
             results = result.getResults();
             String attributeUpper, tempTag, testTag = null;
@@ -216,17 +268,39 @@
 		      <!--<div align= "center" class="outer">-->
 		      <!--<div class="inner">-->
 		      
+		      <!-- setup attribute option template -->
+		      <div id="attribute-option">
+		      
+		      <table>
+		      <thead>
+		      <th class="optiontitle">
+        		Attributes can be added
+        	  </th>
+        	  </thead>
+        	  <tbody>
+        		<c:forEach items="${ResultBean.attributesUpper}" var="attribute">
+        		<tr class="<% String tempAttribute = (String)pageContext.getAttribute("attribute");String fixedAttribute = tempAttribute.replaceAll(" ","_");out.print(fixedAttribute);%>" <%if(!notDefaultValid.contains(tempAttribute)){out.print("style = 'display:none'");}else{out.print("style = 'display:table-row'");}%>><td class="generalhead">
+        		<div align="right" id="<%=fixedAttribute %>" onclick = "UserDeleteAttribute(this)" style = "font-size:12px">${attribute}  <img border="0" alt="W3Schools" src="images/plus.png" width="14" height="14"></div>
+        		</td></tr>
+        		</c:forEach>
+        	  </tbody>
+        	  </table>
+      		  
+      		  </div>
+      		  
 		      <div class="table-container">
     		  
     		  <div class="headcol">
 		      <table>
 		      <thead>
-		      <th class="longfields"></th>
+		      <th class="longfields" style="width:173px"></th>
 		      </thead>
 		      <tbody>
-		      <c:forEach items="${ResultBean.attributesUpper}" var="attribute">
-		      <tr>
-		      <td class="generalhead" id="${attribute}">${attribute}</td>
+		      <c:forEach items="${ResultBean.attributes}" var="attribute">
+		      <% String tempAttribute = (String)pageContext.getAttribute("attribute");
+		      attributeUpper = attributeSet.get(tempAttribute);%>
+		      <tr class = "<%String fixedAttribute = attributeUpper.replaceAll(" ","_");out.print(fixedAttribute);%>" <% if(!defaultValid.contains(tempAttribute)){out.print("style='display:none'");}%>>
+		      <td class ="generalhead" id="<%=fixedAttribute%>" name="<%=attributeUpper%>" onclick = "UserDeleteAttribute(this)"><%=attributeUpper%> <img border="0" alt="W3Schools" src="images/minus.png" width="17" height="17"></td>
 		      </tr>
 		      </c:forEach>
 		      </tbody>
@@ -242,13 +316,16 @@
 		      </thead>
 		      <tbody>
 		      <c:forEach items="${ResultBean.attributes}" var="attribute">
-		      <tr>
+		      <% 
+		      String tempAttribute = (String)pageContext.getAttribute("attribute");
+		      attributeUpper = attributeSet.get(tempAttribute);%>
+		      <tr class = "<%String fixedAttribute = attributeUpper.replaceAll(" ","_");out.print(fixedAttribute);%>"  <% if(!defaultValid.contains(tempAttribute)){out.print("style='display:none'");}%>>
 		      
 		      <c:forEach items="${ResultBean.sourcesList}" var="sources">
 		      
 		      <%
 		      
-		      String tempAttribute = (String)pageContext.getAttribute("attribute");
+		      //String tempAttribute = (String)pageContext.getAttribute("attribute");
 		      String tempSource = (String)pageContext.getAttribute("sources");
 		      ArrayList<String> valueArray = new ArrayList<String>(); 
 		      testTag = drug1 + "+" + drug2 + "+" + tempAttribute + "+" + tempSource;
@@ -257,20 +334,32 @@
 		      //ArrayList<String> trueSource = (ArrayList<String>)keySet.get(tempAttribute);
 		      	if(keySet.get(tempAttribute).contains(tempSource))
 		      	{
-		    	  	attributeUpper = attributeSet.get(tempAttribute);
-		      		out.print("<td class='availabletd' onmouseover='ChangeBackgroundColor(this)' onmouseout='RestoreBackgroundColor(this)' name='" +attributeUpper +"' id='"+tempSource+"'><div class='thumbs'><a class='pseudolink' href='#'><div id='");
+		    	  	
+		      		out.print("<td class='availabletd' onclick='ChangeBackgroundColor(this)'  name='" +attributeUpper +"' id='"+tempSource+"'><div class='thumbs'><a class='pseudolink' href='#'><div id='");
 		      		valueArray = (ArrayList<String>)results.get(testTag);
 		      		recordNum = 0;
 		    	  	for(String subValue : valueArray)
                     {
-		    	  		out.print( "<b>"+ ++recordNum + ". </b>" + subValue + "<br>");
+		    	  		if(subValue.contains("http"))
+		    	  		{
+		    	  			out.print( "<b>"+ ++recordNum + ". </b><a target=_blank href=" + subValue + ">" + subValue + "</a><br>");
+		    	  		}else{
+		    	  			
+		    	  			out.print( "<b>"+ ++recordNum + ". </b>" + subValue + "<br>");
+		    	  		}
                     }
 		      		out.print("' name='" + attributeUpper + "' class='" + tempSource + "' onmousedown='presentTag(this)' ><bold>Click</bold></div></a>");
 		    	  	out.print("<meta content='");
 		    	  	recordNum = 0;
 		    	  	for(String subValue : valueArray)
                     {
-		    	  		out.print( "<b>"+ ++recordNum + ". </b>" + subValue + "<br>");
+		    	  		if(subValue.contains("http"))
+		    	  		{
+		    	  			out.print( "<b>"+ ++recordNum + ". </b><a href=" + subValue + ">" + subValue + "</a><br>");
+		    	  		}else{
+		    	  			
+		    	  			out.print( "<b>"+ ++recordNum + ". </b>" + subValue + "<br>");
+		    	  		}
                     }
 		    	  	out.print("'></div></td>");
 		      	}else
@@ -323,7 +412,7 @@
 			</c:if>
 			-->
 
-            <p class="whiteText">Leave this here for CSS purposes</p>
+            
         </div>
         <!-- setup details pane template -->
 		      <div id="details-pane" style="display: none;">
@@ -333,8 +422,68 @@
         		<br>
       		  </div>
       		  </div>
+        
         <a href="#0" class="cd-top">Top</a>
         
+        <div class="firstpagemargin">
+        <BR>
+<h3>License</h3>
+
+<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/88x31.png" /></a><br/>
+<span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Dataset" property="dct:title" rel="dct:type">Drug Interaction Knowledge Base (DIKB)</span> 
+by <a xmlns:cc="http://creativecommons.org/ns#" href="http://www.dbmi.pitt.edu/person/richard-boyce-phd" property="cc:attributionName" rel="cc:attributionURL">Richard D. Boyce</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License</a>.
+
+
+<BR>
+<font size="-2" color="#999999">
+<p>
+
+<h3>MEDICAL DISCLAIMER</h3>
+
+<b>No advice</b>
+This website contains general information about medical conditions and treatments.  The information is not advice, and should not be treated as such.
+
+<b>Limitation of warranties</b>
+
+The medical information on this website is provided "as is" without any representations or warranties, express or implied. Neither the author (Richard Boyce) or the University of Pittsburgh make any representations or warranties in relation to the medical information on this website.
+
+Without prejudice to the generality of the foregoing paragraph, Neither the author (Richard Boyce) or the University of Pittsburgh warrant that:
+
+<ul>
+  <li>the medical information on this website will be constantly available, or available at all; or</li>
+
+  <li>the medical information on this website is complete, true, accurate, up-to-date, or non-misleading.</li>
+</ul>
+
+<b>Professional assistance</b>
+
+You must not rely on the information on this website as an alternative to medical advice from your doctor or other professional healthcare provider.
+
+If you have any specific questions about any medical matter you should consult your doctor or other professional healthcare provider.
+
+If you think you may be suffering from any medical condition you should seek immediate medical attention.
+
+You should never delay seeking medical advice, disregard medical advice, or discontinue medical treatment because of information on this website.
+
+<BR>
+<b>Liability</b>
+<BR>
+Nothing in this medical disclaimer will limit any of our liabilities in any way that is not permitted under applicable law, or exclude any of our liabilities that may not be excluded under applicable law.
+<BR>
+<b>About this medical disclaimer</b>
+<BR>
+We created this <a href="http://www.freenetlaw.com/free-medical-disclaimer/">medical disclaimer</a> with the help of a Contractology precedent available at www.freenetlaw.com.
+    Premium templates available from Contractology include <a href="http://www.contractology.com/precedents/non-disclosure-agreement.html">confidential disclosure agreement forms</a>.
+
+</p>
+</font>
+<a href="#0" class="cd-top">Top</a>
+<P><HR>
+<span style="width: 60px"></span> 
+<BR><IMG src="images/logo.jpg" alt="logo.jpg" align="bottom">
+<FONT SIZE="-1"><P>Copyright &#169 Copyright (C) 2015 - 2016 Richard D. Boyce<BR>All Rights Reserved<BR>
+</FONT>
+        </div>
 		
     </body>
     
