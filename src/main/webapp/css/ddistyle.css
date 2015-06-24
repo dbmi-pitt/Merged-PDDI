@@ -408,7 +408,7 @@ table td:first-child {
 }
 table td.general {
 	width: 90px;
-	height:21px;
+	height:20px;
 	border-top: 1px solid #ffffff;
 	border-bottom:1px solid #e0e0e0;
 	border-left: 1px solid #e0e0e0;
@@ -421,10 +421,11 @@ table td.general {
 table td.availabletd{
 	background: #D5EBD1;
 	width: 90px;
-	height:21px;
+	height:20px;
 	border-top: 1px solid #ffffff;
 	border-bottom:1px solid #e0e0e0;
 	border-left: 1px solid #e0e0e0;
+	text-align:center;
 }
 
 /*table td.availabletd:hover{
@@ -433,7 +434,7 @@ table td.availabletd{
 
 table td.generalhead {
 	width: 173px;
-	height:21px;
+	height:20px;
 	border-top: 1px solid #ffffff;
 	border-bottom:1px solid #e0e0e0;
 	border-left: 1px solid #e0e0e0;
@@ -482,9 +483,9 @@ table tr:last-child td:last-child {
 	border-bottom-right-radius:3px;
 }
 table tr td:hover {
-	background: #FFCC99; /*#f2f2f2;*/
-	background: -webkit-gradient(linear, left top, left bottom, from(#FFCC99), to(#FFCC99));
-	background: -moz-linear-gradient(top,  #FFCC99,  #FFCC99);	
+	background: rgba(112, 147, 216, 0.9); /*#f2f2f2;*/
+	background: -webkit-gradient(linear, left top, left bottom, from(rgba(112, 147, 216, 0.9)), to(rgba(112, 147, 216, 0.9)));
+	background: -moz-linear-gradient(top,  rgba(112, 147, 216, 0.9),  rgba(112, 147, 216, 0.9));	
 }
 
 .outer {position:relative}

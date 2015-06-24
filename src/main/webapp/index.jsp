@@ -43,13 +43,13 @@
 			{
 				allavailable[i].style.backgroundColor = "#D5EBD1";
 			}
-			row.style.backgroundColor = "#FFCC99";
+			row.style.backgroundColor = "rgba(112, 147, 216, 0.5)";
 			var tempcol = $(row).attr('id');
 			var thecol = document.getElementById(tempcol);
-			$(thecol).css('background', '#FFCC99');
+			$(thecol).css('background', 'rgba(112, 147, 216, 0.5)');
 			var temprow = $(row).attr('name');
 			var therow = document.getElementsByName(temprow);
-			$(therow[0]).css('background', '#FFCC99');
+			$(therow[0]).css('background', 'rgba(112, 147, 216, 0.5)');
 			
 		}
 		
@@ -155,13 +155,16 @@
                 
                 var newtitle   = $(tablecell).attr('name');
                 newtitle += "<br>(";
-                newtitle += $(tablecell).attr("class");
+                newtitle += $(tablecell).attr("id");
                 newtitle += ")";
                 //alert(newtitle);
                 //var newdate    = $(tablecell).attr('name');
                 //var newsibling    = $(tablecell).parentNode.nextSibling;
                 //alert(newtitle);
-                var newdesc    =  $(tablecell).attr('id');
+                //var newtest = $(tablecell).child();
+                var newtest = tablecell.childNodes;
+                var newtest1 = newtest[0].childNodes;
+                var newdesc = newtest1[0].getAttribute("id");
                 //alert(newdesc);
                 if(newdesc.indexOf("http") !== -1)
             	{
@@ -180,7 +183,7 @@
                 dpanetitle[0].innerHTML = newtitle;
                 dpanedesc[0].innerHTML = newdesc;
                 dpane.style.display = "block";
-                dpane.style.top = "7%";
+                dpane.style.top = "8%";
                 
             }
         </script>
@@ -335,7 +338,7 @@
 		      	if(keySet.get(tempAttribute).contains(tempSource))
 		      	{
 		    	  	
-		      		out.print("<td class='availabletd' onclick='ChangeBackgroundColor(this)'  name='" +attributeUpper +"' id='"+tempSource+"'><div class='thumbs'><a class='pseudolink' href='#'><div id='");
+		      		out.print("<td class='availabletd' onclick='ChangeBackgroundColor(this)' onmousedown='presentTag(this)'  name='" +attributeUpper +"' id='"+tempSource+"'><a class='pseudolink' href='#'><div id='");
 		      		valueArray = (ArrayList<String>)results.get(testTag);
 		      		recordNum = 0;
 		    	  	for(String subValue : valueArray)
@@ -348,20 +351,9 @@
 		    	  			out.print( "<b>"+ ++recordNum + ". </b>" + subValue + "<br>");
 		    	  		}
                     }
-		      		out.print("' name='" + attributeUpper + "' class='" + tempSource + "' onmousedown='presentTag(this)' ><bold>Click</bold></div></a>");
-		    	  	out.print("<meta content='");
-		    	  	recordNum = 0;
-		    	  	for(String subValue : valueArray)
-                    {
-		    	  		if(subValue.contains("http"))
-		    	  		{
-		    	  			out.print( "<b>"+ ++recordNum + ". </b><a href=" + subValue + ">" + subValue + "</a><br>");
-		    	  		}else{
-		    	  			
-		    	  			out.print( "<b>"+ ++recordNum + ". </b>" + subValue + "<br>");
-		    	  		}
-                    }
-		    	  	out.print("'></div></td>");
+		      		out.print("' name='" + attributeUpper + "' class='" + tempSource + "' ><bold>Click</bold></div></a>");
+		    	  	
+		    	  	out.print("</td>");
 		      	}else
 		      	{
 		    	  out.print("<td class='general'></td>");
@@ -398,7 +390,7 @@
         
         <br>
 		    
-            <c:if test="${ResultBean.results.size() == 0}"><span class="noResults">No results for selected drugs. Click <a href="/Merged-PDDI">here</a> to search again.</span></c:if>
+            <c:if test="${ResultBean.results.size() == 0}"><div style="text-align:center"><span class="noResults">No results for selected drugs. Click <a href="/Merged-PDDI">here</a> to search again.</span></div></c:if>
 			<!--  
 			<c:if test="${ResultBean.drugClass1 != 'None'}">
 			<div class = "title1">Object Drug Class</div><br>
@@ -490,10 +482,9 @@ We created this <a href="http://www.freenetlaw.com/free-medical-disclaimer/">med
 <script src="js/jquery-1.11.1.min.js"></script>
 <script src="js/main.js"></script>
 <script type="text/javascript">
-
+/*
 $(function(){
   $('.thumbs div').on('mousedown', function(e){
-	  //function presentTag(cell){
     var dpane      = $('#details-pane');
     var dpanetitle = $('.title');
     var dpanedesc  = $('.desc');
@@ -506,16 +497,12 @@ $(function(){
     if(newdesc.includes("http"))
 	{
 		dpanedesc.css('word-break','break-all');
-		//alert("success");
 	}else{
 		dpanedesc.css('word-break', 'normal');
 	}
     
     var position = $(this).offset();
     var imgwidth = $(this).attr('id');
-    
-    //var ycoord   = position.top - 340;
-    //xcoord = position.left;
     
     
     dpanetitle.html(newtitle);
@@ -527,23 +514,18 @@ $(function(){
     
   });
   
-  // when hovering the details pane keep displayed, otherwise hide
   $('#details-pane').on('mouseover', function(e){
     $(this).css('display','block');
   });
   $('#details-pane').on('mouseout', function(e){
-    //this is the original element the event handler was assigned to
+
     var e = e.toElement || e.relatedTarget;
     if (e.parentNode == this || e.parentNode.parentNode == this || e.parentNode.parentNode.parentNode == this || e == this || e.nodeName == 'IMG') {
       return;
     }
-    //$(this).css('display','none');
-    //var thecol = document.getElementsByClassName("longfields");
-	//thecol[5].css('background','none');
-	//$(therow).css('background', '#fafafa');
-    //console.log(e.nodeName)
+
   });
-});
+});*/
 </script>
 
 </html>
