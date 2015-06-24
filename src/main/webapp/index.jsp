@@ -25,10 +25,10 @@
 		var TableBackgroundMouseoverColor = "#9999ff";
 		
 
-		// These two functions need no customization.
 		function ChangeBackgroundColor(row) {
 			var allcol = document.getElementsByClassName("generalhead");
 			var i;
+			//restore background color
 			for(i = 0; i < allcol.length; i++)
 			{
 				allcol[i].style.backgroundColor = "#fafafa";
@@ -43,6 +43,7 @@
 			{
 				allavailable[i].style.backgroundColor = "#D5EBD1";
 			}
+			//set new background color
 			row.style.backgroundColor = "rgba(112, 147, 216, 0.5)";
 			var tempcol = $(row).attr('id');
 			var thecol = document.getElementById(tempcol);
@@ -56,14 +57,11 @@
 		
 		function UserDeleteAttribute(deleterow) {
 			
-			//var tempdeleterow = $(deleterow).parentNode;
-			//alert("test");
 			var attributename = $(deleterow).attr('id');
 			var deleteall = document.getElementsByClassName(attributename);
 			var j;
 			for(j = 0; j < deleteall.length; j++)
 			{
-				//deleteall[j].style.display = "none";
 				if(deleteall[j].style.display == "none"){
                     deleteall[j].style.display = "table-row";
                 }
@@ -74,25 +72,6 @@
 		}
 		
 		/*
-		function OverChangeColor(cell){
-			$(cell).css('background', '#FFCC99');
-		}*/
-		
-		//function OutChangeColor(cell){
-			//$(cell).css('background', '#D5EBD1');
-		//}
-		
-		/*	
-		function RestoreBackgroundColor(row) {
-			var tempcol = $(row).attr('id');
-			var thecol = document.getElementById(tempcol);
-			$(thecol).css('background','none'); 
-			var temprow = $(row).attr('name');
-			var therow = document.getElementById(temprow);
-			$(therow).css('background', '#fafafa');
-
-			}
-		*/
         function toggleVisible(toggleClass){
 	        var ddiFirst = 'no'
                 var elements = document.getElementsByClassName(toggleClass);
@@ -106,7 +85,7 @@
                 }
                 var button = "#" + toggleClass + "Button";
                 $(button).toggleClass("displayed");
-            }
+            }*/
             
             <!-- function hideStuff(){ -->
             <!--     var stuffToHide = document.getElementsByClassName('hide'); -->
@@ -157,29 +136,20 @@
                 newtitle += "<br>(";
                 newtitle += $(tablecell).attr("id");
                 newtitle += ")";
-                //alert(newtitle);
-                //var newdate    = $(tablecell).attr('name');
-                //var newsibling    = $(tablecell).parentNode.nextSibling;
-                //alert(newtitle);
-                //var newtest = $(tablecell).child();
                 var newtest = tablecell.childNodes;
                 var newtest1 = newtest[0].childNodes;
                 var newdesc = newtest1[0].getAttribute("id");
-                //alert(newdesc);
                 if(newdesc.indexOf("http") !== -1)
             	{
                 	$(dpanedesc).css('word-break','break-all');
-            		//alert("success");
             	}else{
             		$(dpanedesc).css('word-break', 'normal');
             	}
                 
                 //var position = $(tablecell).offset();
-                
                 //var ycoord   = position.top - 340;
                 //xcoord = position.left;
-                
-                
+
                 dpanetitle[0].innerHTML = newtitle;
                 dpanedesc[0].innerHTML = newdesc;
                 dpane.style.display = "block";
@@ -189,7 +159,7 @@
         </script>
     </head>
     <body onload="hideStuff();">
-        <div id="page">
+        <div id="page2">
         
             <header>
             
@@ -417,7 +387,7 @@
         
         <a href="#0" class="cd-top">Top</a>
         
-        <div class="firstpagemargin">
+        <div class="secondpagemargin">
         <BR>
 <h3>License</h3>
 

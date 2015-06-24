@@ -20,6 +20,23 @@ padding: 0px;
     margin-left: auto;
     margin-right: auto;
     margin-top:1px;
+    padding-bottom:30px;
+}
+
+#page2{
+    background-color: #FFFFFF;
+    border-color: #5C6B7A;
+    border-left-width:3px;
+    border-right-width:3px;
+    border-bottom-width:3px;
+    border-top-color:white;
+    border-style: solid;
+    width: 1150px;
+    padding: 0px 5px;
+    align: center;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top:1px;
     padding-bottom:150px;
 }
 
@@ -611,8 +628,14 @@ th{
 
 }
 
-.firstpagemargin{
+.secondpagemargin{
 	margin-right:40px;
 	margin-left:40px;
 	margin-top:110px;
+}
+
+.firstpagemargin{
+	margin-right:40px;
+	margin-left:40px;
+	margin-top:40px;
 }
