@@ -23,6 +23,7 @@ import com.dao.DBConnection;
 public class drug_ajax extends HttpServlet {
 
     private ResultSet rs=null;
+    public String testresult = "";
     
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -68,6 +69,7 @@ public class drug_ajax extends HttpServlet {
         }        
         
         try {
+        	testresult = result;
 	    PrintWriter out = response.getWriter();
             out.write(result);
 	}
@@ -101,7 +103,7 @@ public class drug_ajax extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+	public void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
     }

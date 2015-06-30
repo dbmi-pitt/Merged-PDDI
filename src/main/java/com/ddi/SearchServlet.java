@@ -24,6 +24,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.dao.DBConnection;
+import com.dao.SourceAttribute;
 //import com.dao.DBConnection;
 import com.ddi.Results;
 
@@ -34,6 +35,7 @@ public class SearchServlet extends HttpServlet {
 	 */
 	private static final long serialVersionUID = 1L;
 	public ResultSet rs = null;
+	public ResultSet rs1 = null;
 	public Results results = new Results();
 
 	/**
@@ -56,6 +58,7 @@ public class SearchServlet extends HttpServlet {
 		
 		HashMap<String, ArrayList<String>> searchResults= new HashMap<String, ArrayList<String>>();
 		HashMap<String, String> attributeSet= new HashMap<String, String>();
+		HashMap<String, String> sourceSet = new HashMap<String, String>();
 		String resultTag = null; //"drug1_drug2_field_source"
 		String tempTag = null;
 		String drugClass1 = null;
@@ -63,16 +66,14 @@ public class SearchServlet extends HttpServlet {
 		String tempAttribute = null;
 		String filterAttribute = null;
 		//ArrayList<String> temprecords = new ArrayList<String>();
-		String[] attributesUpper = {"Object Drug Class", "Precipitant Drug Class", "Certainty", "Contraindication", "Effect", "PkMechanism", "ddiType", "Homepage", "Severity", 
+		String[] attributesUpper = {"Object Drug Class", "Precipitant Drug Class", "Certainty", "Contraindication", "Effect", "PK Mechanism", "ddiType", "Homepage", "Severity", 
 				"Description", "URI", "Management Options", "Evidence", "Evidence Source", "Evidence Statement","Date Annotated", "Who Annotated", "Numeric Value", 
 				"Pathway", "Precaution", "Research Statement Label", "Research Statement"};
 		String[] attributes = {"DrugClass1", "DrugClass2", "certainty", "contraindication", "ddiPkEffect", "ddiPkMechanism", "ddiType", "homepage", "severity", 
 				"label", "uri", "managementOptions", "evidence", "evidenceSource", "evidenceStatement", "dateAnnotated", "whoAnnotated", "numericVal", 
 				"pathway", "precaution", "researchStatementLabel", "researchStatement"};
-		String[] defaultAttributes = {"ddiPkMechanism", "label", "evidenceSource", "evidenceStatement", "ddiPkEffect"};
-		String[] notDefaultAttributes = {"Object Drug Class", "Precipitant Drug Class", "Certainty", "Contraindication", "ddiType", "Homepage", "Severity", 
-				"URI", "Management Options", "Evidence","Date Annotated", "Who Annotated", "Numeric Value", 
-				"Pathway", "Precaution", "Research Statement Label", "Research Statement"};
+		SourceAttribute sourceattribute = new SourceAttribute();
+		String[] defaultAttributes = sourceattribute.getDefaultAttribute();
 		int ai = 0;
 		for(String attribute: attributes)
 		{
@@ -100,7 +101,6 @@ public class SearchServlet extends HttpServlet {
 			results.setAttributesUpper(attributesUpper);
 			results.setAttributeSet(attributeSet);
 			results.setDefaultAttributes(defaultAttributes);
-			results.setNotDefaultAttributes(notDefaultAttributes);
 
 			System.out.println("Drug inputs: 1>" + drug1 + "|2>" + drug2);
 
@@ -109,7 +109,18 @@ public class SearchServlet extends HttpServlet {
 				drug2 = request.getParameterValues("drugList2")[0];
 			}
 
+			for(String source : sources)
+			{
+				String selectSourceInfo = "select * from sources_category where source = '"+ source +"'";
+				rs1 = DBConnection.executeQuery(selectSourceInfo);
+				while (rs1.next()) {
+				//System.out.println(rs1.getString("description"));
+				sourceSet.put(source, rs1.getString("description"));
+				}
+			}
+			
 			for (String source : sources) {
+			
 			String selectAllDrugs = "select * from interactions1 where object = '"
 					+ drug1
 					+ "' and precipitant = '"
@@ -148,7 +159,10 @@ public class SearchServlet extends HttpServlet {
 					
 					if(!rs.getString(attribute).contains("None"))
 					{
+						
 						tempAttribute = rs.getString(attribute);
+						if(attribute == "researchStatementLabel")
+							tempAttribute = tempAttribute.replaceAll("_", " ");
 						if(tempAttribute.contains("|"))
 						{
 							filterAttribute = tempAttribute.replace("|","");
@@ -239,6 +253,7 @@ public class SearchServlet extends HttpServlet {
 			results.setDrug2(drug2);
 			results.setDrug1ID(drug1ID);
 			results.setDrug2ID(drug2ID);
+			results.setSourceSet(sourceSet);
 			if(drugClass1 != null)
 				results.setDrugClass1(drugClass1);
 			if(drugClass2 != null)

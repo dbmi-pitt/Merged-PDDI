@@ -71,6 +71,43 @@
 			}
 		}
 		
+		
+		function ShowAttribute(expandbutton) {
+			
+			var tempAttribute = document.getElementById("attribute-option");
+			//alert("test");
+			if(tempAttribute.style.display == "none"){
+				$(tempAttribute).fadeIn();
+				//tempAttribute.style.display = "block";
+				$(".overlay").fadeIn();
+				var details = document.getElementById("details-pane");
+				if(details.style.display == "block")
+					details.style.display = "none";
+			}else{
+				tempAttribute.style.display = "none";
+				
+			}
+		}
+		
+		function CollapseAttribute() {
+			var tempAttribute = document.getElementById("attribute-option");
+			$(tempAttribute).fadeOut();
+			//tempAttribute.style.display = "none";
+			var toggle = document.getElementsByClassName("overlay");
+			$(toggle[0]).fadeOut();
+			//toggle[0].style.display = "none";
+			var titles = document.getElementsByClassName("title");
+			var details = document.getElementById("details-pane");
+			//if(titles[0].innerHTML != null)
+				//details.style.display = "block";
+		}
+		
+		
+		function ClosePanel()  {
+			var details = document.getElementById("details-pane");
+			details.style.display = "none";
+		}
+		
 		/*
         function toggleVisible(toggleClass){
 	        var ddiFirst = 'no'
@@ -153,12 +190,13 @@
                 dpanetitle[0].innerHTML = newtitle;
                 dpanedesc[0].innerHTML = newdesc;
                 dpane.style.display = "block";
-                dpane.style.top = "8%";
+                dpane.style.top = "9%";
                 
             }
         </script>
     </head>
     <body onload="hideStuff();">
+    <div class="overlay" onclick = "CollapseAttribute()"></div>
         <div id="page2">
         
             <header>
@@ -169,11 +207,13 @@
             <%
             HashMap<String, ArrayList<String>> results = new HashMap<String, ArrayList<String>>();
             HashMap<String, String> attributeSet = new HashMap<String, String>();
+            HashMap<String, String> sourceSet = new HashMap<String, String>();
             String[] defaultAttributes = result.getDefaultAttributes();
-            String[] notDefaultAttributes = result.getNotDefaultAttributes();
+            //String[] notDefaultAttributes = result.getNotDefaultAttributes();
             List defaultValid = Arrays.asList(defaultAttributes);
-            List notDefaultValid = Arrays.asList(notDefaultAttributes);
+            //List notDefaultValid = Arrays.asList(notDefaultAttributes);
             attributeSet = result.getAttributeSet();
+            sourceSet = result.getSourceSet();
             results = result.getResults();
             String attributeUpper, tempTag, testTag = null;
             int recordNum = 0;
@@ -242,38 +282,22 @@
 		      <!--<div class="inner">-->
 		      
 		      <!-- setup attribute option template -->
-		      <div id="attribute-option">
 		      
-		      <table>
-		      <thead>
-		      <th class="optiontitle">
-        		Attributes can be added
-        	  </th>
-        	  </thead>
-        	  <tbody>
-        		<c:forEach items="${ResultBean.attributesUpper}" var="attribute">
-        		<tr class="<% String tempAttribute = (String)pageContext.getAttribute("attribute");String fixedAttribute = tempAttribute.replaceAll(" ","_");out.print(fixedAttribute);%>" <%if(!notDefaultValid.contains(tempAttribute)){out.print("style = 'display:none'");}else{out.print("style = 'display:table-row'");}%>><td class="generalhead">
-        		<div align="right" id="<%=fixedAttribute %>" onclick = "UserDeleteAttribute(this)" style = "font-size:12px">${attribute}  <img border="0" alt="W3Schools" src="images/plus.png" width="14" height="14"></div>
-        		</td></tr>
-        		</c:forEach>
-        	  </tbody>
-        	  </table>
-      		  
-      		  </div>
       		  
 		      <div class="table-container">
     		  
     		  <div class="headcol">
 		      <table>
 		      <thead>
-		      <th class="longfields" style="width:173px"></th>
+		      <th class="longfields" style="width:173px" onclick = "ShowAttribute(this)">+ More Available Attributes (Expand all)</th>
 		      </thead>
 		      <tbody>
 		      <c:forEach items="${ResultBean.attributes}" var="attribute">
 		      <% String tempAttribute = (String)pageContext.getAttribute("attribute");
-		      attributeUpper = attributeSet.get(tempAttribute);%>
-		      <tr class = "<%String fixedAttribute = attributeUpper.replaceAll(" ","_");out.print(fixedAttribute);%>" <% if(!defaultValid.contains(tempAttribute)){out.print("style='display:none'");}%>>
-		      <td class ="generalhead" id="<%=fixedAttribute%>" name="<%=attributeUpper%>" onclick = "UserDeleteAttribute(this)"><%=attributeUpper%> <img border="0" alt="W3Schools" src="images/minus.png" width="17" height="17"></td>
+		      attributeUpper = attributeSet.get(tempAttribute);
+		      String attributetester = attributeUpper;%>
+		      <tr class = "<%String fixedAttribute = attributeUpper.replaceAll(" ","_");out.print(fixedAttribute);%>" <% if(!defaultValid.contains(attributeUpper)){out.print("style='display:none'");} if(attributeUpper == "PK Mechanism"){attributeUpper = "PK<sup>1</sup> Mechanism";}if(attributeUpper == "ddiType"){attributeUpper = "ddi<sup>2</sup> Type";}%>>
+		      <td class ="generalhead" id="<%=fixedAttribute%>" name="<%=attributetester%>" onclick = "UserDeleteAttribute(this)"><%=attributeUpper%> <img border="0" alt="W3Schools" src="images/minus.png" width="17" height="17"></td>
 		      </tr>
 		      </c:forEach>
 		      </tbody>
@@ -284,7 +308,7 @@
 		      <table>
 		      <thead>
 		      <c:forEach items="${ResultBean.sourcesList}" var="source">
-		      <th class="longfields" id="${source}">${source}</th>
+		      <th class="longfields" id="${source}"><a href="#" title="<%String tempSource = (String)pageContext.getAttribute("source"); out.print(sourceSet.get(tempSource));if(tempSource == "ONC-HighPriority") {tempSource = tempSource.replaceAll("-","- ");}%>"  style="color:#555; text-decoration:none"><%=tempSource%></a></th>
 		      </c:forEach>
 		      </thead>
 		      <tbody>
@@ -292,7 +316,7 @@
 		      <% 
 		      String tempAttribute = (String)pageContext.getAttribute("attribute");
 		      attributeUpper = attributeSet.get(tempAttribute);%>
-		      <tr class = "<%String fixedAttribute = attributeUpper.replaceAll(" ","_");out.print(fixedAttribute);%>"  <% if(!defaultValid.contains(tempAttribute)){out.print("style='display:none'");}%>>
+		      <tr class = "<%String fixedAttribute = attributeUpper.replaceAll(" ","_");out.print(fixedAttribute);%>"  <% if(!defaultValid.contains(attributeUpper)){out.print("style='display:none'");}%>>
 		      
 		      <c:forEach items="${ResultBean.sourcesList}" var="sources">
 		      
@@ -341,10 +365,19 @@
 		      </c:forEach>
 		      </tbody>
 		      </table>
-		      
+		      		        
       
 		      </div>
-		      
+		      <!-- setup details pane template -->
+		      <div id="details-pane" style="display: none;">
+		      <img onclick = "ClosePanel()" align="right" border="0" alt="W3Schools" src="images/close.png" width="24" height="24">
+		      <div id="verticalcenter">
+				<br>
+        		<h4 class="title"></h4>
+        		<div align="left" style="font-size: 12px"class="desc"></div>
+        		<br>
+      		  </div>
+      		  </div>
 		      </div>
 		      
 		      
@@ -357,7 +390,9 @@
                 </div>
         </header>
         
-        
+        <br>
+        	<div style="text-align:center" class = "abbreviation"><sup>1</sup> PK = pharmacokinetic;     <sup>2</sup> ddi = drug-drug interactions;</div>
+        	
         <br>
 		    
             <c:if test="${ResultBean.results.size() == 0}"><div style="text-align:center"><span class="noResults">No results for selected drugs. Click <a href="/Merged-PDDI">here</a> to search again.</span></div></c:if>
@@ -376,14 +411,7 @@
 
             
         </div>
-        <!-- setup details pane template -->
-		      <div id="details-pane" style="display: none;">
-		      <div id="verticalcenter">
-        		<h4 class="title"></h4>
-        		<p align="left" class="desc"></p>
-        		<br>
-      		  </div>
-      		  </div>
+
         
         <a href="#0" class="cd-top">Top</a>
         
@@ -446,7 +474,24 @@ We created this <a href="http://www.freenetlaw.com/free-medical-disclaimer/">med
 <FONT SIZE="-1"><P>Copyright &#169 Copyright (C) 2015 - 2016 Richard D. Boyce<BR>All Rights Reserved<BR>
 </FONT>
         </div>
-		
+		<div id="attribute-option" style="display:none">
+		      
+		      <table>
+		      <thead>
+		      <th class="optiontitle" onclick = "CollapseAttribute()">
+        		Available Attributes<br>(Collapse all)
+        	  </th>
+        	  </thead>
+        	  <tbody>
+        		<c:forEach items="${ResultBean.attributesUpper}" var="attribute">
+        		<tr class="<% String tempAttribute = (String)pageContext.getAttribute("attribute");String fixedAttribute = tempAttribute.replaceAll(" ","_");out.print(fixedAttribute);%>" <%if(defaultValid.contains(tempAttribute)){out.print("style = 'display:none'");}else{out.print("style = 'display:table-row'");}if(tempAttribute == "ddiType"){tempAttribute = "ddi<sup>2</sup> Type";}if(tempAttribute == "PK Mechanism"){tempAttribute = "PK<sup>1</sup> Mechanism";}%>><td class="generalhead">
+        		<div align="right" id="<%=fixedAttribute %>" onclick = "UserDeleteAttribute(this)" style = "font-size:12px"><%=tempAttribute %>  <img border="0" alt="W3Schools" src="images/plus.png" width="14" height="14"></div>
+        		</td></tr>
+        		</c:forEach>
+        	  </tbody>
+        	  </table>
+      		  
+      		  </div>
     </body>
     
 <script src="js/jquery-1.11.1.min.js"></script>

@@ -31,13 +31,13 @@ padding: 0px;
     border-bottom-width:3px;
     border-top-color:white;
     border-style: solid;
-    width: 1150px;
+    width: 1160px;
     padding: 0px 5px;
     align: center;
     margin-left: auto;
     margin-right: auto;
     margin-top:1px;
-    padding-bottom:150px;
+    padding-bottom:100px;
 }
 
 .infoButton{
@@ -424,7 +424,7 @@ table td:first-child {
 	border-left: 0;
 }
 table td.general {
-	width: 90px;
+	width: 80px;
 	height:20px;
 	border-top: 1px solid #ffffff;
 	border-bottom:1px solid #e0e0e0;
@@ -437,7 +437,7 @@ table td.general {
 
 table td.availabletd{
 	background: #D5EBD1;
-	width: 90px;
+	width: 80px;
 	height:20px;
 	border-top: 1px solid #ffffff;
 	border-bottom:1px solid #e0e0e0;
@@ -466,7 +466,8 @@ table td.generalhead {
 
 table th.longfields {
 	
-	width: 90px;
+	width: 80px;
+	height: 30px;
 	background: #ededed;
 	
 }
@@ -500,6 +501,12 @@ table tr:last-child td:last-child {
 	border-bottom-right-radius:3px;
 }
 table tr td:hover {
+	background: rgba(112, 147, 216, 0.9); /*#f2f2f2;*/
+	background: -webkit-gradient(linear, left top, left bottom, from(rgba(112, 147, 216, 0.9)), to(rgba(112, 147, 216, 0.9)));
+	background: -moz-linear-gradient(top,  rgba(112, 147, 216, 0.9),  rgba(112, 147, 216, 0.9));	
+}
+
+table tr th:hover {
 	background: rgba(112, 147, 216, 0.9); /*#f2f2f2;*/
 	background: -webkit-gradient(linear, left top, left bottom, from(rgba(112, 147, 216, 0.9)), to(rgba(112, 147, 216, 0.9)));
 	background: -moz-linear-gradient(top,  rgba(112, 147, 216, 0.9),  rgba(112, 147, 216, 0.9));	
@@ -579,7 +586,7 @@ th{
     /*position: absolute;*/
     /*top: 0px;*/
     /*left: 370px;*/
-    /*width: 100%;*/	
+    /*width: 650px;*/
     display:inline-block;
     overflow:scroll;
     overflow:visible;
@@ -595,11 +602,11 @@ th{
 	
 }
 
-
+/*
 .desc{
 	align:left;
 	word-break:normal;
-}
+}*/
 
 .pseudolink:link{
 	text-decoration: none;
@@ -631,11 +638,31 @@ th{
 .secondpagemargin{
 	margin-right:40px;
 	margin-left:40px;
-	margin-top:110px;
+	margin-top:40px;
 }
 
 .firstpagemargin{
 	margin-right:40px;
 	margin-left:40px;
 	margin-top:40px;
+}
+
+
+
+.overlay {
+ 	position:absolute;
+	display:none; 
+
+    /* color with alpha transparency */
+    background-color: rgba(0, 0, 0, 0.15);
+
+    /* stretch to screen edges */
+    top: 0;
+	left: 0;
+    bottom: 0;
+    right: 0;
+}
+
+.abbreviation {
+	font-size:12px;
 }
