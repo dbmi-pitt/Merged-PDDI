@@ -31,7 +31,7 @@
 			//restore background color
 			for(i = 0; i < allcol.length; i++)
 			{
-				allcol[i].style.backgroundColor = "#fafafa";
+				allcol[i].style.backgroundColor = "#ffffff";
 			}
 			var allrow = document.getElementsByClassName("longfields");
 			for(i = 0; i < allrow.length; i++)
@@ -82,7 +82,26 @@
 				$(".overlay").fadeIn();
 				var details = document.getElementById("details-pane");
 				if(details.style.display == "block")
+				{
 					details.style.display = "none";
+					var allcol = document.getElementsByClassName("generalhead");
+					var i;
+					//restore background color
+					for(i = 0; i < allcol.length; i++)
+					{
+						allcol[i].style.backgroundColor = "#ffffff";
+					}
+					var allrow = document.getElementsByClassName("longfields");
+					for(i = 0; i < allrow.length; i++)
+					{
+						allrow[i].style.backgroundColor = "#ededed";
+					}
+					var allavailable = document.getElementsByClassName("availabletd");
+					for(i = 0; i < allavailable.length; i++)
+					{
+						allavailable[i].style.backgroundColor = "#D5EBD1";
+					}
+				}
 			}else{
 				tempAttribute.style.display = "none";
 				
@@ -106,6 +125,23 @@
 		function ClosePanel()  {
 			var details = document.getElementById("details-pane");
 			details.style.display = "none";
+			var allcol = document.getElementsByClassName("generalhead");
+			var i;
+			//restore background color
+			for(i = 0; i < allcol.length; i++)
+			{
+				allcol[i].style.backgroundColor = "#ffffff";
+			}
+			var allrow = document.getElementsByClassName("longfields");
+			for(i = 0; i < allrow.length; i++)
+			{
+				allrow[i].style.backgroundColor = "#ededed";
+			}
+			var allavailable = document.getElementsByClassName("availabletd");
+			for(i = 0; i < allavailable.length; i++)
+			{
+				allavailable[i].style.backgroundColor = "#D5EBD1";
+			}
 		}
 		
 		/*
@@ -340,8 +376,9 @@
 		    	  		if(subValue.contains("http"))
 		    	  		{
 		    	  			out.print( "<b>"+ ++recordNum + ". </b><a target=_blank href=" + subValue + ">" + subValue + "</a><br>");
+		    	  			//out.print( "<li><a target=_blank href=" + subValue + ">" + subValue + "</a></li>");
 		    	  		}else{
-		    	  			
+		    	  			//out.print( "<li>" + subValue + "</li>");
 		    	  			out.print( "<b>"+ ++recordNum + ". </b>" + subValue + "<br>");
 		    	  		}
                     }

@@ -186,7 +186,7 @@
                 	    tempsources = (ArrayList<String>)pair.getValue();
                 	    for(String tempsource : tempsources)
                 	    {
-                	    	out.print("<input type='checkbox' name='source' class='"+ tempTag +"' value='"+ tempsource +"' checked onchange='atLeastOneSource();'>"+ tempsource +"<br>\n");
+                	    	out.print("<input type='checkbox' name='source' class='"+ tempTag +"' value='"+ tempsource +"' checked onchange='checkSubSources(this);atLeastOneSource();'>"+ tempsource +"<br>\n");
                 	    }
                 	    out.print("</div>\n");
                 	    it.remove();
@@ -206,6 +206,28 @@
                             	}else{
                             		inputset[j].checked = false;
                             	}
+                            }
+                        }
+                        
+                        function checkSubSources(category){
+                        	var category2 = $(category).attr("class");
+                        	//alert(category2);
+                        	var catCheckStatus;
+                            //var catCheckStatus = document.getElementById(category2).checked;
+                            var inputset = document.getElementsByClassName(category2);
+                            var j;
+                            for(j = 0; j < inputset.length; j++)
+                            {
+                            	if(inputset[j].checked == true)
+                            	{
+                            		catCheckStatus = true;
+                            	}else{
+                            		catCheckStatus = false;
+                            	}
+                            }
+                            if(catCheckStatus == false)
+                            {
+                            	document.getElementById(category2).checked = false;
                             }
                         }
                         
