@@ -1,4 +1,4 @@
-<%@page contentType="text/html" pageEncoding="UTF-8" isELIgnored="false" import="java.util.*,com.ddi.*,java.util.HashMap.*, java.util.ArrayList.*" %>
+<%@ page contentType="text/html" pageEncoding="UTF-8" isELIgnored="false" import="java.util.*,com.ddi.*,java.util.HashMap.*, java.util.ArrayList.*" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
@@ -14,6 +14,7 @@
         <!-- Back to Top -->
         <link rel="stylesheet" href="css/BacktoTop.css">
 		<script src="js/modernizr.js"></script>
+		<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 		
         <title>Drug Interaction Search Results</title>
         <script>
@@ -80,10 +81,16 @@
 				$(tempAttribute).fadeIn();
 				//tempAttribute.style.display = "block";
 				$(".overlay").fadeIn();
-				var details = document.getElementById("details-pane");
-				if(details.style.display == "block")
+				var details = document.getElementsByName("details");
+				var j;
+				for(j = 0;j < details.length;j++)
 				{
-					details.style.display = "none";
+				
+					if(details[j].style.display != "none")
+					{
+						details[j].style.display = "none";
+					}
+				}
 					var allcol = document.getElementsByClassName("generalhead");
 					var i;
 					//restore background color
@@ -101,7 +108,8 @@
 					{
 						allavailable[i].style.backgroundColor = "#D5EBD1";
 					}
-				}
+				
+				
 			}else{
 				tempAttribute.style.display = "none";
 				
@@ -123,15 +131,22 @@
 		
 		
 		function ClosePanel()  {
-			var details = document.getElementById("details-pane");
-			details.style.display = "none";
-			var allcol = document.getElementsByClassName("generalhead");
+			var details = document.getElementsByName("details");
 			var i;
+			for(i = 0; i < details.length; i++)
+			{
+				details[i].style.display = "none";
+				//$(details[i]).animate({width: "toggle"});
+			}
+			
+			var allcol = document.getElementsByClassName("generalhead");
 			//restore background color
+			
 			for(i = 0; i < allcol.length; i++)
 			{
 				allcol[i].style.backgroundColor = "#ffffff";
 			}
+			
 			var allrow = document.getElementsByClassName("longfields");
 			for(i = 0; i < allrow.length; i++)
 			{
@@ -200,38 +215,61 @@
                 }
             }
             
+            function triggerAnnotator(){
+
+            	//alert("test");
+            }
+            
             function presentTag(tablecell){
-            	var dpane      = document.getElementById('details-pane');
-                var dpanetitle = document.getElementsByClassName('title');
-                var dpanedesc  = document.getElementsByClassName('desc');
+            	//var dpane      = document.getElementById('details-pane');
+                //var dpanetitle = document.getElementsByClassName('title');
+                //var dpanedesc  = document.getElementsByClassName('desc');
+                var previousPanel = document.getElementsByName("details");
+                //alert("test");
+                var i;
+				for(i = 0; i < previousPanel.length; i++)
+				{
+					previousPanel[i].style.display = "none";
+				}
                 
-                var newtitle   = $(tablecell).attr('name');
-                newtitle += "<br>(";
-                newtitle += $(tablecell).attr("id");
-                newtitle += ")";
-                var newtest = tablecell.childNodes;
+                var tempattribute   = $(tablecell).attr('name');
+                var whitespace = " ";
+                var tempattribute1 = tempattribute.replace(" ","");
+                var tempattribute2 = tempattribute1.replace(" ","");
+                
+                var tempsource= $(tablecell).attr("id");
+                var dpane = document.getElementsByClassName(tempattribute2+tempsource);
+                
+                /*var newtest = tablecell.childNodes;
                 var newtest1 = newtest[0].childNodes;
                 var newdesc = newtest1[0].getAttribute("id");
                 if(newdesc.indexOf("http") !== -1)
             	{
                 	$(dpanedesc).css('word-break','break-all');
             	}else{
-            		$(dpanedesc).css('word-break', 'normal');
-            	}
+            		$(dpanedesc).css('word-break','normal');
+            	}*/
                 
                 //var position = $(tablecell).offset();
                 //var ycoord   = position.top - 340;
                 //xcoord = position.left;
 
-                dpanetitle[0].innerHTML = newtitle;
-                dpanedesc[0].innerHTML = newdesc;
-                dpane.style.display = "block";
-                dpane.style.top = "9%";
+                //dpanetitle[0].innerHTML = newtitle;
+                //dpanedesc[0].innerHTML = newdesc;
+                //dpane[0].style.display = "block";
+                //$(dpane[0]).toggle('slide', 'left', 500);
+                $(dpane[0]).animate({
+                width: "toggle"
+            });
+                dpane[0].style.top = "65px";
+                
+                
                 
             }
         </script>
     </head>
-    <body onload="hideStuff();">
+    <body onload="">
+    <div id = "content">
     <div class="overlay" onclick = "CollapseAttribute()"></div>
         <div id="page2">
         
@@ -325,14 +363,14 @@
     		  <div class="headcol">
 		      <table>
 		      <thead>
-		      <th class="longfields" style="width:173px" onclick = "ShowAttribute(this)">+ More Available Attributes (Expand all)</th>
+		      <th class="longfields" style="width:210px" onclick = "ShowAttribute(this)">+ More Available Attributes<br>(Expand all)</th>
 		      </thead>
 		      <tbody>
 		      <c:forEach items="${ResultBean.attributes}" var="attribute">
 		      <% String tempAttribute = (String)pageContext.getAttribute("attribute");
 		      attributeUpper = attributeSet.get(tempAttribute);
 		      String attributetester = attributeUpper;%>
-		      <tr class = "<%String fixedAttribute = attributeUpper.replaceAll(" ","_");out.print(fixedAttribute);%>" <% if(!defaultValid.contains(attributeUpper)){out.print("style='display:none'");} if(attributeUpper == "PK Mechanism"){attributeUpper = "PK<sup>1</sup> Mechanism";}if(attributeUpper == "ddiType"){attributeUpper = "ddi<sup>2</sup> Type";}%>>
+		      <tr class = "<%String fixedAttribute = attributeUpper.replaceAll(" ","_");out.print(fixedAttribute);%>" <% if(!defaultValid.contains(attributeUpper)){out.print("style='display:none'");} if(attributeUpper == "PK Mechanism"){attributeUpper = "PK(pharmacokinetic) Mechanism";}if(attributeUpper == "ddiType"){attributeUpper = "ddi(drug-drug interactions) Type";}%>>
 		      <td class ="generalhead" id="<%=fixedAttribute%>" name="<%=attributetester%>" onclick = "UserDeleteAttribute(this)"><%=attributeUpper%> <img border="0" alt="W3Schools" src="images/minus.png" width="17" height="17"></td>
 		      </tr>
 		      </c:forEach>
@@ -360,6 +398,7 @@
 		      
 		      //String tempAttribute = (String)pageContext.getAttribute("attribute");
 		      String tempSource = (String)pageContext.getAttribute("sources");
+		      String attributeSpace;
 		      ArrayList<String> valueArray = new ArrayList<String>(); 
 		      testTag = drug1 + "+" + drug2 + "+" + tempAttribute + "+" + tempSource;
 		      if(keySet.containsKey(tempAttribute))
@@ -368,7 +407,7 @@
 		      	if(keySet.get(tempAttribute).contains(tempSource))
 		      	{
 		    	  	
-		      		out.print("<td class='availabletd' onclick='ChangeBackgroundColor(this)' onmousedown='presentTag(this)'  name='" +attributeUpper +"' id='"+tempSource+"'><a class='pseudolink' href='#'><div id='");
+		      		out.print("<td class='availabletd' onclick='' onmousedown='ChangeBackgroundColor(this),presentTag(this)'  name='" +attributeUpper +"' id='"+tempSource+"'><a class='pseudolink' href='#'><div id='");
 		      		valueArray = (ArrayList<String>)results.get(testTag);
 		      		recordNum = 0;
 		    	  	for(String subValue : valueArray)
@@ -382,9 +421,34 @@
 		    	  			out.print( "<b>"+ ++recordNum + ". </b>" + subValue + "<br>");
 		    	  		}
                     }
-		      		out.print("' name='" + attributeUpper + "' class='" + tempSource + "' ><bold>Click</bold></div></a>");
 		    	  	
-		    	  	out.print("</td>");
+		      		out.print("' name='" + attributeUpper + "' class='" + tempSource + "' ><bold>Click</bold></div></a>");
+		      		out.print("</td>");
+		      		attributeSpace = attributeUpper.replaceAll(" ","");
+		      		out.print("<div id='details-pane' name='details' class='"+attributeSpace+tempSource+"'style='display: none;'><img onclick = 'ClosePanel()' align='right' border='0' alt='W3Schools' src='images/close.png' width='24' height='24'><div id='verticalcenter'><h4 class='title'>"+attributeUpper+"<br>("+tempSource+")</h4>");
+		      		out.print("<div align='left' style='font-size: 12px' class='desc'>");
+		      		recordNum = 0;
+		    	  	for(String subValue : valueArray)
+                    {
+		    	  		if(subValue.contains("Â"))
+		    	  		{
+		    	  			subValue = subValue.replaceAll("Â", " ");
+		    	  		}
+		    	  		if(subValue.contains("dbmi-icode-01.dbmi.pitt.edu"))
+		    	  		{
+		    	  			subValue = subValue.replaceAll("http", "https");
+		    	  		}
+		    	  		if(subValue.contains("http"))
+		    	  		{
+		    	  			out.print( "<b>"+ ++recordNum + ". </b><a target=_blank href=" + subValue + ">" + subValue + "</a><br>");
+		    	  			//out.print( "<li><a target=_blank href=" + subValue + ">" + subValue + "</a></li>");
+		    	  		}else{
+		    	  			//out.print( "<li>" + subValue + "</li>");
+		    	  			out.print( "<b>"+ ++recordNum + ". </b>" + subValue + "<br>");
+		    	  		}
+                    }
+		      		out.print("</div><br></div></div>");
+		    	  	
 		      	}else
 		      	{
 		    	  out.print("<td class='general'></td>");
@@ -400,21 +464,25 @@
 		      </tr>
 		      
 		      </c:forEach>
-		      </tbody>
-		      </table>
-		      		        
-      
-		      </div>
 		      <!-- setup details pane template -->
 		      <div id="details-pane" style="display: none;">
 		      <img onclick = "ClosePanel()" align="right" border="0" alt="W3Schools" src="images/close.png" width="24" height="24">
 		      <div id="verticalcenter">
 				<br>
+				<h4>test </h4>
         		<h4 class="title"></h4>
         		<div align="left" style="font-size: 12px"class="desc"></div>
         		<br>
       		  </div>
+      		  
+      		  
       		  </div>
+		      </tbody>
+		      </table>
+		      		        
+      
+		      </div>
+		      
 		      </div>
 		      
 		      
@@ -427,10 +495,6 @@
                 </div>
         </header>
         
-        <br>
-        	<div style="text-align:center" class = "abbreviation"><sup>1</sup> PK = pharmacokinetic;     <sup>2</sup> ddi = drug-drug interactions;</div>
-        	
-        <br>
 		    
             <c:if test="${ResultBean.results.size() == 0}"><div style="text-align:center"><span class="noResults">No results for selected drugs. Click <a href="/Merged-PDDI">here</a> to search again.</span></div></c:if>
 			<!--  
@@ -448,7 +512,7 @@
 
             
         </div>
-
+<br>
         
         <a href="#0" class="cd-top">Top</a>
         
@@ -521,7 +585,7 @@ We created this <a href="http://www.freenetlaw.com/free-medical-disclaimer/">med
         	  </thead>
         	  <tbody>
         		<c:forEach items="${ResultBean.attributesUpper}" var="attribute">
-        		<tr class="<% String tempAttribute = (String)pageContext.getAttribute("attribute");String fixedAttribute = tempAttribute.replaceAll(" ","_");out.print(fixedAttribute);%>" <%if(defaultValid.contains(tempAttribute)){out.print("style = 'display:none'");}else{out.print("style = 'display:table-row'");}if(tempAttribute == "ddiType"){tempAttribute = "ddi<sup>2</sup> Type";}if(tempAttribute == "PK Mechanism"){tempAttribute = "PK<sup>1</sup> Mechanism";}%>><td class="generalhead">
+        		<tr class="<% String tempAttribute = (String)pageContext.getAttribute("attribute");String fixedAttribute = tempAttribute.replaceAll(" ","_");out.print(fixedAttribute);%>" <%if(defaultValid.contains(tempAttribute)){out.print("style = 'display:none'");}else{out.print("style = 'display:table-row'");}if(tempAttribute == "ddiType"){tempAttribute = "ddi(drug-drug interactions) Type";}if(tempAttribute == "PK Mechanism"){tempAttribute = "PK(pharmacokinetic) Mechanism";}%>><td class="generalhead">
         		<div align="right" id="<%=fixedAttribute %>" onclick = "UserDeleteAttribute(this)" style = "font-size:12px"><%=tempAttribute %>  <img border="0" alt="W3Schools" src="images/plus.png" width="14" height="14"></div>
         		</td></tr>
         		</c:forEach>
@@ -529,55 +593,12 @@ We created this <a href="http://www.freenetlaw.com/free-medical-disclaimer/">med
         	  </table>
       		  
       		  </div>
+      		  </div>
     </body>
     
 <script src="js/jquery-1.11.1.min.js"></script>
 <script src="js/main.js"></script>
-<script type="text/javascript">
-/*
-$(function(){
-  $('.thumbs div').on('mousedown', function(e){
-    var dpane      = $('#details-pane');
-    var dpanetitle = $('.title');
-    var dpanedesc  = $('.desc');
-    var newtitle   = $(this).attr('name');
-    newtitle += " (";
-    newtitle += $(this).attr("class");
-    newtitle += ")";
-    var newdate    = $(this).attr('name');
-    var newdesc    = $(this).parent().next('meta.desc').attr('content');
-    if(newdesc.includes("http"))
-	{
-		dpanedesc.css('word-break','break-all');
-	}else{
-		dpanedesc.css('word-break', 'normal');
-	}
-    
-    var position = $(this).offset();
-    var imgwidth = $(this).attr('id');
     
     
-    dpanetitle.html(newtitle);
-    dpanedesc.html(newdesc);
-    
-    dpane.css({'top': '27%', 'display': 'block'});
-    
-  }).on('mouseout', function(e){
-    
-  });
-  
-  $('#details-pane').on('mouseover', function(e){
-    $(this).css('display','block');
-  });
-  $('#details-pane').on('mouseout', function(e){
-
-    var e = e.toElement || e.relatedTarget;
-    if (e.parentNode == this || e.parentNode.parentNode == this || e.parentNode.parentNode.parentNode == this || e == this || e.nodeName == 'IMG') {
-      return;
-    }
-
-  });
-});*/
-</script>
 
 </html>

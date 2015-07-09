@@ -42,7 +42,7 @@
   position: absolute;
   /*display:inline-block;*/
   z-index: 99999;
-  width: 190px;
+  width: 187px;
   /*padding: 6px 8px;*/
   padding-left: 6px;
   
@@ -50,7 +50,7 @@
   /*-webkit-box-shadow: 1px 3px 3px rgba(0,0,0,0.4);*/
   /*-moz-box-shadow: 1px 3px 3px rgba(0,0,0,0.4);*/
   /*box-shadow: 1px 3px 3px rgba(0,0,0,0.4);*/
-  right:60px;
+  right:31px;
   height:300px;
   overflow-y:auto;
   overflow-x:auto;
@@ -71,7 +71,7 @@
   border: 0px solid #a9a9a9;
   position: absolute;
   z-index: 99999;
-  width: 185px;
+  width: 225px;
   text-align: center; 
   left:87px;
   top:65px;
@@ -97,11 +97,6 @@
 @keyframes fadeIn {
     from { opacity: 0; }
       to { opacity: 1; }
-      
-
-#verticalcenter{
-	
-}
 
 .title {
   margin-right:15px;
@@ -118,8 +113,8 @@
 .desc {
 
   margin-right:15px;
+  
   /*margin-bottom: 6px;*/
-  /*text-align: justify; */
   
 }
 

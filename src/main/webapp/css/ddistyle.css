@@ -31,13 +31,13 @@ padding: 0px;
     border-bottom-width:3px;
     border-top-color:white;
     border-style: solid;
-    width: 1160px;
+    width: 1180px;
     padding: 0px 5px;
     align: center;
     margin-left: auto;
     margin-right: auto;
     margin-top:1px;
-    padding-bottom:100px;
+    padding-bottom:110px;
 }
 
 .infoButton{
@@ -450,7 +450,7 @@ table td.availabletd{
 }*/
 
 table td.generalhead {
-	width: 173px;
+	width: 210px;
 	height:20px;
 	border-top: 0.5px solid #ffffff;
 	border-bottom:0.5px solid #e0e0e0;
@@ -475,7 +475,7 @@ table th.longfields {
 table th.optiontitle {
 	
 	height: 30px;
-	width:185px;
+	width:210px;
 	background: #ededed;
 	font-size:15px;
 	color:#555;
@@ -598,6 +598,7 @@ th{
 .headcol{
 	/*margin-left:200px;*/
 	display:inline-block;
+	margin-right:0px;
 	
 	
 }
@@ -665,4 +666,8 @@ th{
 
 .abbreviation {
 	font-size:12px;
+}
+
+a {
+	word-break:break-all;
 }
