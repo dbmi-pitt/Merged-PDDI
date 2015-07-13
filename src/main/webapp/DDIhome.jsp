@@ -89,6 +89,9 @@
 	  <%  } 
 	      // mark the page as visited
 	      session.setAttribute("visited","visited");
+	      HashMap<String, ArrayList<String>> sourceSet = new HashMap<String, ArrayList<String>>();
+	      Drug drug = (Drug)session.getAttribute("DrugBean");
+	      sourceSet = drug.getSourceSet();
 	      %>
 
 	<!-- <span class="ui-icon ui-icon-circle-check" style="float:left; margin:0 7px 50px 0;"></span> -->
@@ -142,7 +145,7 @@
                                     $('select[id="drugList2"]').empty();
                                     for(var i=0; i < drug2List.length; i++){
                                     	
-                                         $('select[id="drugList2"]').append($('<option>').text(drug2List[i].replace('_',' ')).attr('value', drug2List[i]));
+                                        $('select[id="drugList2"]').append($('<option>').text(drug2List[i].replace('_',' ')).attr('value', drug2List[i]));
                                     }
                                     if(calledOnce){
                                         $(".lbjs")[1].remove();
@@ -171,44 +174,60 @@
             <div class="filters clear">
                 <p class="centered stepHeader">Step 2: Please choose the sources for the data</p>
                 <div class="centerDiv">
-                    <input type="checkbox" id="CO-cat" value="Clinically Oriented" onchange="checkSources('CO-cat');atLeastOneSource();" checked><span class="bold">Clinically Oriented</span><br>
-                    <div class="indent">
-                        <input type="checkbox" name="source" id="COsource1" value="CredibleMeds" checked onchange="atLeastOneSource();">CredibleMeds<br>
-                        <input type="checkbox" name="source" id="COsource2" value="NDF-RT" checked onchange="atLeastOneSource();">NDF-RT<br>
-                        <input type="checkbox" name="source" id="COsource3" value="ONC-HighPriority" checked onchange="atLeastOneSource();">ONC-HighPriority<br>
-                        <input type="checkbox" name="source" id="COsource4" value="ONC-NonInteruptive" checked onchange="atLeastOneSource();">ONC-NonInteruptive<br>
-                    </div>
-                    <input type="checkbox" id="BioPharm-cat" value="Bioinformatics-Pharmacovigilance" onchange="checkSources('BioPharm-cat');atLeastOneSource();" checked><span class="bold">Bioinformatics-Pharmacovigilance</span><br>
-                    <div class="indent">
-                        <input type="checkbox" name="source" id="BPsource1" value="DIKB" checked onchange="atLeastOneSource();">DIKB<br>
-                        <input type="checkbox" name="source" id="BPsource2" value="Drugbank" checked onchange="atLeastOneSource();">Drugbank<br>
-                    </div>
+                	<%
+                	String tempTag = null;
+                	ArrayList<String> tempsources = new ArrayList<String>();
+                	Iterator it = sourceSet.entrySet().iterator();
+                	
+                	while (it.hasNext()) {
+                	    Map.Entry pair = (Map.Entry)it.next();
+                	    tempTag = (String)pair.getKey();
+                	    out.print("<input type='checkbox' id='" + tempTag + "' value='Clinically Oriented' onchange='checkSources(this);atLeastOneSource();' checked><span class='bold'>"+ tempTag +"</span><br><div class='indent'>\n");
+                	    tempsources = (ArrayList<String>)pair.getValue();
+                	    for(String tempsource : tempsources)
+                	    {
+                	    	out.print("<input type='checkbox' name='source' class='"+ tempTag +"' value='"+ tempsource +"' checked onchange='checkSubSources(this);atLeastOneSource();'>"+ tempsource +"<br>\n");
+                	    }
+                	    out.print("</div>\n");
+                	    it.remove();
+                	}%>
                     <script>
                         function checkSources(category){
-                            var catCheckStatus = document.getElementById(category).checked;
-                            if(category == "CO-cat"){
-                                if(catCheckStatus == true){
-                                    document.getElementById('COsource1').checked = true;
-                                    document.getElementById('COsource2').checked = true;
-                                    document.getElementById('COsource3').checked = true;
-                                    document.getElementById('COsource4').checked = true;
-                                }
-                                if(catCheckStatus == false){
-                                    document.getElementById('COsource1').checked = false;
-                                    document.getElementById('COsource2').checked = false;
-                                    document.getElementById('COsource3').checked = false;
-                                    document.getElementById('COsource4').checked = false;
-                                }
+                        	var category1 = $(category).attr("id");
+                        	//alert(category1);
+                            var catCheckStatus = document.getElementById(category1).checked;
+                            var inputset = document.getElementsByClassName(category1);
+                            var j;
+                            for(j = 0; j < inputset.length; j++)
+                            {
+                            	if(catCheckStatus == true)
+                            	{
+                            		inputset[j].checked = true;
+                            	}else{
+                            		inputset[j].checked = false;
+                            	}
                             }
-                            if(category == "BioPharm-cat"){
-                                if(catCheckStatus == true){
-                                    document.getElementById('BPsource1').checked = true;
-                                    document.getElementById('BPsource2').checked = true;
-                                }
-                                if(catCheckStatus == false){
-                                    document.getElementById('BPsource1').checked = false;
-                                    document.getElementById('BPsource2').checked = false;
-                                }
+                        }
+                        
+                        function checkSubSources(category){
+                        	var category2 = $(category).attr("class");
+                        	//alert(category2);
+                        	var catCheckStatus;
+                            //var catCheckStatus = document.getElementById(category2).checked;
+                            var inputset = document.getElementsByClassName(category2);
+                            var j;
+                            for(j = 0; j < inputset.length; j++)
+                            {
+                            	if(inputset[j].checked == true)
+                            	{
+                            		catCheckStatus = true;
+                            	}else{
+                            		catCheckStatus = false;
+                            	}
+                            }
+                            if(catCheckStatus == false)
+                            {
+                            	document.getElementById(category2).checked = false;
                             }
                         }
                         

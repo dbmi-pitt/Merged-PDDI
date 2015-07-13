@@ -14,13 +14,17 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
 import com.dao.DBConnection;
+import com.dao.SourceAttribute;
 
 public class DDIServlet extends HttpServlet {
 
@@ -28,7 +32,9 @@ public class DDIServlet extends HttpServlet {
 	private Statement st;
 	//private ResultSet rs = null;
 	private ResultSet rs2 = null;
+	private ResultSet rs1 = null;
 	String s = "test: ";
+	public Drug drug = new Drug();
 
 	/**
 	 * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -47,12 +53,32 @@ public class DDIServlet extends HttpServlet {
 			HttpServletResponse response) throws ServletException, IOException {
 
 		System.out.println("[DEBUG] DDI Servlet ......................");
-
-		Drug drug = new Drug();
 		ArrayList<String> drugNames = new ArrayList<String>();
-
+		SourceAttribute sourceattribute = new SourceAttribute();
+		String[] sources = sourceattribute.getSources();
+		String tempcategory = null;
+		HashMap<String, ArrayList<String>> sourceSet = new HashMap<String, ArrayList<String>>();
+		
 		try {
-
+			
+			for(String source : sources)
+			{
+				String selectAllSourcesQuery = "select * from sources_category where source = '" + source + "'";
+				rs1 = DBConnection.executeQuery(selectAllSourcesQuery);
+				while(rs1.next())
+				{
+					tempcategory = rs1.getString("category");
+					if(sourceSet.containsKey(tempcategory))
+					{
+						sourceSet.get(tempcategory).add(source);
+					}else{
+						ArrayList<String> subsource = new ArrayList<String>();
+						subsource.add(source);
+						sourceSet.put(tempcategory, subsource);
+					}
+				}
+			}
+			
 			String selectAllDrugsQuery = "select distinct(object) from interactions1 where object not like '%4-%' order by object";
 			
 			System.out.println("[INFO] DDI Servlet - execute query:" + selectAllDrugsQuery);
@@ -64,6 +90,7 @@ public class DDIServlet extends HttpServlet {
 			    drugNames.add(rs2.getString("object").toLowerCase());
 			}
 			drug.setDrugNames(drugNames);
+			drug.setSourceSet(sourceSet);
 			
 			// TESTING
 //			System.out.println("drug list in DDI Servlet:");
@@ -133,7 +160,7 @@ public class DDIServlet extends HttpServlet {
 	 *             if an I/O error occurs
 	 */
 	@Override
-	protected void doPost(HttpServletRequest request,
+	public void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		processRequest(request, response);
 	}

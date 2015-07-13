@@ -25,10 +25,10 @@ public class Results {
     private String[] attributes;
     private String[] attributesUpper;
     private String[] defaultAttributes;
-    private String[] notDefaultAttributes;
     private String drugClass1;
     private String drugClass2;
     private HashMap<String, String> attributeSet;
+    private HashMap<String, String> sourceSet;
 
     /**
      * @return the results
@@ -228,16 +228,16 @@ public class Results {
     
     
     /**
-     * @param notDefaultAttributes the notDefaultAttributes to set
+     * @param sourceSet the sourceSet to set
      */
-    public void setNotDefaultAttributes(String[] notDefaultAttributes) {
-        this.notDefaultAttributes = notDefaultAttributes;
+    public void setSourceSet(HashMap<String,String> sourceSet) {
+        this.sourceSet = sourceSet;
     }
     
     /**
      * @return the attributeUpperList
      */
-    public String[] getNotDefaultAttributes() {
-        return notDefaultAttributes;
+    public HashMap<String,String> getSourceSet() {
+        return sourceSet;
     }
 }

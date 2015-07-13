@@ -7,6 +7,7 @@
 package com.ddi;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  *
@@ -14,6 +15,7 @@ import java.util.ArrayList;
  */
 public class Drug {
     private ArrayList<String> drugNames;
+    HashMap<String, ArrayList<String>> sourceSet = new HashMap<String, ArrayList<String>>();
 
     /**
      * @return the drugNames
@@ -27,6 +29,21 @@ public class Drug {
      */
     public void setDrugNames(ArrayList<String> drugNames) {
         this.drugNames = drugNames;
+    }
+    
+    
+    /**
+     * @return the sourceSet
+     */
+    public HashMap<String, ArrayList<String>> getSourceSet() {
+        return sourceSet;
+    }
+
+    /**
+     * @param sourceSet the sourceSet to set
+     */
+    public void setSourceSet(HashMap<String, ArrayList<String>> sourceSet) {
+        this.sourceSet = sourceSet;
     }
     
 }
