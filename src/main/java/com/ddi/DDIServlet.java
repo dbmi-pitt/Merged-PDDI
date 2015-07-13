@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package main.java.com.ddi;
+package com.ddi;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -23,8 +23,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import main.java.com.dao.DBConnection;
-import main.java.com.dao.SourceAttribute;
+import com.dao.DBConnection;
+import com.dao.SourceAttribute;
 
 public class DDIServlet extends HttpServlet {
 

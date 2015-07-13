@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package main.java.com.ddi;
+package com.ddi;
 
 import java.util.ArrayList;
 import java.util.HashMap;

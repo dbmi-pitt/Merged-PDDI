@@ -8,16 +8,16 @@ xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns
 
     <servlet>
         <servlet-name>DDIServlet</servlet-name>
-        <servlet-class>main.java.com.ddi.DDIServlet</servlet-class>
+        <servlet-class>com.ddi.DDIServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>SearchServlet</servlet-name>
-        <servlet-class>main.java.com.ddi.SearchServlet</servlet-class>
+        <servlet-class>com.ddi.SearchServlet</servlet-class>
     </servlet>
 
     <servlet>
         <servlet-name>drug_ajax</servlet-name>
-        <servlet-class>main.java.com.ddi.drug_ajax</servlet-class>
+        <servlet-class>com.ddi.drug_ajax</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>DDIServlet</servlet-name>

@@ -1,4 +1,4 @@
-<%@ page contentType="text/html" pageEncoding="UTF-8" isELIgnored="false" import="java.util.*,main.java.com.ddi.*,java.util.HashMap.*, java.util.ArrayList.*" %>
+<%@ page contentType="text/html" pageEncoding="UTF-8" isELIgnored="false" import="java.util.*,com.ddi.*,java.util.HashMap.*, java.util.ArrayList.*" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
