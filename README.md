@@ -1,3 +1,5 @@
+### Merged PDDI - Version 1.0 ###
+
 Potential drug-drug interaction information from publicly
 available sources (Code to prototype the new Drug Interaction Knowledge Base)
 
