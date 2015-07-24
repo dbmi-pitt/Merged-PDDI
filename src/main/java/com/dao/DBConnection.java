@@ -21,7 +21,6 @@ public abstract class DBConnection {
 	
     private static Connection conn;
 
-
     public DBConnection() {
 	   
     }
@@ -105,7 +104,7 @@ public abstract class DBConnection {
 	 * Closes the connection to the database
 	 * @throws SQLException
 	 */
-	protected static void closeConnection() throws SQLException{
+	public static void closeConnection() throws SQLException{
 		
 		conn.close();
 		

@@ -189,7 +189,7 @@ public class SearchServlet extends HttpServlet {
 							//System.out.println(searchResults.get(resultTag));
 						}
 						
-						//System.out.println(searchResults.get("http://bio2rdf.org/drugbank:DB00641_http://bio2rdf.org/drugbank:DB01026_whoAnnotated_DIKB"));
+						
 					}
 					if(attribute == "ddiPkEffect")
 					{
@@ -219,8 +219,7 @@ public class SearchServlet extends HttpServlet {
 							}
 						}
 					}
-					//System.out.println(">>2" + searchResults.get(resultTag));
-					//System.out.println(">>3" + searchResults.get(resultTag));
+
 					resultTag = null;
 					
 					
@@ -258,9 +257,7 @@ public class SearchServlet extends HttpServlet {
 				results.setDrugClass1(drugClass1);
 			if(drugClass2 != null)
 				results.setDrugClass2(drugClass2);
-			//System.out.println(searchResults.get("http://bio2rdf.org/drugbank:DB00641_http://bio2rdf.org/drugbank:DB01026_whoAnnotated_DIKB"));
-			//System.out.println(results.getResults().get("http://bio2rdf.org/drugbank:DB00641_http://bio2rdf.org/drugbank:DB01026_whoAnnotated_DIKB"));
-			//results.setSourceCSS(sourceCSS);
+
 			}
 			
 			
@@ -270,12 +267,11 @@ public class SearchServlet extends HttpServlet {
 			//System.out.println("[DEBUG] Search servlet, results in session:");
 			//System.out.println("[DEBUG] "+results.getDrug1()+ "|" + results.getDrug1ID());
 
-
-			// forward the request (not redirect)
 			RequestDispatcher dispatcher = request
 					.getRequestDispatcher("index.jsp");
 
 			dispatcher.forward(request, response);
+			DBConnection.closeConnection();// if not, cause connection timeout
 
 		} catch (Exception e) {
 			System.out.println("Exception" + e.getMessage());
