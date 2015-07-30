@@ -38,7 +38,12 @@ public class SearchServlet extends HttpServlet {
 	public ResultSet rs1 = null;
 	public Results results = new Results();
 	public DBConnection dbconnection;
-
+	
+	public void SearchServlet()
+	{
+		System.out.println("aa");
+	}
+	
 	/**
 	 * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
 	 * methods.
@@ -52,7 +57,7 @@ public class SearchServlet extends HttpServlet {
 	 * @throws IOException
 	 *             if an I/O error occurs
 	 */
-	protected void processRequest(HttpServletRequest request,
+	public void processRequest(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 
 		//System.out.println("[DEBUG] SearchServlet ...............");
@@ -113,6 +118,7 @@ public class SearchServlet extends HttpServlet {
 				drug1 = request.getParameterValues("drugList1")[0];
 				drug2 = request.getParameterValues("drugList2")[0];
 			}
+			System.out.println("cc");
 			Connection conn = dbconnection.getConnection();
 			for(String source : sources)
 			{
@@ -156,6 +162,7 @@ public class SearchServlet extends HttpServlet {
 			
 				
 			rs = dbconnection.executeQuery(tempquery);
+			
 			System.out.println("conn2");
 			
 			resultTag = null;
@@ -372,7 +379,7 @@ public class SearchServlet extends HttpServlet {
 					.getRequestDispatcher("index.jsp");
 
 			dispatcher.forward(request, response);
-			//DBConnection.closeConnection();// if not, cause connection timeout
+			//dbconnection.closeConnection();// if not, cause connection timeout
 			//if (conn != null && !conn.isClosed())
 				//conn.close();
 		} catch (Exception e) {
