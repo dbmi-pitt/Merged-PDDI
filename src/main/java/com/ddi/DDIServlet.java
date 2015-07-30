@@ -28,8 +28,10 @@ import com.dao.SourceAttribute;
 
 public class DDIServlet extends HttpServlet {
 
-	private Connection conn;
-	private Statement st;
+	//private Connection conn;
+	//private Statement st;
+	public DBConnection dbconnection;
+	Connection conn = dbconnection.getConnection();
 	//private ResultSet rs = null;
 	private ResultSet rs2 = null;
 	private ResultSet rs1 = null;
@@ -64,7 +66,7 @@ public class DDIServlet extends HttpServlet {
 			for(String source : sources)
 			{
 				String selectAllSourcesQuery = "select * from sources_category where source = '" + source + "'";
-				rs1 = DBConnection.executeQuery(selectAllSourcesQuery);
+				rs1 = dbconnection.executeQuery(selectAllSourcesQuery);
 				while(rs1.next())
 				{
 					tempcategory = rs1.getString("category");
@@ -84,7 +86,7 @@ public class DDIServlet extends HttpServlet {
 			System.out.println("[INFO] DDI Servlet - execute query:" + selectAllDrugsQuery);
 			
 
-			rs2 = DBConnection.executeQuery(selectAllDrugsQuery);
+			rs2 = dbconnection.executeQuery(selectAllDrugsQuery);
 
 			while (rs2.next()) {
 			    drugNames.add(rs2.getString("object").toLowerCase());
@@ -116,14 +118,14 @@ public class DDIServlet extends HttpServlet {
 			System.out.println("SQLException" + e.getMessage());
 			e.printStackTrace();
 		} finally {
-
+/*
 			try {
 				if (conn != null && !conn.isClosed())
 					conn.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 				System.out.println("Failed to close connection");
-			}
+			}*/
 		}
 	}
 
