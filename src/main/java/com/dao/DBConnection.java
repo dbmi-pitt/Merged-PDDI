@@ -64,7 +64,7 @@ public abstract class DBConnection {
 		String user = prop.getProperty("dbuser");
 		String pass = prop.getProperty("dbpassword");
 		url = url + db;
-		url += "?autoReconnect=true&useUnicode=yes";
+		url += "?autoReconnect=true&amp;useUnicode=yes";
 		Class.forName(driver).newInstance();
 		conn = DriverManager.getConnection(url, user, pass);
 
