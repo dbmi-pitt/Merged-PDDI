@@ -502,9 +502,9 @@
 		      <table  class = "table1">
 		      <thead>
 		      <th class="longfields" style="width:210px" >
-		      <div id = "bluea" style = "font-size:12px"><a onclick = "ShowAttribute(this)">+ More Available Attributes
+		      <div><a id = "bluea"  style = "font-size:12px" onclick = "ShowAttribute(this)">+ More Available Attributes
 		      </a><br>
-		      <a class = "expandall" onclick = "Expandall()">Expand all
+		      <a id = "bluea"  style = "font-size:12px" class = "expandall" onclick = "Expandall()">Expand all
 		      </a>
 		      </div>
 		      </th>
@@ -673,9 +673,9 @@
 		      <table class = "table1">
 		      <thead>
 		      <th class="longfields" style="width:210px">
-		      <div id = "bluea" style = "font-size:12px"><a onclick = "ShowAttribute(this)">+ More Available Attributes
+		      <div><a id = "bluea"  style = "font-size:12px" onclick = "ShowAttribute(this)">+ More Available Attributes
 		      </a><br>
-		      <a class = "expandall" onclick = "Expandall()">Expand all
+		      <a id = "bluea"  style = "font-size:12px" class = "expandall" onclick = "Expandall()">Expand all
 		      </a>
 		      </div>
 		      </th>
@@ -898,7 +898,7 @@ We created this <a href="http://www.freenetlaw.com/free-medical-disclaimer/">med
 		      <thead>
 		      <th class="optiontitle">
 		      <div id = "bluea" style = "font-size:12px">
-        		<div onclick = "CollapseAttribute()" ><img onclick = 'ClosePanel()' align='right' border='0' alt='W3Schools' src='images/close.png' width='24' height='24'> Available Attributes</div>
+        		<div onclick = "CollapseAttribute()" >Available Attributes</div>
         		<div onclick = "CollapseAll()" >Collapse to default</div>
         		</div>
         	  </th>

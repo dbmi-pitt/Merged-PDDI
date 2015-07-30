@@ -681,7 +681,7 @@ th{
 
 
 .overlay {
- 	position:absolute;
+ 	position:fixed;
 	display:none; 
 
     /* color with alpha transparency */
@@ -690,7 +690,7 @@ th{
     /* stretch to screen edges */
     top: 0;
 	left: 0;
-    bottom: -200;
+    bottom: 0;
     right: 0;
 }
 
