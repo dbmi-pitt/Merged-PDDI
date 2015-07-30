@@ -14,7 +14,8 @@ import java.util.HashMap;
  * @author cwm24
  */
 public class Results {
-    private HashMap<String, ArrayList<String>> results;
+    private HashMap<String, ArrayList<String>> results0;
+    private HashMap<String, ArrayList<String>> results1;
     private ArrayList<String> sourceCSS;
     private String drug1;
     private String drug2;
@@ -33,15 +34,29 @@ public class Results {
     /**
      * @return the results
      */
-    public HashMap<String, ArrayList<String>> getResults() {
-        return results;
+    public HashMap<String, ArrayList<String>> getResults0() {
+        return results0;
     }
 
     /**
      * @param results the results to set
      */
-    public void setResults(HashMap<String, ArrayList<String>> results) {
-        this.results = results;
+    public void setResults0(HashMap<String, ArrayList<String>> results0) {
+        this.results0 = results0;
+    }
+    
+    /**
+     * @return the results
+     */
+    public HashMap<String, ArrayList<String>> getResults1() {
+        return results1;
+    }
+
+    /**
+     * @param results the results to set
+     */
+    public void setResults1(HashMap<String, ArrayList<String>> results1) {
+        this.results1 = results1;
     }
 
     /**

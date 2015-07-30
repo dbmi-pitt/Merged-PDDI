@@ -19,14 +19,14 @@ import java.util.Properties;
 public abstract class DBConnection {
 
 	
-    private static Connection conn;
+    public static Connection conn;
 
     public DBConnection() {
 	   
     }
 
 
-    protected static Connection getConnection(){
+    public static Connection getConnection(){
 	if (conn == null){
 	    return createDBInstance();
 	} else
@@ -64,6 +64,7 @@ public abstract class DBConnection {
 		String user = prop.getProperty("dbuser");
 		String pass = prop.getProperty("dbpassword");
 		url = url + db;
+		url += "?autoReconnect=true&amp;useUnicode=yes";
 		Class.forName(driver).newInstance();
 		conn = DriverManager.getConnection(url, user, pass);
 
@@ -92,7 +93,7 @@ public abstract class DBConnection {
 	 */
 	public static ResultSet executeQuery(String query) throws SQLException{
 		
-		conn  = getConnection();
+		//conn  = getConnection();
 		Statement select = conn.createStatement();
 		ResultSet result = select.executeQuery(query);
 		
