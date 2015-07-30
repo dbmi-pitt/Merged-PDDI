@@ -103,9 +103,9 @@
 			
 			//change "Expand All" to "Collapse All"
 			var expandalltext = document.getElementsByClassName("expandall");
-			expandalltext[0].innerHTML = "Collapse all"; //table1
+			expandalltext[0].innerHTML = "Collapse to default"; //table1
 			expandalltext[0].setAttribute('onclick', 'CollapseAll()'); //table1
-			expandalltext[1].innerHTML = "Collapse all"; //table2
+			expandalltext[1].innerHTML = "Collapse to default"; //table2
 			expandalltext[1].setAttribute('onclick', 'CollapseAll()'); //table2
 			setdefaultattribute();
 		}
@@ -898,8 +898,8 @@ We created this <a href="http://www.freenetlaw.com/free-medical-disclaimer/">med
 		      <thead>
 		      <th class="optiontitle">
 		      <div id = "bluea" style = "font-size:12px">
-        		<div onclick = "CollapseAttribute()" >Available Attributes</div>
-        		<div onclick = "CollapseAll()" >Collapse all</div>
+        		<div onclick = "CollapseAttribute()" ><img onclick = 'ClosePanel()' align='right' border='0' alt='W3Schools' src='images/close.png' width='24' height='24'> Available Attributes</div>
+        		<div onclick = "CollapseAll()" >Collapse to default</div>
         		</div>
         	  </th>
         	  </thead>
