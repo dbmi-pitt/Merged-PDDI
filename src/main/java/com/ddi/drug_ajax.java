@@ -24,6 +24,8 @@ public class drug_ajax extends HttpServlet {
 
     private ResultSet rs=null;
     public String testresult = "";
+    public DBConnection dbconnection;
+	Connection conn = dbconnection.getConnection();
     
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -46,7 +48,7 @@ public class drug_ajax extends HttpServlet {
             
             String selectAllDrugs = "select distinct(precipitant) from interactions1 where object = '" + drug1 + "' order by precipitant ASC";
 
-            rs = DBConnection.executeQuery(selectAllDrugs);
+            rs = dbconnection.executeQuery(selectAllDrugs);
             
             result += "[";
             

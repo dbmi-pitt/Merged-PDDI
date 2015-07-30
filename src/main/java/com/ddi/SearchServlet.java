@@ -37,7 +37,13 @@ public class SearchServlet extends HttpServlet {
 	public ResultSet rs = null;
 	public ResultSet rs1 = null;
 	public Results results = new Results();
-
+	public DBConnection dbconnection;
+	
+	public void SearchServlet()
+	{
+		System.out.println("aa");
+	}
+	
 	/**
 	 * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
 	 * methods.
@@ -51,18 +57,22 @@ public class SearchServlet extends HttpServlet {
 	 * @throws IOException
 	 *             if an I/O error occurs
 	 */
-	protected void processRequest(HttpServletRequest request,
+	public void processRequest(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 
 		//System.out.println("[DEBUG] SearchServlet ...............");
 		
-		HashMap<String, ArrayList<String>> searchResults= new HashMap<String, ArrayList<String>>();
+		HashMap<String, ArrayList<String>> searchResults0= new HashMap<String, ArrayList<String>> ();
+		HashMap<String, ArrayList<String>> searchResults1= new HashMap<String, ArrayList<String>> ();
 		HashMap<String, String> attributeSet= new HashMap<String, String>();
 		HashMap<String, String> sourceSet = new HashMap<String, String>();
 		String resultTag = null; //"drug1_drug2_field_source"
 		String tempTag = null;
 		String drugClass1 = null;
 		String drugClass2 = null;
+		String drug1ID = null;
+		String drug2ID = null;
+		String selectAllDrugs[] = new String[2];
 		String tempAttribute = null;
 		String filterAttribute = null;
 		//ArrayList<String> temprecords = new ArrayList<String>();
@@ -108,34 +118,53 @@ public class SearchServlet extends HttpServlet {
 				drug1 = request.getParameterValues("drugList1")[0];
 				drug2 = request.getParameterValues("drugList2")[0];
 			}
-
+			System.out.println("cc");
+			Connection conn = dbconnection.getConnection();
 			for(String source : sources)
 			{
 				String selectSourceInfo = "select * from sources_category where source = '"+ source +"'";
-				rs1 = DBConnection.executeQuery(selectSourceInfo);
+				rs1 = dbconnection.executeQuery(selectSourceInfo);
+				System.out.println("conn1");
 				while (rs1.next()) {
 				//System.out.println(rs1.getString("description"));
 				sourceSet.put(source, rs1.getString("description"));
 				}
 			}
 			
+				
+				selectAllDrugs[0] = "select * from interactions1 where precipitant = '"
+						+ drug1
+						+ "' and object = '"
+						+ drug2
+						+ "'"
+						+ " and source = '";
+				String tempdrug = null;
+				tempdrug = drug1;
+				drug1 = drug2;
+				drug2 = tempdrug;
+				selectAllDrugs[1] = "select * from interactions1 where precipitant = '"
+						+ drug1
+						+ "' and object = '"
+						+ drug2
+						+ "'"
+						+ " and source = '";
+			for(int z = 0;z < 2;z++)
+			{
+				tempdrug = drug1;
+				drug1 = drug2;
+				drug2 = tempdrug;
 			for (String source : sources) {
-			
-			String selectAllDrugs = "select * from interactions1 where object = '"
-					+ drug1
-					+ "' and precipitant = '"
-					+ drug2
-					+ "'"
-					+ " and source = '"
-					+ source
-					+ "' order by object, precipitant";
-			
+			String tempquery = null;
+			tempquery = selectAllDrugs[z];
+			tempquery += source;
+			tempquery += "' order by object, precipitant";
 			//System.out.println("[INFO] Search Servlet - execute query:" + selectAllDrugs);
-
-			rs = DBConnection.executeQuery(selectAllDrugs);
-
-			String drug1ID = null;
-			String drug2ID = null;
+			
+				
+			rs = dbconnection.executeQuery(tempquery);
+			
+			System.out.println("conn2");
+			
 			resultTag = null;
 			
 			while (rs.next()) {
@@ -151,6 +180,8 @@ public class SearchServlet extends HttpServlet {
 				
 				tempTag = drug1 + "+" + drug2 + "+";
 				
+				if(z==0)
+				{
 				for(String attribute : attributes)
 				{
 					
@@ -170,21 +201,21 @@ public class SearchServlet extends HttpServlet {
 						}else{
 							filterAttribute = tempAttribute;
 						}
-						if((searchResults.containsKey(resultTag))||(searchResults.get(resultTag) != null))
+						if((searchResults0.containsKey(resultTag))||(searchResults0.get(resultTag) != null))
 						{
 							//System.out.println("_______________________________________");
 							//System.out.println(">>1" + searchResults.get(resultTag));
 							//temprecords = (ArrayList<String>)searchResults.get(resultTag);
-							if(!searchResults.get(resultTag).contains(filterAttribute))
+							if(!searchResults0.get(resultTag).contains(filterAttribute))
 							{
-								searchResults.get(resultTag).add(filterAttribute);
+								searchResults0.get(resultTag).add(filterAttribute);
 							}
 							
 						}else
 						{
 							ArrayList<String> temprecords = new ArrayList<String>();
 							temprecords.add(filterAttribute);
-							searchResults.put(resultTag, new ArrayList<String>(temprecords));
+							searchResults0.put(resultTag, new ArrayList<String>(temprecords));
 							//System.out.println(resultTag);
 							//System.out.println(searchResults.get(resultTag));
 						}
@@ -205,17 +236,17 @@ public class SearchServlet extends HttpServlet {
 								filterAttribute = tempAttribute;
 							}
 							//this tag already exists
-							if((searchResults.containsKey(resultTag))||(searchResults.get(resultTag) != null))
+							if((searchResults0.containsKey(resultTag))||(searchResults0.get(resultTag) != null))
 							{
-								if(!searchResults.get(resultTag).contains(filterAttribute))
+								if(!searchResults0.get(resultTag).contains(filterAttribute))
 								{
-									searchResults.get(resultTag).add(filterAttribute);
+									searchResults0.get(resultTag).add(filterAttribute);
 								}
 							}else  //this tag starts up
 							{
 								ArrayList<String> temprecords = new ArrayList<String>();
 								temprecords.add(filterAttribute);
-								searchResults.put(resultTag, new ArrayList<String>(temprecords));
+								searchResults0.put(resultTag, new ArrayList<String>(temprecords));
 							}
 						}
 					}
@@ -224,11 +255,87 @@ public class SearchServlet extends HttpServlet {
 					
 					
 				}
-				
+				}else
+				{
+					for(String attribute : attributes)
+					{
+						
+						resultTag = tempTag + attribute + "+" + source;
+						
+						
+						if(!rs.getString(attribute).contains("None"))
+						{
+							
+							tempAttribute = rs.getString(attribute);
+							if(attribute == "researchStatementLabel")
+								tempAttribute = tempAttribute.replaceAll("_", " ");
+							if(tempAttribute.contains("|"))
+							{
+								filterAttribute = tempAttribute.replace("|","");
+								//System.out.println("***********"+filterAttribute);
+							}else{
+								filterAttribute = tempAttribute;
+							}
+							if((searchResults1.containsKey(resultTag))||(searchResults1.get(resultTag) != null))
+							{
+								//System.out.println("_______________________________________");
+								//System.out.println(">>1" + searchResults.get(resultTag));
+								//temprecords = (ArrayList<String>)searchResults.get(resultTag);
+								if(!searchResults1.get(resultTag).contains(filterAttribute))
+								{
+									searchResults1.get(resultTag).add(filterAttribute);
+								}
+								
+							}else
+							{
+								ArrayList<String> temprecords = new ArrayList<String>();
+								temprecords.add(filterAttribute);
+								searchResults1.put(resultTag, new ArrayList<String>(temprecords));
+								//System.out.println(resultTag);
+								//System.out.println(searchResults.get(resultTag));
+							}
+							
+							
+						}
+						if(attribute == "ddiPkEffect")
+						{
+							attribute = "effectConcept";
+							if(!rs.getString(attribute).contains("None"))
+							{
+								tempAttribute = rs.getString(attribute);
+								//filter out "|"
+								if(tempAttribute.contains("|"))
+								{
+									filterAttribute = tempAttribute.replace("|","");
+								}else{
+									filterAttribute = tempAttribute;
+								}
+								//this tag already exists
+								if((searchResults1.containsKey(resultTag))||(searchResults1.get(resultTag) != null))
+								{
+									if(!searchResults1.get(resultTag).contains(filterAttribute))
+									{
+										searchResults1.get(resultTag).add(filterAttribute);
+									}
+								}else  //this tag starts up
+								{
+									ArrayList<String> temprecords = new ArrayList<String>();
+									temprecords.add(filterAttribute);
+									searchResults1.put(resultTag, new ArrayList<String>(temprecords));
+								}
+							}
+						}
+
+						resultTag = null;
+						
+						
+					}
+				}
 				
 				
 			}
-			
+			}
+			}
 			
 			//System.out.println("[DEBUG] Search servlet, total results:" + searchResults.size());
 			/*
@@ -247,7 +354,8 @@ public class SearchServlet extends HttpServlet {
 				}
 			}*/
 
-			results.setResults(searchResults);
+			results.setResults0(searchResults0);
+			results.setResults1(searchResults1);
 			results.setDrug1(drug1);
 			results.setDrug2(drug2);
 			results.setDrug1ID(drug1ID);
@@ -258,7 +366,7 @@ public class SearchServlet extends HttpServlet {
 			if(drugClass2 != null)
 				results.setDrugClass2(drugClass2);
 
-			}
+			
 			
 			
 			HttpSession session = request.getSession();
@@ -271,8 +379,9 @@ public class SearchServlet extends HttpServlet {
 					.getRequestDispatcher("index.jsp");
 
 			dispatcher.forward(request, response);
-			DBConnection.closeConnection();// if not, cause connection timeout
-
+			//dbconnection.closeConnection();// if not, cause connection timeout
+			//if (conn != null && !conn.isClosed())
+				//conn.close();
 		} catch (Exception e) {
 			System.out.println("Exception" + e.getMessage());
 			e.printStackTrace();

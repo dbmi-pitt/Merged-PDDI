@@ -1,4 +1,4 @@
-body{
+.body1{
 font-family: Verdana;
 font-size: 14px;
 background-color: #C2D1E0;
@@ -6,12 +6,19 @@ margin: 0px;
 padding: 0px;
 }
 
-#page{
+.body2{
+
+background-color: #C2D1E0;
+margin: 0px;
+padding: 0px;
+}
+
+#page1{
     background-color: #FFFFFF;
     border-color: #5C6B7A;
-    border-left-width:3px;
-    border-right-width:3px;
-    border-bottom-width:3px;
+    border-left-width:0px;
+    border-right-width:0px;
+    border-bottom-width:0px;
     border-top-color:white;
     border-style: solid;
     width: 1150px;
@@ -26,9 +33,9 @@ padding: 0px;
 #page2{
     background-color: #FFFFFF;
     border-color: #5C6B7A;
-    border-left-width:3px;
-    border-right-width:3px;
-    border-bottom-width:3px;
+    border-left-width:0px;
+    border-right-width:0px;
+    border-bottom-width:0px;
     border-top-color:white;
     border-style: solid;
     width: 1180px;
@@ -37,7 +44,7 @@ padding: 0px;
     margin-left: auto;
     margin-right: auto;
     margin-top:1px;
-    padding-bottom:110px;
+    padding-bottom:50px;
 }
 
 .infoButton{
@@ -425,7 +432,7 @@ table td:first-child {
 }
 table td.general {
 	width: 80px;
-	height:20px;
+	height:23px;
 	border-top: 0.5px solid #ffffff;
 	border-bottom:0.5px solid #e0e0e0;
 	border-left: 0.5px solid #e0e0e0;
@@ -438,7 +445,7 @@ table td.general {
 table td.availabletd{
 	background: #D5EBD1;
 	width: 80px;
-	height:20px;
+	height:23px;
 	border-top: 0.5px solid #ffffff;
 	border-bottom:0.5px solid #e0e0e0;
 	border-left: 0.5px solid #e0e0e0;
@@ -451,7 +458,7 @@ table td.availabletd{
 
 table td.generalhead {
 	width: 210px;
-	height:20px;
+	height:19px;
 	border-top: 0.5px solid #ffffff;
 	border-bottom:0.5px solid #e0e0e0;
 	border-left: 0.5px solid #e0e0e0;
@@ -465,6 +472,24 @@ table td.generalhead {
 }
 
 table th.longfields {
+	
+	width: 80px;
+	height: 30px;
+	background: #ededed;
+	word-break: break-all;
+}
+
+.setdefaultattribute {
+	width: 30px;
+	height: 80px;
+	background: #ededed;
+	position: fixed;
+	left: 100px;
+	top: 100px;
+	font-size:12px;
+}
+
+table th.sublongfields {
 	
 	width: 80px;
 	height: 30px;
@@ -535,10 +560,11 @@ blockquote {
 	text-transform:uppercase;
 }
 
-.title3{
+#bluea{
 	font-size:17px;
 	font-weight:bold;
-	color:#303030;
+	color:#273865;
+	
 }
 
 .centerblock{
@@ -548,12 +574,15 @@ blockquote {
 .left{
 	display:inline-block;
 	padding-right:60px;
+	position:absolute;
+	margin-top:4px;
+	color:black;
 
 }
 
 
 .title1{
-	font-size:20px;
+	font-size:15px;
 	font-weight:bold;
 	color:#414241;
 	margin-left: 15px;
@@ -643,15 +672,16 @@ th{
 }
 
 .firstpagemargin{
-	margin-right:40px;
+	margin-right:70px;
 	margin-left:40px;
 	margin-top:40px;
+	font-color:#000000;
 }
 
 
 
 .overlay {
- 	position:absolute;
+ 	position:fixed;
 	display:none; 
 
     /* color with alpha transparency */
