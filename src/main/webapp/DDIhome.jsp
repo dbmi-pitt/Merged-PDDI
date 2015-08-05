@@ -106,7 +106,7 @@
                 <div class="stepHeader" style = "font-size: 15px">Step 1: Please choose 2 drugs to compare</div>
                 <div align="center">
                 <div id="drugSelection1">
-                    <div class="bold centered" style="font-size:16px">Precipitant</div>
+                    <div class="bold centered" style="font-size:16px">Object</div>
 
 		    <!-- ${fn:replace(string1, 'first', 'second')} -->
                     <div style = "font-size:14px" align="left">
@@ -154,7 +154,7 @@
                     </script>
                 </div>
                 <div id="drugSelection2">
-                    <div class="bold centered" style="font-size:16px">Object</div>
+                    <div class="bold centered" style="font-size:16px">Precipitant</div>
                     <div style = "font-size:14px" align="left">
                     <select name="drugList2" id="drugList2"></select>
                     </div>
