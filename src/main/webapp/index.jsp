@@ -16,7 +16,7 @@
         <link href="css/flat-ui.min.css" rel="stylesheet"/>
         <link href="css/demo.css" rel="stylesheet"/>
 		<script src="js/modernizr.js"></script>
-		<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+		
 		
         <title>Drug Interaction Search Results</title>
         <script>
@@ -916,9 +916,100 @@ We created this <a href="http://www.freenetlaw.com/free-medical-disclaimer/">med
       		  </div>
     </body>
     
-<script src="js/jquery-1.11.1.min.js"></script>
-<script src="js/main.js"></script>
-    
+	<script src="js/jquery-1.11.1.min.js"></script>
+	<script src="js/main.js"></script>
+    <script src="js/annotator.js"></script>
+    <!--  <script src="js/annotator-full.js"></script>-->
+    <!--  <script src="js/annotator.min.js"></script>-->
+    <link href="css/jquery-ui.css" rel="stylesheet" type="text/css" />
+    <script src="js/jquery-ui.js"></script>
+    <script>
+    if (typeof annotator === 'undefined') {
+        alert("Oops! it looks like you haven't built Annotator. " +
+              "Either download a tagged release from GitHub, or build the " +
+              "package by running `make`");
+      } else {
+        
+        var drugpair = document.getElementsByClassName('title2');
+        var drugnames = drugpair[0].innerHTML;
+        var pageUri = function () {
+            return {
+                beforeAnnotationCreated: function (ann) {
+                    ann.uri = drugnames;
+                }
+            };
+        };
+
+        
+        
+        var app = new annotator.App()
+            .include(annotator.ui.main, {element: document.querySelector('#page2'),
+            	editorExtensions: [annotator.ui.tags.editorExtension],
+        		viewerExtensions: [
+            		annotator.ui.tags.viewerExtension]})
+            .include(annotator.storage.http, {prefix: 'http://127.0.0.1:5000'})
+            .include(pageUri)
+
+        app.start()
+           .then(function () {
+               app.annotations.load({uri: drugnames});
+           });
+        
+        
+        
+      }
+   /* var drugpair = document.getElementsByClassName('title2');
+    var drugnames = drugpair[0].innerHTML;
+    var app = new annotator.App();
+    app.include(annotator.ui.main);
+    app.include(annotator.storage.http, {
+        prefix: 'http://127.0.0.1:5000',
+        loadFromSearch: {
+     		uri: drugnames,
+ 		},
+ 		annotationData: {
+     		uri: drugnames,
+ 		}
+    });
+    app
+    .start()
+    .then(function () {
+         app.annotations.load();
+    });	
+    */
+    /*
+    var drugpair = document.getElementsByClassName('title2');
+		var drugnames = drugpair[0].innerHTML;
+    	$('#page2').annotator();
+		
+
+		  $('#page2').annotator('addPlugin', 'Store', {
+    		prefix: 'http://127.0.0.1:5000',
+     		loadFromSearch: {
+         		uri: drugnames,
+     		},
+     		annotationData: {
+         		uri: drugnames,
+     		}
+		});
+		  
+		  jQuery(function ($) {
+			  
+			  $('#page2').annotator('addPlugin', 'Tags');
+
+			  var availableTags = [
+			    "Tag1",
+			    "OtherTag",
+			    "Tag2",
+			  ];
+
+			  $('#content').data('annotator').plugins.Tags.input.autocomplete({
+			    source: availableTags
+			  }); 
+			  
+		  });
+		  */
+    </script>
     
 
 </html>
