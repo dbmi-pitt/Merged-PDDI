@@ -27,10 +27,12 @@ public abstract class DBConnection {
 
 
     public static Connection getConnection(){
-	if (conn == null){
+	//page refresh cause error
+    	/*if (conn == null){
 	    return createDBInstance();
 	} else
-	    return conn;
+	    return conn;*/
+    	return createDBInstance();
 
     }
 
@@ -63,6 +65,11 @@ public abstract class DBConnection {
 		String driver = "com.mysql.jdbc.Driver";
 		String user = prop.getProperty("dbuser");
 		String pass = prop.getProperty("dbpassword");
+		//GenericObjectPool connectionPool = new GenericObjectPool(null);
+		 //ConnectionFactory connectionFactory = new DriverManagerConnectionFactory("jdbc:some:connect:string", "username", "password");
+		 //PoolableConnectionFactory poolableConnectionFactory = new PoolableConnectionFactory(connectionFactory,connectionPool,null,null,false,true);
+		 //PoolingDriver driver = new PoolingDriver();
+		 //driver.registerPool("example",connectionPool);
 		url = url + db;
 		url += "?autoReconnect=true&amp;useUnicode=yes";
 		Class.forName(driver).newInstance();

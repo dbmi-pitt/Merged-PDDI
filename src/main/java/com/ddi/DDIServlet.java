@@ -54,7 +54,7 @@ public class DDIServlet extends HttpServlet {
 	protected void processRequest(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 
-		System.out.println("[DEBUG] DDI Servlet ......................");
+		//System.out.println("[DEBUG] DDI Servlet ......................");
 		ArrayList<String> drugNames = new ArrayList<String>();
 		SourceAttribute sourceattribute = new SourceAttribute();
 		String[] sources = sourceattribute.getSources();
@@ -83,7 +83,7 @@ public class DDIServlet extends HttpServlet {
 			
 			String selectAllDrugsQuery = "select distinct(object) from interactions1 where object not like '%4-%' order by object";
 			
-			System.out.println("[INFO] DDI Servlet - execute query:" + selectAllDrugsQuery);
+			//System.out.println("[INFO] DDI Servlet - execute query:" + selectAllDrugsQuery);
 			
 
 			rs2 = dbconnection.executeQuery(selectAllDrugsQuery);
@@ -101,7 +101,7 @@ public class DDIServlet extends HttpServlet {
 //			}
 //			System.out.println("");
 
-			System.out.println("[INFO:] save drug beans to session....");
+			//System.out.println("[INFO:] save drug beans to session....");
 
 			HttpSession session = request.getSession();
 			session.setAttribute("DrugBean", drug);
@@ -110,7 +110,7 @@ public class DDIServlet extends HttpServlet {
 			RequestDispatcher dispatcher = request
 					.getRequestDispatcher("DDIhome.jsp");
 
-			System.out.println("[INFO:] forward from DDI Servlet to DDIhome.jsp ....");
+			//System.out.println("[INFO:] forward from DDI Servlet to DDIhome.jsp ....");
 
 			dispatcher.forward(request, response);
 

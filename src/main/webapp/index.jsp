@@ -366,8 +366,6 @@
             <header>
             
             <% Results result = (Results)session.getAttribute("ResultBean"); %>
-            <% System.out.println("drug1:" + result.getDrug1()); %>
-            <% System.out.println("size of results" + result.getResults0().size()); %>
             <%
             HashMap<String, ArrayList<String>> results = new HashMap<String, ArrayList<String>>();
             HashMap<String, String> attributeSet = new HashMap<String, String>();
@@ -393,10 +391,10 @@
                   {
                   	tempdefaultset = cookie.getValue();
                   }
-                  if(cookiename.equals("original"))
+                  /*if(cookiename.equals("original"))
                   {
                   	System.out.println(cookie.getValue());
-                  }
+                  }*/
                  
                }
            	}
@@ -407,7 +405,7 @@
             }else{
             	tempnounderline = tempdefaultset.replaceAll("_"," ");
             	tempnounderline = tempnounderline.substring(0, tempnounderline.length()-1);
-            	System.out.println(tempnounderline);
+            	//System.out.println(tempnounderline);
             	defaultAttributes = tempnounderline.split("\\+");
             }
             
@@ -459,7 +457,8 @@
       			<div class="left" id= "bluea"> <a href="/Merged-PDDI" id="bluea"><%="<< "%>New Search</a></div>
       		</div>
       		<div class="centered">
-		        <div class="centerblock"><div class="title2">(${ResultBean.drug2} / ${ResultBean.drug1})</div></div>
+		        <div class="centerblock"><div class="title2">(${ResultBean.drug2} / ${ResultBean.drug1})</div>
+		        <div style = "font-size:13px"> (Object)  &nbsp; &nbsp; &nbsp; &nbsp;  (Precipitant)</div></div>
 		        
 		    </div>
 		    
@@ -470,8 +469,8 @@
             String attributeUpper, tempTag, testTag = null;
             int recordNum = 0;
             String[] tagArray;
-            String drug1 = result.getDrug1();
-            String drug2 = result.getDrug2();
+            String drug1 = result.getDrug2();
+            String drug2 = result.getDrug1();
             HashMap<String, ArrayList<String>> keySet = new HashMap<String, ArrayList<String>>();
             for (Map.Entry entry : results.entrySet()) {
                     if (entry.getKey() != null) {
@@ -544,7 +543,7 @@
 		      String tempSource = (String)pageContext.getAttribute("sources");
 		      String attributeSpace;
 		      ArrayList<String> valueArray = new ArrayList<String>(); 
-		      testTag = drug1 + "+" + drug2 + "+" + tempAttribute + "+" + tempSource;
+		      testTag = drug2 + "+" + drug1 + "+" + tempAttribute + "+" + tempSource;
 		      if(keySet.containsKey(tempAttribute))
 		      {
 		      //ArrayList<String> trueSource = (ArrayList<String>)keySet.get(tempAttribute);
@@ -635,8 +634,8 @@
 		    <%
 		    
             results = result.getResults0();
-            drug1 = result.getDrug2();
-			drug2 = result.getDrug1();
+            drug1 = result.getDrug1();
+			drug2 = result.getDrug2();
             HashMap<String, ArrayList<String>> keySet1 = new HashMap<String, ArrayList<String>>();
             for (Map.Entry entry : results.entrySet()) {
                     if (entry.getKey() != null) {
@@ -657,7 +656,9 @@
             <p></p>
             <div class="centered">
       			
-		        <div class="centerblock"><div class="title2"><%out.print("( " + drug2 + "/" + drug1 + ")");%></div></div>
+		        <div class="centerblock"><div class="title2"><%out.print("(" + drug2 + " / " + drug1 + ")");%></div>
+		        <div style = "font-size:13px"><%out.print(" (Object)  &nbsp; &nbsp; &nbsp; &nbsp;  (Precipitant)");%></div>
+		        </div>
 		        
 		    </div>
 		    <p></p>
@@ -715,7 +716,7 @@
 		      String tempSource = (String)pageContext.getAttribute("sources");
 		      String attributeSpace;
 		      ArrayList<String> valueArray = new ArrayList<String>(); 
-		      testTag = drug1 + "+" + drug2 + "+" + tempAttribute + "+" + tempSource;
+		      testTag = drug2 + "+" + drug1 + "+" + tempAttribute + "+" + tempSource;
 		      if(keySet1.containsKey(tempAttribute))
 		      {
 		      //ArrayList<String> trueSource = (ArrayList<String>)keySet.get(tempAttribute);
