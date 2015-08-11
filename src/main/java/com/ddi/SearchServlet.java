@@ -39,9 +39,7 @@ public class SearchServlet extends HttpServlet {
 	public Results results = new Results();
 	public DBConnection dbconnection;
 	
-	public void SearchServlet()
-	{
-		System.out.println("aa");
+	public void SearchServlet(){
 	}
 	
 	/**
@@ -112,19 +110,19 @@ public class SearchServlet extends HttpServlet {
 			results.setAttributeSet(attributeSet);
 			results.setDefaultAttributes(defaultAttributes);
 
-			System.out.println("Drug inputs: 1>" + drug1 + "|2>" + drug2);
+			//System.out.println("Drug inputs: 1>" + drug1 + "|2>" + drug2);
 
 			if (drug1 == null && drug2 == null) {
 				drug1 = request.getParameterValues("drugList1")[0];
 				drug2 = request.getParameterValues("drugList2")[0];
 			}
-			System.out.println("cc");
+
 			Connection conn = dbconnection.getConnection();
 			for(String source : sources)
 			{
 				String selectSourceInfo = "select * from sources_category where source = '"+ source +"'";
 				rs1 = dbconnection.executeQuery(selectSourceInfo);
-				System.out.println("conn1");
+				
 				while (rs1.next()) {
 				//System.out.println(rs1.getString("description"));
 				sourceSet.put(source, rs1.getString("description"));
@@ -163,7 +161,6 @@ public class SearchServlet extends HttpServlet {
 				
 			rs = dbconnection.executeQuery(tempquery);
 			
-			System.out.println("conn2");
 			
 			resultTag = null;
 			
@@ -357,6 +354,7 @@ public class SearchServlet extends HttpServlet {
 			results.setResults0(searchResults0);
 			results.setResults1(searchResults1);
 			results.setDrug1(drug1);
+			
 			results.setDrug2(drug2);
 			results.setDrug1ID(drug1ID);
 			results.setDrug2ID(drug2ID);
@@ -372,16 +370,14 @@ public class SearchServlet extends HttpServlet {
 			HttpSession session = request.getSession();
 			session.setAttribute("ResultBean", results);
 			
-			//System.out.println("[DEBUG] Search servlet, results in session:");
-			//System.out.println("[DEBUG] "+results.getDrug1()+ "|" + results.getDrug1ID());
 
 			RequestDispatcher dispatcher = request
 					.getRequestDispatcher("index.jsp");
 
 			dispatcher.forward(request, response);
-			//dbconnection.closeConnection();// if not, cause connection timeout
-			//if (conn != null && !conn.isClosed())
-				//conn.close();
+			if (dbconnection.conn != null && !dbconnection.conn.isClosed()){
+				dbconnection.closeConnection();
+			}
 		} catch (Exception e) {
 			System.out.println("Exception" + e.getMessage());
 			e.printStackTrace();

@@ -45,8 +45,8 @@ public class DBtest1 {
 	        //assertEquals("text/html", response.getContentType());
 	        System.out.println("JUNIT1");
 	        System.out.println("_______________________________________");
-	        System.out.println("Total results: " + servlet.results.getResults().size());
-	        System.out.println(servlet.results.getResults().get("simvastatin+ketoconazole+evidenceStatement+DIKB"));
+	        System.out.println("Total results: " + servlet.results.getResults0().size());
+	        System.out.println(servlet.results.getResults0().get("simvastatin+ketoconazole+evidenceStatement+DIKB"));
 	        System.out.println("_______________________________________");
 	        assertTrue(servlet.rs != null);
 	    }
@@ -64,7 +64,7 @@ public class DBtest1 {
 	        //assertEquals("text/html", response.getContentType());
 	        System.out.println("JUNIT2");
 	        System.out.println("_______________________________________");
-	        System.out.println("Total results: " + servlet.results.getResults().size());
+	        System.out.println("Total results: " + servlet.results.getResults0().size());
 	        System.out.println("_______________________________________");
 	        assertTrue(servlet.rs != null);
 	    }
@@ -83,9 +83,9 @@ public class DBtest1 {
 	        //assertEquals("text/html", response.getContentType());
 	        System.out.println("JUNIT3");
 	        System.out.println("_______________________________________");
-	        System.out.println("Total results: " + servlet.results.getResults().size());
+	        System.out.println("Total results: " + servlet.results.getResults0().size());
 	        System.out.println("_______________________________________");
-	        assertEquals(0, servlet.results.getResults().size());
+	        assertEquals(0, servlet.results.getResults0().size());
 	    }
 	    
 }
