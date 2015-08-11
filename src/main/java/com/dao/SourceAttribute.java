@@ -20,7 +20,7 @@ public class SourceAttribute {
 		
 		String tempsource = prop.getProperty("sources");
 		sources = tempsource.split(",");
-		System.out.println(sources);
+		//System.out.println(sources);
 		return sources;
 	}
 	
@@ -28,7 +28,7 @@ public class SourceAttribute {
 		
 		String tempattribute = prop.getProperty("defaultAttribute");
 		defaultAttributes = tempattribute.split(",");
-		System.out.println(defaultAttributes);
+		//System.out.println(defaultAttributes);
 		return defaultAttributes;
 	}
 }

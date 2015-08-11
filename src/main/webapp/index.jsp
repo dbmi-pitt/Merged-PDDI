@@ -366,8 +366,6 @@
             <header>
             
             <% Results result = (Results)session.getAttribute("ResultBean"); %>
-            <% System.out.println("drug1:" + result.getDrug1()); %>
-            <% System.out.println("size of results" + result.getResults0().size()); %>
             <%
             HashMap<String, ArrayList<String>> results = new HashMap<String, ArrayList<String>>();
             HashMap<String, String> attributeSet = new HashMap<String, String>();
@@ -393,10 +391,10 @@
                   {
                   	tempdefaultset = cookie.getValue();
                   }
-                  if(cookiename.equals("original"))
+                  /*if(cookiename.equals("original"))
                   {
                   	System.out.println(cookie.getValue());
-                  }
+                  }*/
                  
                }
            	}
@@ -407,7 +405,7 @@
             }else{
             	tempnounderline = tempdefaultset.replaceAll("_"," ");
             	tempnounderline = tempnounderline.substring(0, tempnounderline.length()-1);
-            	System.out.println(tempnounderline);
+            	//System.out.println(tempnounderline);
             	defaultAttributes = tempnounderline.split("\\+");
             }
             
