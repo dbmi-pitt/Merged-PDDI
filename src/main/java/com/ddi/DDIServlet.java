@@ -31,7 +31,7 @@ public class DDIServlet extends HttpServlet {
 	//private Connection conn;
 	//private Statement st;
 	public DBConnection dbconnection;
-	Connection conn = dbconnection.getConnection();
+	Connection conn = DBConnection.getConnection();
 	//private ResultSet rs = null;
 	private ResultSet rs2 = null;
 	private ResultSet rs1 = null;
@@ -50,9 +50,10 @@ public class DDIServlet extends HttpServlet {
 	 *             if a servlet-specific error occurs
 	 * @throws IOException
 	 *             if an I/O error occurs
+	 * @throws SQLException 
 	 */
 	protected void processRequest(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+			HttpServletResponse response) throws ServletException, IOException, SQLException {
 
 		//System.out.println("[DEBUG] DDI Servlet ......................");
 		ArrayList<String> drugNames = new ArrayList<String>();
@@ -105,6 +106,11 @@ public class DDIServlet extends HttpServlet {
 
 			HttpSession session = request.getSession();
 			session.setAttribute("DrugBean", drug);
+			/*if (dbconnection.conn != null && !dbconnection.conn.isClosed()){
+				//dbconnection.closeConnection();
+				try { conn.close(); } catch (SQLException logOrIgnore) {}
+				try { DBConnection.select.close(); } catch (SQLException logOrIgnore) {}
+			}*/
 
 			// forward the request (not redirect)
 			RequestDispatcher dispatcher = request
@@ -118,6 +124,11 @@ public class DDIServlet extends HttpServlet {
 			System.out.println("SQLException" + e.getMessage());
 			e.printStackTrace();
 		} finally {
+		        if (dbconnection.select != null) try { dbconnection.select.close(); } catch (SQLException logOrIgnore) {}
+		        if (dbconnection.conn != null ) try { dbconnection.closeConnection();} catch (SQLException logOrIgnore) {}
+		        if (conn != null ) try { conn.close();} catch (SQLException logOrIgnore) {}
+		        if (rs1 != null ) try { rs1.close();} catch (SQLException logOrIgnore) {}
+		        if (rs2 != null ) try { rs2.close();} catch (SQLException logOrIgnore) {}
 /*
 			try {
 				if (conn != null && !conn.isClosed())
@@ -146,7 +157,12 @@ public class DDIServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		processRequest(request, response);
+		try {
+			processRequest(request, response);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -164,7 +180,12 @@ public class DDIServlet extends HttpServlet {
 	@Override
 	public void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		processRequest(request, response);
+		try {
+			processRequest(request, response);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	/**

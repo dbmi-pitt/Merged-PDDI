@@ -37,7 +37,7 @@ public class SearchServlet extends HttpServlet {
 	public ResultSet rs = null;
 	public ResultSet rs1 = null;
 	public Results results = new Results();
-	public DBConnection dbconnection;
+	
 	
 	public void SearchServlet(){
 	}
@@ -54,9 +54,10 @@ public class SearchServlet extends HttpServlet {
 	 *             if a servlet-specific error occurs
 	 * @throws IOException
 	 *             if an I/O error occurs
+	 * @throws SQLException 
 	 */
 	public void processRequest(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+			HttpServletResponse response) throws ServletException, IOException, SQLException {
 
 		//System.out.println("[DEBUG] SearchServlet ...............");
 		
@@ -73,6 +74,8 @@ public class SearchServlet extends HttpServlet {
 		String selectAllDrugs[] = new String[2];
 		String tempAttribute = null;
 		String filterAttribute = null;
+		DBConnection dbconnection = null;
+		Connection conn = DBConnection.getConnection();
 		//ArrayList<String> temprecords = new ArrayList<String>();
 		String[] attributesUpper = {"Object Drug Class", "Precipitant Drug Class", "Certainty", "Contraindication", "Effect", "PK Mechanism", "ddiType", "Homepage", "Severity", 
 				"Description", "URI", "Management Options", "Evidence", "Evidence Source", "Evidence Statement","Date Annotated", "Who Annotated", "Numeric Value", 
@@ -117,11 +120,11 @@ public class SearchServlet extends HttpServlet {
 				drug2 = request.getParameterValues("drugList2")[0];
 			}
 
-			Connection conn = dbconnection.getConnection();
+			
 			for(String source : sources)
 			{
 				String selectSourceInfo = "select * from sources_category where source = '"+ source +"'";
-				rs1 = dbconnection.executeQuery(selectSourceInfo);
+				rs1 = DBConnection.executeQuery(selectSourceInfo);
 				
 				while (rs1.next()) {
 				//System.out.println(rs1.getString("description"));
@@ -159,7 +162,7 @@ public class SearchServlet extends HttpServlet {
 			//System.out.println("[INFO] Search Servlet - execute query:" + selectAllDrugs);
 			
 				
-			rs = dbconnection.executeQuery(tempquery);
+			rs = DBConnection.executeQuery(tempquery);
 			
 			
 			resultTag = null;
@@ -375,13 +378,21 @@ public class SearchServlet extends HttpServlet {
 					.getRequestDispatcher("index.jsp");
 
 			dispatcher.forward(request, response);
-			if (dbconnection.conn != null && !dbconnection.conn.isClosed()){
-				dbconnection.closeConnection();
-			}
+			/*if (dbconnection.conn != null && !dbconnection.conn.isClosed()){
+				try { conn.close(); } catch (SQLException logOrIgnore) {}
+				try { DBConnection.select.close(); } catch (SQLException logOrIgnore) {}
+			}*/
 		} catch (Exception e) {
 			System.out.println("Exception" + e.getMessage());
 			e.printStackTrace();
-		} 
+		} finally {
+	        if (dbconnection.select != null) try { dbconnection.select.close(); } catch (SQLException logOrIgnore) {}
+	        if (dbconnection.conn != null ) try { dbconnection.conn.close();} catch (SQLException logOrIgnore) {}
+	        if (dbconnection.result != null ) try { dbconnection.result.close();} catch (SQLException logOrIgnore) {}
+	        if (conn != null ) try { conn.close();} catch (SQLException logOrIgnore) {}
+	        if (rs != null ) try { rs.close();} catch (SQLException logOrIgnore) {}
+	        if (rs1 != null ) try { rs1.close();} catch (SQLException logOrIgnore) {}
+	    }
 	}
 
 	// <editor-fold defaultstate="collapsed"
@@ -401,7 +412,12 @@ public class SearchServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		processRequest(request, response);
+		try {
+			processRequest(request, response);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -419,7 +435,12 @@ public class SearchServlet extends HttpServlet {
 	@Override
 	public void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		processRequest(request, response);
+		try {
+			processRequest(request, response);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	/**
