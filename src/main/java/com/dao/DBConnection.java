@@ -20,20 +20,33 @@ public abstract class DBConnection {
 
 	
     public static Connection conn;
+    public static Statement select;
+    public static ResultSet result;
 
     public DBConnection() {
 	   
     }
 
 
-    public static Connection getConnection(){
-	//page refresh cause error
-    	/*if (conn == null){
+    public static Connection getConnection() {
+	/*if (conn == null){
 	    return createDBInstance();
 	} else
-	    return conn;*/
-    	return createDBInstance();
-
+	    return conn;
+*/
+    	if(conn != null)
+    	{
+    		try {
+				if(!conn.isClosed())
+				{
+					conn.close();
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    	}
+    		return createDBInstance();
     }
 
 
@@ -65,13 +78,7 @@ public abstract class DBConnection {
 		String driver = "com.mysql.jdbc.Driver";
 		String user = prop.getProperty("dbuser");
 		String pass = prop.getProperty("dbpassword");
-		//GenericObjectPool connectionPool = new GenericObjectPool(null);
-		 //ConnectionFactory connectionFactory = new DriverManagerConnectionFactory("jdbc:some:connect:string", "username", "password");
-		 //PoolableConnectionFactory poolableConnectionFactory = new PoolableConnectionFactory(connectionFactory,connectionPool,null,null,false,true);
-		 //PoolingDriver driver = new PoolingDriver();
-		 //driver.registerPool("example",connectionPool);
 		url = url + db;
-		url += "?autoReconnect=true&amp;useUnicode=yes";
 		Class.forName(driver).newInstance();
 		conn = DriverManager.getConnection(url, user, pass);
 
@@ -100,9 +107,9 @@ public abstract class DBConnection {
 	 */
 	public static ResultSet executeQuery(String query) throws SQLException{
 		
-		//conn  = getConnection();
-		Statement select = conn.createStatement();
-		ResultSet result = select.executeQuery(query);
+		conn  = getConnection();
+		select = conn.createStatement();
+		result = select.executeQuery(query);
 		
 		return result;
 		
@@ -115,6 +122,8 @@ public abstract class DBConnection {
 	public static void closeConnection() throws SQLException{
 		
 		conn.close();
+		select.close();
+		result.close();
 		
 	}
 	
