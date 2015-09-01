@@ -457,8 +457,8 @@
       			<div class="left" id= "bluea"> <a href="/Merged-PDDI" id="bluea"><%="<< "%>New Search</a></div>
       		</div>
       		<div class="centered">
-		        <div class="centerblock"><div class="title2">(${ResultBean.drug2} / ${ResultBean.drug1})</div>
-		        <div style = "font-size:13px"> (Object)  &nbsp; &nbsp; &nbsp; &nbsp;  (Precipitant)</div></div>
+		        <div class="centerblock"><div class="title2">(${ResultBean.drug1} / ${ResultBean.drug2})</div>
+		        
 		        
 		    </div>
 		    
@@ -657,7 +657,7 @@
             <div class="centered">
       			
 		        <div class="centerblock"><div class="title2"><%out.print("(" + drug2 + " / " + drug1 + ")");%></div>
-		        <div style = "font-size:13px"><%out.print(" (Object)  &nbsp; &nbsp; &nbsp; &nbsp;  (Precipitant)");%></div>
+		        
 		        </div>
 		        
 		    </div>
