@@ -14,6 +14,8 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 
 import javax.servlet.RequestDispatcher;
@@ -83,6 +85,8 @@ public class SearchServlet extends HttpServlet {
 		String[] attributes = {"DrugClass1", "DrugClass2", "certainty", "contraindication", "ddiPkEffect", "ddiPkMechanism", "ddiType", "homepage", "severity", 
 				"label", "uri", "managementOptions", "evidence", "evidenceSource", "evidenceStatement", "dateAnnotated", "whoAnnotated", "numericVal", 
 				"pathway", "precaution", "researchStatementLabel", "researchStatement"};
+		String[] testarray = SourceAttribute.getNodistinction();
+		ArrayList<String> nodistinction = new ArrayList(Arrays.asList(testarray));
 		SourceAttribute sourceattribute = new SourceAttribute();
 		String[] defaultAttributes = sourceattribute.getDefaultAttribute();
 		int ai = 0;
@@ -156,7 +160,14 @@ public class SearchServlet extends HttpServlet {
 				drug2 = tempdrug;
 			for (String source : sources) {
 			String tempquery = null;
+			if((source == "Drugbank")&&(z == 1))
+			{
+				tempquery = "select * from interactions1 where precipitant = '"
+						+ drug2 +"' and object = '"
+						+ drug1 +"' and source = 'Drugbank' UNION " + selectAllDrugs[1];
+			}else{
 			tempquery = selectAllDrugs[z];
+			}
 			tempquery += source;
 			tempquery += "' order by object, precipitant";
 			//System.out.println("[INFO] Search Servlet - execute query:" + selectAllDrugs);
@@ -178,10 +189,13 @@ public class SearchServlet extends HttpServlet {
 					drugClass2 = rs.getString("DrugClass2");
 				
 				
-				tempTag = drug1 + "+" + drug2 + "+";
+					tempTag = drug1 + "+" + drug2 + "+";
+				
 				
 				if(z==0)
 				{
+					if(!nodistinction.contains(source))
+					{
 				for(String attribute : attributes)
 				{
 					
@@ -222,6 +236,8 @@ public class SearchServlet extends HttpServlet {
 						
 						
 					}
+					
+					
 					if(attribute == "ddiPkEffect")
 					{
 						attribute = "effectConcept";
@@ -255,8 +271,10 @@ public class SearchServlet extends HttpServlet {
 					
 					
 				}
+				}
 				}else
 				{
+					
 					for(String attribute : attributes)
 					{
 						
@@ -330,6 +348,7 @@ public class SearchServlet extends HttpServlet {
 						
 						
 					}
+					
 				}
 				
 				

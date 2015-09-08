@@ -9,6 +9,7 @@ public class SourceAttribute {
 	static Properties prop = new Properties();
 	private static String[] sources;
 	private static String[] defaultAttributes;
+	private static String[] nodistinction;
 	
 	public SourceAttribute() throws IOException {
 		
@@ -31,4 +32,13 @@ public class SourceAttribute {
 		//System.out.println(defaultAttributes);
 		return defaultAttributes;
 	}
+	
+	public static String[] getNodistinction() {
+		
+		String tempattribute = prop.getProperty("nodistinction");
+		nodistinction = tempattribute.split(",");
+		//System.out.println(defaultAttributes);
+		return nodistinction;
+	}
 }
+
