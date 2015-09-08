@@ -456,6 +456,7 @@
 	  		<div style ="align: left">
       			<div class="left" id= "bluea"> <a href="/Merged-PDDI" id="bluea"><%="<< "%>New Search</a></div>
       		</div>
+      		<br>
       		<div class="centered">
 		        <div class="centerblock"><div class="title2">(${ResultBean.drug1} / ${ResultBean.drug2})</div>
 		        
@@ -525,7 +526,7 @@
 		      <table class = "table1">
 		      <thead>
 		      <c:forEach items="${ResultBean.sourcesList}" var="source">
-		      <th class="longfields" id="${source}"><a href="#" title="<%String tempSource = (String)pageContext.getAttribute("source"); out.print(sourceSet.get(tempSource));if(tempSource == "ONC-HighPriority") {tempSource = tempSource.replaceAll("-","- ");}%>"  style="color:#555; text-decoration:none"><%=tempSource%></a></th>
+		      <th class="longfields" id="${source}"><a href="#" title="<%String tempSource = (String)pageContext.getAttribute("source"); out.print(sourceSet.get(tempSource));if(tempSource == "ONC-HighPriority") {tempSource = tempSource.replaceAll("-","- ");}if(!tempSource.equalsIgnoreCase("Drugbank")){tempSource += "*";}%>"  style="color:#555; text-decoration:none"><%=tempSource%></a></th>
 		      </c:forEach>
 		      </thead>
 		      <tbody>
@@ -623,9 +624,9 @@
 		      </tbody>
 		      </table>
 		      		        
-      
+      			
 		      </div>
-		      
+		      <div style="font-size:12px">* The individual drugs involved in PDDI were tagged as having either the precipitant or object role.</div>
 		      </div>
 		      
 		      
@@ -698,7 +699,7 @@
 		      <table  class = "table1">
 		      <thead>
 		      <c:forEach items="${ResultBean.sourcesList}" var="source">
-		      <th class="longfields" id="1${source}"><a href="#" title="<%String tempSource = (String)pageContext.getAttribute("source"); out.print("1" + sourceSet.get(tempSource));if(tempSource == "ONC-HighPriority") {tempSource = tempSource.replaceAll("-","- ");}%>"  style="color:#555; text-decoration:none"><%=tempSource %></a></th>
+		      <th class="longfields" id="1${source}"><a href="#" title="<%String tempSource = (String)pageContext.getAttribute("source"); out.print("1" + sourceSet.get(tempSource));if(tempSource == "ONC-HighPriority") {tempSource = tempSource.replaceAll("-","- ");}if(!tempSource.equalsIgnoreCase("Drugbank")){tempSource += "*";}%>"  style="color:#555; text-decoration:none"><%=tempSource %></a></th>
 		      </c:forEach>
 		      </thead>
 		      <tbody>
@@ -722,7 +723,10 @@
 		      //ArrayList<String> trueSource = (ArrayList<String>)keySet.get(tempAttribute);
 		      	if(keySet1.get(tempAttribute).contains(tempSource))
 		      	{
-		    	  	
+		    	  	//if((tempAttribute.equalsIgnoreCase("label"))&&(tempSource.equalsIgnoreCase("Drugbank")))
+		    	  	//{
+		    	  		//out.print("<td class='general'></td>");
+		    	  	//}else{
 		      		out.print("<td class='availabletd' onclick='ChangeBackgroundColor(this);presentTag(this);return false;'  name='1" +attributeUpper +"' id='1"+tempSource+"'><a class='pseudolink' href='#'><div id='");
 		      		valueArray = (ArrayList<String>)results.get(testTag);
 		      		recordNum = 0;
@@ -798,7 +802,7 @@
 		      		        
       
 		      </div>
-		      
+		      <div style="font-size:12px">* The individual drugs involved in PDDI were tagged as having either the precipitant or object role.</div>
 		      </div>
 		      
 		      
