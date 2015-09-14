@@ -30,6 +30,7 @@ public class Results {
     private String drugClass2;
     private HashMap<String, String> attributeSet;
     private HashMap<String, String> sourceSet;
+    
 
     /**
      * @return the results
@@ -250,9 +251,11 @@ public class Results {
     }
     
     /**
-     * @return the attributeUpperList
+     * @return the sourceSet
      */
     public HashMap<String,String> getSourceSet() {
         return sourceSet;
     }
+    
+    
 }

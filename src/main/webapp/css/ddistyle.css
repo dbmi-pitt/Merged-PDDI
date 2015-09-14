@@ -134,7 +134,7 @@ text-align:center;
 .centerDiv{
     margin-left:auto;
     margin-right:auto;
-    width: 300px;
+    width: 400px;
 }
 
 .goodSource{
@@ -700,4 +700,9 @@ th{
 
 a {
 	word-break:break-all;
+}
+
+
+.drugExample:hover {
+	color : green;
 }

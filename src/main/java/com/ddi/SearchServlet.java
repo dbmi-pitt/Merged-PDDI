@@ -122,6 +122,7 @@ public class SearchServlet extends HttpServlet {
 			if (drug1 == null && drug2 == null) {
 				drug1 = request.getParameterValues("drugList2")[0];
 				drug2 = request.getParameterValues("drugList1")[0];
+				
 			}
 
 			
