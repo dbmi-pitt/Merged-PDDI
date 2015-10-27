@@ -56,4 +56,12 @@ Tips:
 maven to eclipse: mvn eclipse:eclipse
 STS(based on eclipse 3.2) can be editor of prototype (shared with domeo)
 
+(5) mapping assertion and evidence item from dikbv1.2 to MP claims and data or statement
+
+$ bunzip data/CombinedDatasetNotConservativeAllsources.csv.bz2
+
+$ python scripts/parseAndMergeInSixSources.py
+append object/precipitant drug class, replace assertion/evidence in dikbv1.2 to MP claims and data/statement as evidence item
+
+Output six sources dataset: DIKB-6-sources.csv
  
