@@ -64,4 +64,11 @@ $ python scripts/parseAndMergeInSixSources.py
 append object/precipitant drug class, replace assertion/evidence in dikbv1.2 to MP claims and data/statement as evidence item
 
 Output six sources dataset: DIKB-6-sources.csv
+
+$ mysql -u <username> -p
+
+SET FOREIGN_KEY_CHECKS=0;
+
+LOAD DATA LOCAL INFILE '<PATH TO>/DIKB-6-sources.csv' 
+INTO TABLE drugData.interactions1 FIELDS TERMINATED BY ',' ENCLOSED BY '"' LINES TERMINATED BY '\n';
  
