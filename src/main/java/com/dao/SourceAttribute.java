@@ -8,6 +8,7 @@ public class SourceAttribute {
 	
 	static Properties prop = new Properties();
 	private static String[] sources;
+	private static String[] sourceExp;
 	private static String[] defaultAttributes;
 	private static String[] nodistinction;
 	
@@ -25,6 +26,14 @@ public class SourceAttribute {
 		return sources;
 	}
 	
+	public static String[] getExamples() throws IOException {
+		
+		String tempsourceExp = prop.getProperty("sourceExp");
+		//System.out.println("sourceExp:" + tempsourceExp);
+		sourceExp = tempsourceExp.split(",");
+		return sourceExp;
+	}
+	
 	public static String[] getDefaultAttribute() {
 		
 		String tempattribute = prop.getProperty("defaultAttribute");
@@ -40,5 +49,8 @@ public class SourceAttribute {
 		//System.out.println(defaultAttributes);
 		return nodistinction;
 	}
+	
+	
+	
 }
 
