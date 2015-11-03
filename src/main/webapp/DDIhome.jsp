@@ -72,7 +72,7 @@
 	  Toward a complete dataset of drug-drug interaction information from
 	  publicly available sources, Journal of Biomedical
 	  Informatics,doi:10.1016/j.jbi.2015.04.006
-	<p>
+	</p>
 
       </div>
 
@@ -81,8 +81,12 @@
 	      // mark the page as visited
 	      session.setAttribute("visited","visited");
 	      HashMap<String, ArrayList<String>> sourceSet = new HashMap<String, ArrayList<String>>();
+	      HashMap<String, String> sourceNum = new HashMap<String, String>();
+	      HashMap<String, String> sourceExp = new HashMap<String, String>();
 	      Drug drug = (Drug)session.getAttribute("DrugBean");
 	      sourceSet = drug.getSourceSet();
+	      sourceNum = drug.getSourceNum();
+	      sourceExp = drug.getSourceExp();
 	      %>
 
 	<!-- <span class="ui-icon ui-icon-circle-check" style="float:left; margin:0 7px 50px 0;"></span> -->
@@ -106,52 +110,13 @@
                 <div class="stepHeader" style = "font-size: 15px">Step 1: Please choose 2 drugs to compare</div>
                 <div align="center">
                 <div id="drugSelection1">
-                    <div class="bold centered" style="font-size:16px">Preciptant / Drug1</div>
+                    <div class="bold centered" style="font-size:16px">Precipitant / Drug1</div>
 
 		    <!-- ${fn:replace(string1, 'first', 'second')} -->
                     <div style = "font-size:14px" align="left">
-                    <select name="drugList1" id="drugList1" onchange="getAvailablePrecipitants();">
-                        <c:forEach items="${sessionScope.DrugBean.drugNames}" var = "dn">
-                            <option value="${dn}">${fn:replace(dn,'_',' ')}</option>
-                        </c:forEach>
-                    </select>
+                      
+                     <select name="drugList1" id="drugList1" onchange="getAvailablePrecipitants();"></select>
                     </div>
-
-                    <script>
-                        $(function(){
-                            $('select[id="drugList1"]').listbox({
-                                searchbar: true // enable a search bar to filter & search items
-                            });
-                        });
-                        
-                     	// get list of drug 2 based on drug 1
-                        var calledOnce = false;
-
-                        function getAvailablePrecipitants(){
-                            var currentSelectedDrug = $('select[id="drugList1"]').val();
-                            $.get( "drug_ajax", {drug: currentSelectedDrug} )   
-                                .done(function( data ) {
-                                    var ajaxData = data + "";
-                                    var drug2List = ajaxData.split(",");
-                                    $('select[id="drugList2"]').empty();
-                                    for(var i=0; i < drug2List.length; i++){
-                                    	
-                                        $('select[id="drugList2"]').append($('<option>').text(drug2List[i].replace('_',' ')).attr('value', drug2List[i]));
-                                    }
-                                    if(calledOnce){
-                                        $(".lbjs")[1].remove();
-                                    }
-                                    $(function(){
-                                        $('select[id="drugList2"]').listbox({
-                                            searchbar: true // enable a search bar to filter & search items
-                                        });
-                                    });
-                                    calledOnce = true;
-                                });
-                        }
-                        
-                        
-                    </script>
                 </div>
                 <div id="drugSelection2">
                     <div class="bold centered" style="font-size:16px">Object / Drug2</div>
@@ -173,15 +138,180 @@
                 	while (it.hasNext()) {
                 	    Map.Entry pair = (Map.Entry)it.next();
                 	    tempTag = (String)pair.getKey();
-                	    out.print("<input type='checkbox' id='" + tempTag + "' value='Clinically Oriented' onchange='checkSources(this);atLeastOneSource();' checked><span class='bold'>"+ tempTag +"</span><br><div class='indent'>\n");
+                	    out.print("<input type='checkbox' id='" + tempTag + "' value='Clinically Oriented' onchange='checkSources(this);atLeastOneSource();getAvailableObject();' checked><span class='bold'>"+ tempTag +"</span><br><div class='indent'>\n");
                 	    tempsources = (ArrayList<String>)pair.getValue();
                 	    for(String tempsource : tempsources)
                 	    {
-                	    	out.print("<input type='checkbox'  name='source' class='"+ tempTag +"' value='"+ tempsource +"' checked onchange='checkSubSources(this);atLeastOneSource();'>"+ tempsource +"<br>\n");
+                	    	if(sourceNum.containsKey(tempsource))
+                	    	{
+                	    		out.print("<input type='checkbox'  name='source' class='"+ tempTag +"' value='"+ tempsource +"' checked onchange='checkSubSources(this);atLeastOneSource();'>"+ tempsource +" ["+ sourceNum.get(tempsource) +"]  <input class='drugExample' type='submit' value='e.g. "+sourceExp.get(tempsource)+"'  onclick='changedruglist(this)'/><br>\n");
+                	    	}else
+                	    	{
+                	    		out.print("<input type='checkbox'  name='source' class='"+ tempTag +"' value='"+ tempsource +"' checked onchange='checkSubSources(this);atLeastOneSource();'>"+ tempsource +" [0]<br>\n");
+                	    	}
                 	    }
                 	    out.print("</div>\n");
                 	    it.remove();
                 	}%>
+                	
+                	<script>
+                        $(function(){
+                        		getAvailableObject();
+                            	//alert("doajax");
+                                //var currentSelectedDrug = $('select[id="drugList1"]').val();
+                                /*var sources = document.getElementsByName('source');
+                                //alert(sources.length);
+                                var source = '';
+                                var j;
+                                for(j = 0; j < sources.length; j++)
+                                {
+                                	if(sources[j].checked == true)
+                                	{
+                                		source += "'" + sources[j].value + "',";
+                                	}
+                                }
+                                $.get( "precipitant_ajax", {source:source} )   
+                                .done(function( data ) {
+                                    var ajaxData1 = data + "";
+                                    //alert(source);
+                                    //alert(data);
+                                    var drug1List = ajaxData1.split(",");
+                                    $('select[id="drugList1"]').empty();
+                                    $('select[id="drugList2"]').empty();
+                                    //alert(drug1List[2]);
+                                    for(var i=0; i < drug1List.length; i++){
+                                    	
+                                        $('select[id="drugList1"]').append($('<option>').text(drug1List[i].replace('_',' ')).attr('value', drug1List[i]));
+                                    }*/
+                                    /*if(calledOnce){
+                                        $(".lbjs")[1].remove();
+                                    }*/
+                                    /*$('select[id="drugList1"]').listbox({
+                                        searchbar: true // enable a search bar to filter & search items
+                                    });
+                                	//calledOnce = true;
+                                    
+                                });*/
+                        	
+                        });
+                        
+                        var calledOnce1 = false;
+                     	// get list of drug 2 based on drug 1
+                        var calledOnce = false;
+						
+                     	function getAvailableObject(){
+                     		var sources = document.getElementsByName('source');
+                            //alert(sources.length);
+                            var source = '';
+                            var j;
+                            for(j = 0; j < sources.length; j++)
+                            {
+                            	if(sources[j].checked == true)
+                            	{
+                            		source += "'" + sources[j].value + "',";
+                            	}
+                            }
+                            $.get( "precipitant_ajax", {source:source} )   
+                            .done(function( data ) {
+                                var ajaxData1 = data + "";
+                                //alert(source);
+                                //alert(data);
+                                var drug1List = ajaxData1.split(",");
+                                $('select[id="drugList1"]').empty();
+                                $('select[id="drugList2"]').empty();
+                                //alert(drug1List[4]);
+                                for(var i=0; i < drug1List.length; i++){
+                                	
+                                    $('select[id="drugList1"]').append($('<option>').text(drug1List[i].replace('_',' ')).attr('value', drug1List[i]));
+                                }
+                                if(calledOnce1){
+                                    $(".lbjs")[1].remove();
+                                }
+                                $('select[id="drugList1"]').listbox({
+                                    searchbar: true // enable a search bar to filter & search items
+                                });
+                            	calledOnce1 = true;
+                                
+                            });
+                     	}
+                        
+                     	
+                        function getAvailablePrecipitants(){
+                        	//alert("doajax");
+                            var currentSelectedDrug = $('select[id="drugList1"]').val();
+                            var sources = document.getElementsByName('source');
+                            //alert(sources.length);
+                            var source = '';
+                            var j;
+                            for(j = 0; j < sources.length; j++)
+                            {
+                            	if(sources[j].checked == true)
+                            	{
+                            		source += "'" + sources[j].value + "',";
+                            	}
+                            }
+                            /*$.get( "precipitant_ajax", {drug: currentSelectedDrug, source:source} )   
+                            .done(function( data ) {
+                                var ajaxData1 = data + "";
+                                alert("success1");
+                                var drug1List = ajaxData1.split(",");
+                                $('select[id="drugList1"]').empty();
+                                //alert(drug2List.length);
+                                for(var i=0; i < drug1List.length; i++){
+                                	
+                                    $('select[id="drugList1"]').append($('<option>').text(drug1List[i].replace('_',' ')).attr('value', drug1List[i]));
+                                }
+                                if(calledOnce){
+                                    $(".lbjs")[1].remove();
+                                }
+                                $(function(){
+                                    $('select[id="drugList1"]').listbox({
+                                        searchbar: true // enable a search bar to filter & search items
+                                    });
+                                });
+                                calledOnce = true;
+                            });*/
+                            //$.get("DDIServlet", function(data) {
+                            //    alert("success");
+                            //});
+                            
+                            //alert(source);
+                            $.get( "drug_ajax", {drug: currentSelectedDrug, source:source} )   
+                                .done(function( data ) {
+                                    var ajaxData = data + "";
+                                    //alert("success2");
+                                    var drug2List = ajaxData.split(",");
+                                    $('select[id="drugList2"]').empty();
+                                    //alert(drug2List.length);
+                                    for(var i=0; i < drug2List.length; i++){
+                                    	
+                                        $('select[id="drugList2"]').append($('<option>').text(drug2List[i].replace('_',' ')).attr('value', drug2List[i]));
+                                    }
+                                    if(calledOnce){
+                                        $(".lbjs")[1].remove();
+                                    }
+                                    $(function(){
+                                        $('select[id="drugList2"]').listbox({
+                                            searchbar: true // enable a search bar to filter & search items
+                                        });
+                                    });
+                                    calledOnce = true;
+                                });
+                        }
+                        
+                        function changedruglist(drugExp){
+                        	var drugExample = $(drugExp)[0].value;
+                        	drugExample = drugExample.replace("e.g. ","");
+                        	var drug1 = drugExample.split("/")[0];
+                        	var drug2 = drugExample.split("/")[1];
+                        	//alert(document.getElementById("drugList1").value);
+                        	document.getElementById("drugList1").options[0].value = drug1;
+                        	document.getElementById("drugList2").options[0].value = drug2;
+                        	//alert(document.getElementById("drugList1").options[0].value);
+                        }
+                        
+                        
+                    </script>
                     <script>
                         function checkSources(category){
                         	var category1 = $(category).attr("id");
@@ -198,28 +328,30 @@
                             		inputset[j].checked = false;
                             	}
                             }
+                            getAvailableObject();
                         }
                         
                         function checkSubSources(category){
                         	var category2 = $(category).attr("class");
                         	//alert(category2);
-                        	var catCheckStatus;
+                        	var catCheckStatus=true;
                             //var catCheckStatus = document.getElementById(category2).checked;
                             var inputset = document.getElementsByClassName(category2);
                             var j;
                             for(j = 0; j < inputset.length; j++)
                             {
-                            	if(inputset[j].checked == true)
-                            	{
-                            		catCheckStatus = true;
-                            	}else{
+                            	if(inputset[j].checked == false)                           	
                             		catCheckStatus = false;
-                            	}
                             }
                             if(catCheckStatus == false)
                             {
                             	document.getElementById(category2).checked = false;
                             }
+                            if(catCheckStatus == true)
+                            {
+                            	document.getElementById(category2).checked = true;
+                            }
+                            getAvailableObject();
                         }
                         
                         function atLeastOneSource(){

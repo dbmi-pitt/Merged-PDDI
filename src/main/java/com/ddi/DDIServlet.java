@@ -35,6 +35,7 @@ public class DDIServlet extends HttpServlet {
 	//private ResultSet rs = null;
 	private ResultSet rs2 = null;
 	private ResultSet rs1 = null;
+	private ResultSet rs3 = null;
 	String s = "test: ";
 	public Drug drug = new Drug();
 
@@ -55,17 +56,38 @@ public class DDIServlet extends HttpServlet {
 	protected void processRequest(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException, SQLException {
 
-		//System.out.println("[DEBUG] DDI Servlet ......................");
+		System.out.println("[DEBUG] DDI Servlet ......................");
 		ArrayList<String> drugNames = new ArrayList<String>();
 		SourceAttribute sourceattribute = new SourceAttribute();
 		String[] sources = sourceattribute.getSources();
+		String[] sourceExp = sourceattribute.getExamples();
+		String selectedSources = "";
 		String tempcategory = null;
 		HashMap<String, ArrayList<String>> sourceSet = new HashMap<String, ArrayList<String>>();
+		HashMap<String, String> sourceNum = new HashMap<String, String>();
+		HashMap<String, String> sourceExps = new HashMap<String, String>();
+		if(request.getParameterMap().containsKey("source")){
+			selectedSources = (String)request.getParameter("source"); 
+			System.out.println("DDIServlet:"+ selectedSources);
+		}
 		
 		try {
 			
+			String selectSourceNum = "SELECT `source`,COUNT(*) AS number FROM interactions1 GROUP BY `source`";
+			rs3 = dbconnection.executeQuery(selectSourceNum);
+			int tempnum, i=0;
+			String tempsource = null;
+			while(rs3.next())
+			{
+				tempnum = rs3.getInt("number");
+				tempsource = rs3.getString("source");
+				//if()
+				sourceNum.put(tempsource,Integer.toString(tempnum));
+			}
+			
 			for(String source : sources)
 			{
+				sourceExps.put(source, sourceExp[i++]);
 				String selectAllSourcesQuery = "select * from sources_category where source = '" + source + "'";
 				rs1 = dbconnection.executeQuery(selectAllSourcesQuery);
 				while(rs1.next())
@@ -94,7 +116,8 @@ public class DDIServlet extends HttpServlet {
 			}
 			drug.setDrugNames(drugNames);
 			drug.setSourceSet(sourceSet);
-			
+			drug.setSourceNum(sourceNum);
+			drug.setSourceExp(sourceExps);
 			// TESTING
 //			System.out.println("drug list in DDI Servlet:");
 //			for (String name: drug.getDrugNames()){

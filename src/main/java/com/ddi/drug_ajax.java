@@ -48,9 +48,22 @@ public class drug_ajax extends HttpServlet {
         String result = "";
         try{
             
-            String drug1 = request.getParameter("drug");            
+            String drug1 = request.getParameter("drug"); 
+            String sources = (String)request.getParameter("source"); 
+            String selectAllDrugs;
+            //selectAllDrugs = "select distinct(precipitant) from interactions1 where `source` in ('source') and object = '" + drug1 + "' order by precipitant ASC";
+            if(sources.length()!=0)
+            {
+            	sources = sources.substring(0,sources.length()-1);
+            	selectAllDrugs = "select distinct(precipitant) from interactions1 where `source` in (" + sources + ") and object like '%" + drug1 + "%' order by precipitant ASC";
+            }else
+            {
+            	selectAllDrugs = "select distinct(precipitant) from interactions1 where `source` in ('source') and object = '" + drug1 + "' order by precipitant ASC";
+            	//System.out.println(selectAllDrugs);
+            }
+            //System.out.println("drug_ajax" + sources);
             
-            String selectAllDrugs = "select distinct(precipitant) from interactions1 where object = '" + drug1 + "' order by precipitant ASC";
+            //String selectAllDrugs = "select distinct(precipitant) from interactions1 where `source` in (" + sources + ") and object = '" + drug1 + "' order by precipitant ASC";
 
             rs = dbconnection.executeQuery(selectAllDrugs);
             
@@ -63,7 +76,7 @@ public class drug_ajax extends HttpServlet {
 	    if (result.length() > 2)
 		result = result.substring(0, result.length()-2);
 	    else 
-		result = "['No results']";
+		result = "[\"\"";
             
             result += "]";
                                     
@@ -80,6 +93,7 @@ public class drug_ajax extends HttpServlet {
 		}*/
         try {
         	testresult = result;
+        	System.out.println(result);
 	    PrintWriter out = response.getWriter();
             out.write(result);
 	}

@@ -16,6 +16,8 @@ import java.util.HashMap;
 public class Drug {
     private ArrayList<String> drugNames;
     HashMap<String, ArrayList<String>> sourceSet = new HashMap<String, ArrayList<String>>();
+    private HashMap<String, String> sourceNum;
+    private HashMap<String, String> sourceExp;
 
     /**
      * @return the drugNames
@@ -44,6 +46,34 @@ public class Drug {
      */
     public void setSourceSet(HashMap<String, ArrayList<String>> sourceSet) {
         this.sourceSet = sourceSet;
+    }
+    
+    /**
+     * @param sourceNum the sourceNum to set
+     */
+    public void setSourceNum(HashMap<String,String> sourceNum) {
+        this.sourceNum = sourceNum;
+    }
+    
+    /**
+     * @return the sourceNum
+     */
+    public HashMap<String,String> getSourceNum() {
+        return sourceNum;
+    }
+    
+    /**
+     * @param sourceExp the sourceExp to set
+     */
+    public void setSourceExp(HashMap<String,String> sourceExp) {
+        this.sourceExp = sourceExp;
+    }
+    
+    /**
+     * @return the sourceNum
+     */
+    public HashMap<String,String> getSourceExp() {
+        return sourceExp;
     }
     
 }
