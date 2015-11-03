@@ -48,20 +48,22 @@ public class precipitant_ajax extends HttpServlet {
         String result = "";
         try{
             
-            String drug1 = request.getParameter("drug"); 
+            //String drug1 = request.getParameter("drug"); 
             String sources = (String)request.getParameter("source"); 
+            System.out.println("precipitant_ajax" + sources);
             String selectAllDrugs;
             //selectAllDrugs = "select distinct(precipitant) from interactions1 where `source` in ('source') and object = '" + drug1 + "' order by precipitant ASC";
             if(sources.length()!=0)
             {
             	sources = sources.substring(0,sources.length()-1);
-            	selectAllDrugs = "select distinct(precipitant) from interactions1 where `source` in (" + sources + ") and object = '" + drug1 + "' order by precipitant ASC";
+            	selectAllDrugs = "select distinct(object) from interactions1 where `source` in (" + sources + ")  order by object ASC";
+            	System.out.println("precipitant_ajax" + selectAllDrugs);
             }else
             {
-            	selectAllDrugs = "select distinct(precipitant) from interactions1 where `source` in ('source') and object = '" + drug1 + "' order by precipitant ASC";
+            	selectAllDrugs = "select distinct(object) from interactions1 where `source` in ('source')  order by object ASC";
             	//System.out.println(selectAllDrugs);
             }
-            System.out.println("drug_ajax" + sources);
+            System.out.println("precipitant_ajax" + sources);
             
             //String selectAllDrugs = "select distinct(precipitant) from interactions1 where `source` in (" + sources + ") and object = '" + drug1 + "' order by precipitant ASC";
 
@@ -70,9 +72,9 @@ public class precipitant_ajax extends HttpServlet {
             result += "[";
             
             while(rs.next()){
-                result += "\"" + rs.getString("precipitant").toLowerCase() + "\", ";
+                result += "\"" + rs.getString("object").toLowerCase() + "\", ";
             }
-            
+            System.out.println("precipitant_ajax" + result.length());
 	    if (result.length() > 2)
 		result = result.substring(0, result.length()-2);
 	    else 
@@ -93,7 +95,7 @@ public class precipitant_ajax extends HttpServlet {
 		}*/
         try {
         	testresult = result;
-        	System.out.println(result);
+        	//System.out.println(result);
 	    PrintWriter out = response.getWriter();
             out.write(result);
 	}

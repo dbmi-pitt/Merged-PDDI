@@ -138,21 +138,22 @@ public class SearchServlet extends HttpServlet {
 			}
 			
 				
-				selectAllDrugs[0] = "select * from interactions1 where precipitant = '"
+				selectAllDrugs[0] = "select * from interactions1 where precipitant like '%"
 						+ drug1
-						+ "' and object = '"
+						+ "%' and object like '%"
 						+ drug2
-						+ "'"
+						+ "%'"
 						+ " and source = '";
+				System.out.println(selectAllDrugs[0]);
 				String tempdrug = null;
 				tempdrug = drug1;
 				drug1 = drug2;
 				drug2 = tempdrug;
-				selectAllDrugs[1] = "select * from interactions1 where precipitant = '"
+				selectAllDrugs[1] = "select * from interactions1 where precipitant like '%"
 						+ drug1
-						+ "' and object = '"
+						+ "%' and object like '%"
 						+ drug2
-						+ "'"
+						+ "%'"
 						+ " and source = '";
 			for(int z = 0;z < 2;z++)
 			{
@@ -161,17 +162,24 @@ public class SearchServlet extends HttpServlet {
 				drug2 = tempdrug;
 			for (String source : sources) {
 			String tempquery = null;
-			if((source == "Drugbank")&&(z == 1))
+			if((source.equalsIgnoreCase("Drugbank"))&&(z == 1))
 			{
 				tempquery = "select * from interactions1 where precipitant = '"
 						+ drug2 +"' and object = '"
 						+ drug1 +"' and source = 'Drugbank' UNION " + selectAllDrugs[1];
-			}else{
-			tempquery = selectAllDrugs[z];
+			}else{ 
+				if((source.equalsIgnoreCase("NDF-RT"))&&(z == 1))
+				{
+				tempquery = "select * from interactions1 where precipitant like '%"
+						+ drug2 +"%' and object like '%"
+						+ drug1 +"%' and source = 'NDF-RT' UNION " + selectAllDrugs[1];
+				}else{
+					tempquery = selectAllDrugs[z];
+				}
 			}
 			tempquery += source;
 			tempquery += "' order by object, precipitant";
-			//System.out.println("[INFO] Search Servlet - execute query:" + selectAllDrugs);
+			//System.out.println("[INFO] Search Servlet - execute query:" + tempquery);
 			
 				
 			rs = DBConnection.executeQuery(tempquery);

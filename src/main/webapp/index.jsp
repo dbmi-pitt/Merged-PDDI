@@ -88,6 +88,7 @@
                 }
 			}
 			
+			
 			//attribute table show all
 			var attributetable = document.getElementsByClassName("table1");
 			for(var w = 0; w < 4 ; w++)
@@ -134,6 +135,7 @@
                     	
                 	}
 				}
+				subattribute[z-1].style.display = "table-row";
 			}
 			var original = getCookie("original");
 			var temporiginal = original.substring(2,original.length-2);
@@ -282,6 +284,7 @@
                 var tempattribute2 = tempattribute1.replace(" ","");
                 
                 var tempsource= $(tablecell).attr("id");
+                
                 var dpane = document.getElementsByClassName(tempattribute2+tempsource);
                 
                 /*var newtest = tablecell.childNodes;
@@ -518,6 +521,9 @@
 		      <td class ="generalhead" id="<%=fixedAttribute%>" name="<%=attributetester%>" onclick = "UserDeleteAttribute(this)"><%=attributeUpper%> <img border="0" alt="W3Schools" src="images/minus.png" width="17" height="17"></td>
 		      </tr>
 		      </c:forEach>
+		      <tr>
+		      <td class ="generalhead" id="Mentioned" name="Mentioned" onclick = "UserDeleteAttribute(this)">Mentioned <img border="0" alt="W3Schools" src="images/minus.png" width="17" height="17"></td>
+		      </tr>
 		      </tbody>
 		      </table>
 		      </div>
@@ -526,7 +532,7 @@
 		      <table class = "table1">
 		      <thead>
 		      <c:forEach items="${ResultBean.sourcesList}" var="source">
-		      <th class="longfields" id="${source}"><a href="#" title="<%String tempSource = (String)pageContext.getAttribute("source"); out.print(sourceSet.get(tempSource));if(tempSource == "ONC-HighPriority") {tempSource = tempSource.replaceAll("-","- ");}if(!tempSource.equalsIgnoreCase("Drugbank")){tempSource += "*";}%>"  style="color:#555; text-decoration:none"><%=tempSource%></a></th>
+		      <th class="longfields" id="${source}"><a href="#" title="<%String tempSource = (String)pageContext.getAttribute("source"); out.print(sourceSet.get(tempSource));if(tempSource == "ONC-HighPriority") {tempSource = tempSource.replaceAll("-","- ");}if(!(tempSource.equalsIgnoreCase("Drugbank")||tempSource.equalsIgnoreCase("NDF-RT"))){tempSource += "*";}%>"  style="color:#555; text-decoration:none"><%=tempSource%></a></th>
 		      </c:forEach>
 		      </thead>
 		      <tbody>
@@ -608,6 +614,30 @@
 		      </tr>
 		      
 		      </c:forEach>
+		      <tr>
+		      <c:forEach items="${ResultBean.sourcesList}" var="source">
+		      <%String tempSource = (String)pageContext.getAttribute("source");
+		      boolean tempjudge = false;%>
+		      
+		      <c:forEach items="${ResultBean.attributes}" var="attribute">
+		      <%String tempAttribute = (String)pageContext.getAttribute("attribute");
+		      if(keySet.containsKey(tempAttribute))
+		      {
+		    	  if(keySet.get(tempAttribute).contains(tempSource)){
+		    	  tempjudge = true;
+		    	  }
+		    	}%>
+		      </c:forEach>
+		      <%if(tempjudge){
+		      out.print("<td class='availabletd' onclick='ChangeBackgroundColor(this);presentTag(this);return false;' name='Mentioned' id='"+tempSource+"'><bold>Mentioned</bold></td>");
+		      out.print("<div id='details-pane' name='details' class='Mentioned"+tempSource+"' style='display: none;'><img onclick = 'ClosePanel()' align='right' border='0' alt='W3Schools' src='images/close.png' width='24' height='24'><div id='verticalcenter'><h5 class='title' style='font-size:15px'>Mentioned ("+tempSource+")<br></h5><div align='left' style='font-size: 12px' class='desc'>Something are mentioned in this source.<br></div><br></div></div>");
+		      }
+		      else {
+		      out.print("<td class='general'></td>");
+		      
+		      }%>
+		      </c:forEach>
+		      </tr>
 		      <!-- setup details pane template -->
 		      <div id="details-pane" style="display: none;">
 		      <img onclick = "ClosePanel()" align="right" border="0" alt="W3Schools" src="images/close.png" width="24" height="24">
@@ -691,6 +721,9 @@
 		      <td class ="generalhead" id="<%=fixedAttribute%>" name="<%="1"+attributetester%>" onclick = "UserDeleteAttribute(this)"><%=attributeUpper%> <img border="0" alt="W3Schools" src="images/minus.png" width="17" height="17"></td>
 		      </tr>
 		      </c:forEach>
+		      <tr>
+		      <td class ="generalhead" onclick = "UserDeleteAttribute(this)">Mentioned <img border="0" alt="W3Schools" src="images/minus.png" width="17" height="17"></td>
+		      </tr>
 		      </tbody>
 		      </table>
 		      </div>
@@ -699,7 +732,7 @@
 		      <table  class = "table1">
 		      <thead>
 		      <c:forEach items="${ResultBean.sourcesList}" var="source">
-		      <th class="longfields" id="1${source}"><a href="#" title="<%String tempSource = (String)pageContext.getAttribute("source"); out.print("1" + sourceSet.get(tempSource));if(tempSource == "ONC-HighPriority") {tempSource = tempSource.replaceAll("-","- ");}if(!tempSource.equalsIgnoreCase("Drugbank")){tempSource += "*";}%>"  style="color:#555; text-decoration:none"><%=tempSource %></a></th>
+		      <th class="longfields" id="1${source}"><a href="#" title="<%String tempSource = (String)pageContext.getAttribute("source"); out.print("1" + sourceSet.get(tempSource));if(tempSource == "ONC-HighPriority") {tempSource = tempSource.replaceAll("-","- ");}if(!(tempSource.equalsIgnoreCase("Drugbank")||tempSource.equalsIgnoreCase("NDF-RT"))){tempSource += "*";}%>"  style="color:#555; text-decoration:none"><%=tempSource %></a></th>
 		      </c:forEach>
 		      </thead>
 		      <tbody>
@@ -784,6 +817,30 @@
 		      </tr>
 		      
 		      </c:forEach>
+		      <tr>
+		      <c:forEach items="${ResultBean.sourcesList}" var="source">
+		      <%String tempSource = (String)pageContext.getAttribute("source");
+		      boolean tempjudge = false;%>
+		      
+		      <c:forEach items="${ResultBean.attributes}" var="attribute">
+		      <%String tempAttribute = (String)pageContext.getAttribute("attribute");
+		      if(keySet1.containsKey(tempAttribute))
+		      {
+		    	  if(keySet1.get(tempAttribute).contains(tempSource)){
+		    	  tempjudge = true;
+		    	  }
+		    	}%>
+		      </c:forEach>
+		      <%if(tempjudge){
+		      out.print("<td class='availabletd' onclick='ChangeBackgroundColor(this);presentTag(this);return false;' name='Mentioned' id='"+tempSource+"'><bold>Mentioned</bold></td>");
+		      out.print("<div id='details-pane' name='details' class='Mentioned"+tempSource+"' style='display: none;'><img onclick = 'ClosePanel()' align='right' border='0' alt='W3Schools' src='images/close.png' width='24' height='24'><div id='verticalcenter'><h5 class='title' style='font-size:15px'>Mentioned ("+tempSource+")<br></h5><div align='left' style='font-size: 12px' class='desc'>Something are mentioned in this source.<br></div><br></div></div>");
+		      }
+		      else {
+		      out.print("<td class='general'></td>");
+		      
+		      }%>
+		      </c:forEach>
+		      </tr>
 		      <!-- setup details pane template -->
 		      <div id="details-pane" style="display: none;">
 		      <img onclick = "ClosePanel()" align="right" border="0" alt="W3Schools" src="images/close.png" width="24" height="24">

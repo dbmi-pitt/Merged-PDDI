@@ -56,15 +56,20 @@ public class DDIServlet extends HttpServlet {
 	protected void processRequest(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException, SQLException {
 
-		//System.out.println("[DEBUG] DDI Servlet ......................");
+		System.out.println("[DEBUG] DDI Servlet ......................");
 		ArrayList<String> drugNames = new ArrayList<String>();
 		SourceAttribute sourceattribute = new SourceAttribute();
 		String[] sources = sourceattribute.getSources();
 		String[] sourceExp = sourceattribute.getExamples();
+		String selectedSources = "";
 		String tempcategory = null;
 		HashMap<String, ArrayList<String>> sourceSet = new HashMap<String, ArrayList<String>>();
 		HashMap<String, String> sourceNum = new HashMap<String, String>();
 		HashMap<String, String> sourceExps = new HashMap<String, String>();
+		if(request.getParameterMap().containsKey("source")){
+			selectedSources = (String)request.getParameter("source"); 
+			System.out.println("DDIServlet:"+ selectedSources);
+		}
 		
 		try {
 			
