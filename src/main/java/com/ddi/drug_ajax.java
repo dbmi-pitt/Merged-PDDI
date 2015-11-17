@@ -93,7 +93,7 @@ public class drug_ajax extends HttpServlet {
 		}*/
         try {
         	testresult = result;
-        	System.out.println(result);
+        	//System.out.println(result);
 	    PrintWriter out = response.getWriter();
             out.write(result);
 	}
