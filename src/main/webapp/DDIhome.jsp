@@ -211,7 +211,7 @@
                             		source += "'" + sources[j].value + "',";
                             	}
                             }
-                            $.get( "precipitant_ajax", {source:source} )   
+                            $.post( "precipitant_ajax", {source:source} )   
                             .done(function( data ) {
                                 var ajaxData1 = data + "";
                                 //alert(source);
@@ -276,7 +276,7 @@
                             //});
                             
                             //alert(source);
-                            $.get( "drug_ajax", {drug: currentSelectedDrug, source:source} )   
+                            $.post( "drug_ajax", {drug: currentSelectedDrug, source:source} )   
                                 .done(function( data ) {
                                     var ajaxData = data + "";
                                     //alert("success2");
