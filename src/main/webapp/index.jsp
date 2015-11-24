@@ -438,7 +438,7 @@
 
                     <form name="drugForm" action="SearchServlet" method="POST">
 		    <div align= "center">
-		    <table align="center" hidden>
+		    <table align="center" style="display:none">
 			<tr>
 			  <td class="general">
                             <input name="drug2" value="${ResultBean.drug1}" readonly="readonly">

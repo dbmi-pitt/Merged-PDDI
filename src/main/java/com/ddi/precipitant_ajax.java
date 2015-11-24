@@ -61,7 +61,7 @@ public class precipitant_ajax extends HttpServlet {
             }else
             {
             	selectAllDrugs = "select distinct(object) from interactions1 where `source` in ('source')  order by object ASC";
-            	//System.out.println(selectAllDrugs);
+            	System.out.println(selectAllDrugs);
             }
             //System.out.println("precipitant_ajax" + sources);
             

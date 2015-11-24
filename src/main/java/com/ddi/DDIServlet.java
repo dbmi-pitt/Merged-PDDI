@@ -56,7 +56,7 @@ public class DDIServlet extends HttpServlet {
 	protected void processRequest(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException, SQLException {
 
-		System.out.println("[DEBUG] DDI Servlet ......................");
+		//System.out.println("[DEBUG] DDI Servlet ......................");
 		ArrayList<String> drugNames = new ArrayList<String>();
 		SourceAttribute sourceattribute = new SourceAttribute();
 		String[] sources = sourceattribute.getSources();
