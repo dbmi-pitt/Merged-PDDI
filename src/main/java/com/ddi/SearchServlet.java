@@ -144,7 +144,7 @@ public class SearchServlet extends HttpServlet {
 						+ drug2
 						+ "%'"
 						+ " and source = '";
-				System.out.println(selectAllDrugs[0]);
+				//System.out.println(selectAllDrugs[0]);
 				String tempdrug = null;
 				tempdrug = drug1;
 				drug1 = drug2;

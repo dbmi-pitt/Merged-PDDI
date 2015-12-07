@@ -1,4 +1,4 @@
-<%@page contentType="text/html" pageEncoding="UTF-8" session="true" import="java.util.*,com.ddi.*" isELIgnored="false" %>
+<%@page contentType="text/html" pageEncoding="UTF8" session="true" import="java.util.*,com.ddi.*" isELIgnored="false" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%> 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
@@ -113,14 +113,14 @@
                     <div class="bold centered" style="font-size:16px">Precipitant / Drug1</div>
 
 		    <!-- ${fn:replace(string1, 'first', 'second')} -->
-                    <div style = "font-size:14px" align="left">
+                    <div id="parent1" style = "font-size:14px" align="left">
                       
                      <select name="drugList1" id="drugList1" onchange="getAvailablePrecipitants();"></select>
                     </div>
                 </div>
                 <div id="drugSelection2">
                     <div class="bold centered" style="font-size:16px">Object / Drug2</div>
-                    <div style = "font-size:14px" align="left">
+                    <div id="parent2" style = "font-size:14px" align="left">
                     <select name="drugList2" id="drugList2"></select>
                     </div>
                 </div>
@@ -211,36 +211,48 @@
                             		source += "'" + sources[j].value + "',";
                             	}
                             }
+                            if(calledOnce1){
+                            	$(".lbjs:eq(0)").remove();
+                            	$(".lbjs:eq(1)").remove();
+                                
+                            }
+                            if(source){
                             $.post( "precipitant_ajax", {source:source} )   
                             .done(function( data ) {
-                                var ajaxData1 = data + "";
+                                
+                            	var ajaxData1 = data + "";
                                 //alert(source);
                                 //alert(data);
                                 var drug1List = ajaxData1.split(",");
-                                $('select[id="drugList1"]').empty();
-                                $('select[id="drugList2"]').empty();
-                                //alert(drug1List[4]);
+                                //$('select[id="drugList1"]').empty();
+                                //$('select[id="drugList2"]').empty();
+                                $("#drugList1").children().remove();
+                                $("#drugList2").children().remove();
                                 for(var i=0; i < drug1List.length; i++){
                                 	
-                                    $('select[id="drugList1"]').append($('<option>').text(drug1List[i].replace('_',' ')).attr('value', drug1List[i]));
+                                    //$('select[id="drugList1"]').append($('<option>').text(drug1List[i].replace('_',' ')).attr('value', drug1List[i]));
+                                    $('#drugList1').append($('<option>').text(drug1List[i].replace('_',' ')).attr('value', drug1List[i]));
                                 }
-                                if(calledOnce1){
-                                    $(".lbjs")[1].remove();
-                                }
-                                $('select[id="drugList1"]').listbox({
+                                
+                                
+                                //$('select[id="drugList1"]').listbox({
+                               
+                                $('#drugList1').listbox({
                                     searchbar: true // enable a search bar to filter & search items
                                 });
                             	calledOnce1 = true;
                                 
                             });
+                            }
                      	}
                         
                      	
                         function getAvailablePrecipitants(){
                         	//alert("doajax");
-                            var currentSelectedDrug = $('select[id="drugList1"]').val();
+                            //var currentSelectedDrug = $('select[id="drugList1"]').val();
+                            var currentSelectedDrug = $("#drugList1").val();
                             var sources = document.getElementsByName('source');
-                            //alert(sources.length);
+                            //alert(currentSelectedDrug);
                             var source = '';
                             var j;
                             for(j = 0; j < sources.length; j++)
@@ -276,27 +288,42 @@
                             //});
                             
                             //alert(source);
+                            if(source){
                             $.post( "drug_ajax", {drug: currentSelectedDrug, source:source} )   
                                 .done(function( data ) {
-                                    var ajaxData = data + "";
-                                    //alert("success2");
+                                	if(calledOnce){
+                                    	
+                                    	$('.lbjs:eq(1)').remove();
+                                        //$(".lbjs")[1].remove();
+                                    }
+                                	var ajaxData = data + "";
+                                    
                                     var drug2List = ajaxData.split(",");
-                                    $('select[id="drugList2"]').empty();
+                                    
+                                    $("#drugList2").html('');
+                                    //alert($("#drugList2 option").size());
                                     //alert(drug2List.length);
+                                    
                                     for(var i=0; i < drug2List.length; i++){
                                     	
-                                        $('select[id="drugList2"]').append($('<option>').text(drug2List[i].replace('_',' ')).attr('value', drug2List[i]));
+                                        //$('select[id="drugList2"]').append($('<option>').text(drug2List[i].replace('_',' ')).attr('value', drug2List[i]));
+                                        $("#drugList2").append($('<option>').text(drug2List[i].replace('_',' ')).attr('value', drug2List[i]));
                                     }
-                                    if(calledOnce){
-                                        $(".lbjs")[1].remove();
-                                    }
-                                    $(function(){
-                                        $('select[id="drugList2"]').listbox({
+                                    
+                                    
+                                    //alert($("#drugList2").size());
+                                    
+                                        //$('select[id="drugList2"]').listbox({
+                                        $("#drugList2").listbox({	
+                                        
                                             searchbar: true // enable a search bar to filter & search items
                                         });
-                                    });
+                                    
+                                    
                                     calledOnce = true;
+                                    
                                 });
+                                }
                         }
                         
                         function changedruglist(drugExp){
@@ -328,7 +355,9 @@
                             		inputset[j].checked = false;
                             	}
                             }
+                            
                             getAvailableObject();
+                            
                         }
                         
                         function checkSubSources(category){
@@ -352,6 +381,7 @@
                             	document.getElementById(category2).checked = true;
                             }
                             getAvailableObject();
+                            //alert($(".lbjs").size());
                         }
                         
                         function atLeastOneSource(){

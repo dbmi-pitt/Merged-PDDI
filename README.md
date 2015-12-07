@@ -18,6 +18,10 @@ netbeans-src: prototype in netbeans (original version from IS team)
 
 Java Servlet, JSP, JSTL, Ajax, Jquery, SQL
 
+### Compatible Platforms:
+
+Chrome, Firefox, Safari, IE9
+
 
 ### deploy prototype:
 
