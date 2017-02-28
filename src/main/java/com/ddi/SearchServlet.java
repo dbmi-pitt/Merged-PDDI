@@ -211,7 +211,7 @@ public class SearchServlet extends HttpServlet {
 					resultTag = tempTag + attribute + "+" + source;
 					
 					
-					if(!rs.getString(attribute).contains("None"))
+					if(!rs.getString(attribute).contains("None") && rs.getString(attribute) != "" && rs.getString(attribute).length() != 0)
 					{
 						
 						tempAttribute = rs.getString(attribute);
@@ -250,7 +250,7 @@ public class SearchServlet extends HttpServlet {
 					if(attribute == "ddiPkEffect")
 					{
 						attribute = "effectConcept";
-						if(!rs.getString(attribute).contains("None"))
+						if(!rs.getString(attribute).contains("None") && rs.getString(attribute) != "" && rs.getString(attribute).length() != 0)
 						{
 							tempAttribute = rs.getString(attribute);
 							//filter out "|"
@@ -260,6 +260,7 @@ public class SearchServlet extends HttpServlet {
 							}else{
 								filterAttribute = tempAttribute;
 							}
+							
 							//this tag already exists
 							if((searchResults0.containsKey(resultTag))||(searchResults0.get(resultTag) != null))
 							{
@@ -290,7 +291,7 @@ public class SearchServlet extends HttpServlet {
 						resultTag = tempTag + attribute + "+" + source;
 						
 						
-						if(!rs.getString(attribute).contains("None"))
+						if(!rs.getString(attribute).contains("None") && rs.getString(attribute) != "" && rs.getString(attribute).length() != 0)
 						{
 							
 							tempAttribute = rs.getString(attribute);
@@ -303,6 +304,7 @@ public class SearchServlet extends HttpServlet {
 							}else{
 								filterAttribute = tempAttribute;
 							}
+							
 							if((searchResults1.containsKey(resultTag))||(searchResults1.get(resultTag) != null))
 							{
 								//System.out.println("_______________________________________");
@@ -327,7 +329,7 @@ public class SearchServlet extends HttpServlet {
 						if(attribute == "ddiPkEffect")
 						{
 							attribute = "effectConcept";
-							if(!rs.getString(attribute).contains("None"))
+							if(!rs.getString(attribute).contains("None")&& rs.getString(attribute) != ""  && rs.getString(attribute).length() != 0)
 							{
 								tempAttribute = rs.getString(attribute);
 								//filter out "|"
@@ -337,6 +339,7 @@ public class SearchServlet extends HttpServlet {
 								}else{
 									filterAttribute = tempAttribute;
 								}
+								
 								//this tag already exists
 								if((searchResults1.containsKey(resultTag))||(searchResults1.get(resultTag) != null))
 								{

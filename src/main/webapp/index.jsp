@@ -477,7 +477,7 @@
             String drug2 = result.getDrug1();
             HashMap<String, ArrayList<String>> keySet = new HashMap<String, ArrayList<String>>();
             for (Map.Entry entry : results.entrySet()) {
-                    if (entry.getKey() != null) {
+                    if (entry.getKey() != null && entry.getKey() != "") {
                         tempTag = (String)entry.getKey();
                         tagArray = tempTag.split("\\+");
                         if(keySet.containsKey(tagArray[2]))
@@ -568,7 +568,7 @@
 		    	  			//out.print( "<li><a target=_blank href=" + subValue + ">" + subValue + "</a></li>");
 		    	  		}else{
 		    	  			//out.print( "<li>" + subValue + "</li>");
-		    	  			out.print( "<b>"+ ++recordNum + ". </b>" + subValue + "<br>");
+		    	  			out.print( "<b>"+ ++recordNum + ". </b>" + subValue.replaceAll("'", "&#39") + "<br>");
 		    	  		}
                     }
 		    	  	
@@ -594,7 +594,7 @@
 		    	  			//out.print( "<li><a target=_blank href=" + subValue + ">" + subValue + "</a></li>");
 		    	  		}else{
 		    	  			//out.print( "<li>" + subValue + "</li>");
-		    	  			out.print( "<b>"+ ++recordNum + ". </b>" + subValue + "<br>");
+		    	  			out.print( "<b>"+ ++recordNum + ". </b>" + subValue.replaceAll("'", "&#39") + "<br>");
 		    	  		}
                     }
 		      		out.print("</div><br></div></div>");
@@ -771,7 +771,7 @@
 		    	  			//out.print( "<li><a target=_blank href=" + subValue + ">" + subValue + "</a></li>");
 		    	  		}else{
 		    	  			//out.print( "<li>" + subValue + "</li>");
-		    	  			out.print( "<b>"+ ++recordNum + ". </b>" + subValue + "<br>");
+		    	  			out.print( "<b>"+ ++recordNum + ". </b>" + subValue.replaceAll("'", "&#39") + "<br>");
 		    	  		}
                     }
 		    	  	
@@ -797,7 +797,7 @@
 		    	  			//out.print( "<li><a target=_blank href=" + subValue + ">" + subValue + "</a></li>");
 		    	  		}else{
 		    	  			//out.print( "<li>" + subValue + "</li>");
-		    	  			out.print( "<b>"+ ++recordNum + ". </b>" + subValue + "<br>");
+		    	  			out.print( "<b>"+ ++recordNum + ". </b>" + subValue.replaceAll("'", "&#39") + "<br>");
 		    	  		}
                     }
 		      		out.print("</div><br></div></div>");
