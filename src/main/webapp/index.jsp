@@ -656,8 +656,8 @@
 		      		        
       			
 		      </div>
-		      <div style="font-size:12px;">* The individual drugs involved in PDDI were tagged as having either the precipitant or object role.</div>
-		      <div style="font-size:12px;">&dagger; The interaction might apply at the drug class level, be sure to check the drug class rows. Also, please note that some interactions are duplicated at the ingredient level because the ingredients are involved in multiple interactions at the class level. For example, if there are 2 interactions involving both drug 1 and drug 2, the description and other information will be shown in each row  of information as '1. ...' and  '2. ...'</div>
+		      <div style="font-size:12px; text-align: justify; margin-left: 130px;">* The individual drugs involved in PDDI were tagged as having either the precipitant or object role.</div>
+		      <div style="font-size:12px;text-align: justify; margin-left: 130px;margin-right: 130px;">&dagger; The interaction might apply at the drug class level, be sure to check the drug class rows. Also, please note that some interactions are duplicated at the ingredient level because the ingredients are involved in multiple interactions at the class level. For example, if there are 2 interactions involving both drug 1 and drug 2, the description and other information will be shown in each row  of information as '1. ...' and  '2. ...'</div>
 		      </div>
 		      
 		      
@@ -860,8 +860,8 @@
 		      		        
       
 		      </div>
-		      <div style="font-size:12px;">* The precipitant or object drug roles probably do not apply to the dataset.</div>
-		      <div style="font-size:12px;">&dagger; The interaction might apply at the drug class level, be sure to check the drug class rows. Also, please note that some interactions are duplicated at the ingredient level because the ingredients are involved in multiple interactions at the class level. For example, if there are 2 interactions involving both drug 1 and drug 2, the description and other information will be shown in each row  of information as '1. ...' and  '2. ...'</div>
+		      <div style="font-size:12px;text-align: justify; margin-left: 130px;margin-right: 130px;">* The precipitant or object drug roles probably do not apply to the dataset.</div>
+		      <div style="font-size:12px;text-align: justify; margin-left: 130px;margin-right: 130px;">&dagger; The interaction might apply at the drug class level, be sure to check the drug class rows. Also, please note that some interactions are duplicated at the ingredient level because the ingredients are involved in multiple interactions at the class level. For example, if there are 2 interactions involving both drug 1 and drug 2, the description and other information will be shown in each row  of information as '1. ...' and  '2. ...'</div>
 		      </div>
 		      
 		      
