@@ -79,7 +79,7 @@ public class SearchServlet extends HttpServlet {
 		DBConnection dbconnection = null;
 		Connection conn = DBConnection.getConnection();
 		//ArrayList<String> temprecords = new ArrayList<String>();
-		String[] attributesUpper = {"Object Drug Class", "Precipitant Drug Class", "Certainty", "Contraindication", "Effect", "PK Mechanism", "ddiType", "Homepage", "Severity", 
+		String[] attributesUpper = {"Object/Drug2 Class", "Precipitant/Drug1 Class", "Certainty", "Contraindication", "Effect", "PK Mechanism", "ddiType", "Homepage", "Severity", 
 				"Description", "URI", "Management Options", "Evidence", "Evidence Source", "Evidence Statement","Date Annotated", "Who Annotated", "Numeric Value", 
 				"Pathway", "Precaution", "Research Statement Label", "Research Statement"};
 		String[] attributes = {"DrugClass1", "DrugClass2", "certainty", "contraindication", "ddiPkEffect", "ddiPkMechanism", "ddiType", "homepage", "severity", 

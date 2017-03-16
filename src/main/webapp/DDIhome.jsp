@@ -108,6 +108,7 @@
             <form name="drugForm" action="SearchServlet" method="POST">
             <div class="drugs centered">			
                 <div class="stepHeader" style = "font-size: 15px">Step 1: Please choose 2 drugs to compare</div>
+                <div class="stepHeader" style = "font-size: 15px">(Note: Precipitant/object roles might not be applicable. If that is the case then only pay attention to the labels 'drug 1' and 'drug 2'.)</div>
                 <div align="center">
                 <div id="drugSelection1">
                     <div class="bold centered" style="font-size:16px">Precipitant / Drug1</div>
