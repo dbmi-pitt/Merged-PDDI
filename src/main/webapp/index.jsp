@@ -532,7 +532,7 @@
 		      <table class = "table1">
 		      <thead>
 		      <c:forEach items="${ResultBean.sourcesList}" var="source">
-		      <th class="longfields" id="${source}"><a href="#" title="<%String tempSource = (String)pageContext.getAttribute("source"); out.print(sourceSet.get(tempSource));if(tempSource == "ONC-HighPriority") {tempSource = tempSource.replaceAll("-","- ");}if(!(tempSource.equalsIgnoreCase("Drugbank")||tempSource.equalsIgnoreCase("NDF-RT"))){tempSource += "*";}%>"  style="color:#555; text-decoration:none"><%=tempSource%></a></th>
+		      <th class="longfields" id="${source}"><a href="#" title="<%String tempSource = (String)pageContext.getAttribute("source"); out.print(sourceSet.get(tempSource));if(tempSource == "ONC-HighPriority") {tempSource = tempSource.replaceAll("-","- ");}if(tempSource.equalsIgnoreCase("French National Formulary (Fr.)")){tempSource = "French Nat'nl Form.(Fr.)†";}if(tempSource.equalsIgnoreCase("French National Formulary (Eng. - TESTING)")){tempSource = "French Nat'nl Form.(Eng. - TEST)†";}if(!(tempSource.equalsIgnoreCase("Drugbank")||tempSource.equalsIgnoreCase("NDF-RT"))){tempSource += "*";}%>"  style="color:#555; text-decoration:none"><%=tempSource%></a></th>
 		      </c:forEach>
 		      </thead>
 		      <tbody>
@@ -656,7 +656,8 @@
 		      		        
       			
 		      </div>
-		      <div style="font-size:12px">* The individual drugs involved in PDDI were tagged as having either the precipitant or object role.</div>
+		      <div style="font-size:12px; text-align: justify; margin-left: 130px;">* The precipitant or object drug roles probably do not apply to the dataset.</div>
+		      <div style="font-size:12px;text-align: justify; margin-left: 130px;margin-right: 130px;">&dagger; The interaction might apply at the drug class level, be sure to check the drug class rows. Also, please note that some interactions are duplicated at the ingredient level because the ingredients are involved in multiple interactions at the class level. For example, if there are 2 interactions involving both drug 1 and drug 2, the description and other information will be shown in each row  of information as '1. ...' and  '2. ...'</div>
 		      </div>
 		      
 		      
@@ -732,7 +733,7 @@
 		      <table  class = "table1">
 		      <thead>
 		      <c:forEach items="${ResultBean.sourcesList}" var="source">
-		      <th class="longfields" id="1${source}"><a href="#" title="<%String tempSource = (String)pageContext.getAttribute("source"); out.print("1" + sourceSet.get(tempSource));if(tempSource == "ONC-HighPriority") {tempSource = tempSource.replaceAll("-","- ");}if(!(tempSource.equalsIgnoreCase("Drugbank")||tempSource.equalsIgnoreCase("NDF-RT"))){tempSource += "*";}%>"  style="color:#555; text-decoration:none"><%=tempSource %></a></th>
+		      <th class="longfields" id="1${source}"><a href="#" title="<%String tempSource = (String)pageContext.getAttribute("source"); out.print("1" + sourceSet.get(tempSource));if(tempSource == "ONC-HighPriority") {tempSource = tempSource.replaceAll("-","- ");}if(tempSource.equalsIgnoreCase("French National Formulary (Fr.)")){tempSource = "French Nat'nl Form.(Fr.)†";}if(tempSource.equalsIgnoreCase("French National Formulary (Eng. - TESTING)")){tempSource = "French Nat'nl Form.(Eng. - TEST)†";}if(!(tempSource.equalsIgnoreCase("Drugbank")||tempSource.equalsIgnoreCase("NDF-RT"))){tempSource += "*";}%>"  style="color:#555; text-decoration:none"><%=tempSource %></a></th>
 		      </c:forEach>
 		      </thead>
 		      <tbody>
@@ -859,7 +860,8 @@
 		      		        
       
 		      </div>
-		      <div style="font-size:12px">* The individual drugs involved in PDDI were tagged as having either the precipitant or object role.</div>
+		      <div style="font-size:12px;text-align: justify; margin-left: 130px;margin-right: 130px;">* The precipitant or object drug roles probably do not apply to the dataset.</div>
+		      <div style="font-size:12px;text-align: justify; margin-left: 130px;margin-right: 130px;">&dagger; The interaction might apply at the drug class level, be sure to check the drug class rows. Also, please note that some interactions are duplicated at the ingredient level because the ingredients are involved in multiple interactions at the class level. For example, if there are 2 interactions involving both drug 1 and drug 2, the description and other information will be shown in each row  of information as '1. ...' and  '2. ...'</div>
 		      </div>
 		      
 		      
