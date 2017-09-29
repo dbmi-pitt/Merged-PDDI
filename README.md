@@ -62,12 +62,18 @@ STS(based on eclipse 3.2) can be editor of prototype (shared with domeo)
 
 (5) mapping assertion and evidence item from dikbv1.2 to MP claims and data or statement
 
+1. unzip dataset
+
 $ bunzip data/CombinedDatasetNotConservativeAllsources.csv.bz2
+
+2. (OPTIONAL) filter dataset to 6 specified sources
 
 $ python scripts/parseAndMergeInSixSources.py
 append object/precipitant drug class, replace assertion/evidence in dikbv1.2 to MP claims and data/statement as evidence item
 
 Output six sources dataset: DIKB-6-sources.csv
+
+3. load data into mysql
 
 $ mysql -u <username> -p
 
@@ -75,4 +81,9 @@ SET FOREIGN_KEY_CHECKS=0;
 
 LOAD DATA LOCAL INFILE '<PATH TO>/DIKB-6-sources.csv' 
 INTO TABLE drugData.interactions1 FIELDS TERMINATED BY ',' ENCLOSED BY '"' LINES TERMINATED BY '\n';
+
+SET FOREIGN_KEY_CHECKS=1;
  
+Tips:
+Enable load local infile in mysql
+mysql -u root -p --local-infile=1 "Merged-PDDI"
