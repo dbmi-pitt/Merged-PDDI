@@ -37,7 +37,7 @@ with open(OUTPUT_FILE, 'wb') as outputf:
         csvReader = csv.DictReader(csvfile, delimiter='\t')        
         
         header = next(csvReader)
-        fieldnames = csvReader.fieldnames + ['DrugClass1'] + ['DrugClass2'] + ["drug1ID"] + ["drug2ID"]
+        fieldnames = csvReader.fieldnames + ["DrugClass1"] + ["DrugClass2"] + ["drug1ID"] + ["drug2ID"] + ["managementOptions"]
 
         csvWriter = csv.DictWriter(outputf, fieldnames, delimiter='\t')
         csvWriter.writeheader()
@@ -51,7 +51,6 @@ with open(OUTPUT_FILE, 'wb') as outputf:
                     continue
 
                 # add drug1ID, drug2ID to row (in Merged-PDDI interactions1 table)
-                # row["drug1ID"], row["drug2ID"] = None, None
                 if row["drug1"]:
                     row["drug1ID"] = row["drug1"].replace("http://bio2rdf.org/drugbank:","")
                 if row["drug2"]:
@@ -82,6 +81,9 @@ with open(OUTPUT_FILE, 'wb') as outputf:
                     if mpMappingD.has_key(row["evidence"].strip()):
                         row["evidence"] = mpMappingD[row["evidence"].strip()]
 
+                #if not row["managementOptions"] or row["managementOptions"] == "":
+                row["managementOptions"] = "None"
+                    
                 # print row
                 csvWriter.writerow(row)
                 

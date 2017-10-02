@@ -51,7 +51,7 @@ dbpassword={$DB_PASSWORD}
 (3) use maven compile and deploy to tomcat
 
 $ mvn clean compile war:war
-$ sudo cp target/Merged-PDDI /var/lib/tomcat6/webapps/
+$ sudo cp target/Merged-PDDI /var/lib/tomcat7/webapps/
 $ sudo service tomcat6 restart
 
 (4) access prototype at : http://localhost:8080/Merged-PDDI
@@ -81,7 +81,7 @@ mysql -u root -p --local-infile=1 "Merged-PDDI" --show-warnings
 LOAD DATA LOCAL INFILE '/home/rdb20/Merged-PDDI/data/postprocessed-dataset-not-conservative.tsv' 
 INTO TABLE interactions1 FIELDS TERMINATED BY '\t' LINES TERMINATED BY '\n'
 IGNORE 1 LINES
-(@drug1, @object, @drug2, @precipitant, @certainty, @contraindication, @dateAnnotated, @ddiPkEffect, @ddiPkMechanism, @effectConcept, @homepage, @label, @numericVal, @objectUri, @pathway, @precaution, @precipUri, @severity, @uri, @whoAnnotated, @source, @ddiType, @evidence, @evidenceSource, @evidenceStatement, @researchStatementLabel, @researchStatement, @DrugClass1, @DrugClass2, @drug1ID, @drug2ID)
+(@drug1, @object, @drug2, @precipitant, @certainty, @contraindication, @dateAnnotated, @ddiPkEffect, @ddiPkMechanism, @effectConcept, @homepage, @label, @numericVal, @objectUri, @pathway, @precaution, @precipUri, @severity, @uri, @whoAnnotated, @source, @ddiType, @evidence, @evidenceSource, @evidenceStatement, @researchStatementLabel, @researchStatement, @DrugClass1, @DrugClass2, @drug1ID, @drug2ID, @managementOptions)
 set drug1=@drug1, object=@object, drug1ID=@drug1ID, drug2=@drug2, precipitant=@precipitant, drug2ID=@drug2ID,certainty=@certainty, contraindication=@contraindication, dateAnnotated=@dateAnnotated, ddiPkEffect=@ddiPkEffect, ddiPkMechanism=@ddiPkMechanism, effectConcept=@effectConcept, homepage=@homepage , label=@label, numericVal=@numericVal, pathway=@pathway, precaution=@precaution, severity=@severity, uri=@uri, whoAnnotated=@whoAnnotated, source=@source, ddiType=@ddiType, evidence=@evidence, evidenceSource=@evidenceSource, evidenceStatement=@evidenceStatement, researchStatementLabel=@researchStatementLabel, researchStatement=@researchStatement, managementOptions=@managementOptions, DrugClass1=@DrugClass1, DrugClass2=@DrugClass2, objectUri=@objectUri, precipUri=@precipUri;
 
 REFERENCE:
