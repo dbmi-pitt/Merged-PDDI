@@ -78,13 +78,11 @@ public class SearchServlet extends HttpServlet {
 	String filterAttribute = null;
 	DBConnection dbconnection = null;
 	Connection conn = DBConnection.getConnection();
-	//ArrayList<String> temprecords = new ArrayList<String>();
-	String[] attributesUpper = {"Object/Drug2 Class", "Precipitant/Drug1 Class", "Certainty", "Contraindication", "Effect", "PK Mechanism", "ddiType", "Homepage", "Severity", 
-				    "Description", "URI", "Management Options", "Evidence", "Evidence Source", "Evidence Statement","Date Annotated", "Who Annotated", "Numeric Value", 
-				    "Pathway", "Precaution", "Research Statement Label", "Research Statement"};
-	String[] attributes = {"DrugClass1", "DrugClass2", "certainty", "contraindication", "ddiPkEffect", "ddiPkMechanism", "ddiType", "homepage", "severity", 
-			       "label", "uri", "managementOptions", "evidence", "evidenceSource", "evidenceStatement", "dateAnnotated", "whoAnnotated", "numericVal", 
-			       "pathway", "precaution", "researchStatementLabel", "researchStatement"};
+
+	String[] attributesUpper = {"Object/Drug2 Class", "Precipitant/Drug1 Class", "Certainty", "Contraindication", "Effect", "PK Mechanism", "ddiType", "Homepage", "Severity", "Description", "URI", "Management Options", "Evidence", "Evidence Source", "Evidence Statement","Date Annotated", "Who Annotated", "Numeric Value", "Pathway", "Precaution", "Research Statement Label", "Research Statement"};
+	
+	String[] attributes = {"DrugClass1", "DrugClass2", "certainty", "contraindication", "ddiPkEffect", "ddiPkMechanism", "ddiType", "homepage", "severity", "label", "uri", "managementOptions", "evidence", "evidenceSource", "evidenceStatement", "dateAnnotated", "whoAnnotated", "numericVal", "pathway", "precaution", "researchStatementLabel", "researchStatement"};
+	
 	String[] testarray = SourceAttribute.getNodistinction();
 	ArrayList<String> nodistinction = new ArrayList(Arrays.asList(testarray));
 	SourceAttribute sourceattribute = new SourceAttribute();

@@ -61,8 +61,8 @@ public class drug_ajax extends HttpServlet {
             	selectAllDrugs = "select distinct(precipitant) from interactions1 where `source` in ('source') and object = '" + drug1 + "' order by precipitant ASC";
             }
 
-	    System.out.println(selectAllDrugs);
-            System.out.println("drug_ajax" + sources);
+	    // System.out.println(selectAllDrugs);
+            // System.out.println("drug_ajax" + sources);
             
             //String selectAllDrugs = "select distinct(precipitant) from interactions1 where `source` in (" + sources + ") and object = '" + drug1 + "' order by precipitant ASC";
 
