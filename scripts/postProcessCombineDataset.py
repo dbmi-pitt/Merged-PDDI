@@ -5,11 +5,11 @@ INPUT_DDIS = "../data/CombinedDatasetNotConservative.csv"
 INPUT_MP = "../data/processed-dikb-ddis.tsv"
 INPUT_CLASS_MAPPING = "../data/drug-class-mapping.tsv"
 
-OUTPUT_FILE = "../data/postprocessed-dataset-not-conservative.csv"
+OUTPUT_FILE = "../data/postprocessed-dataset-not-conservative.tsv"
 MP_NS = "http://dbmi-icode-01.dbmi.pitt.edu/mp/"
 
 # read MP mapping
-
+# replace old dikb url to MP_NS 
 mpMappingD = {}
 with open (INPUT_MP,"rb") as mpFile:
     csvReader = csv.DictReader(mpFile, delimiter='\t')
@@ -21,14 +21,13 @@ with open (INPUT_MP,"rb") as mpFile:
 
 
 # read drug class mapping
-
+# {"drug name": "drug class"}
 drugClassD = {}
 with open (INPUT_CLASS_MAPPING,"rb") as classMapFile:
     csvReader = csv.reader(classMapFile, delimiter='\t')
     for row in csvReader:
         if row[2]:
             drugClassD[row[0]] = row[2]
-
 
 # print mpMappingD
 
@@ -38,19 +37,25 @@ with open(OUTPUT_FILE, 'wb') as outputf:
         csvReader = csv.DictReader(csvfile, delimiter='\t')        
         
         header = next(csvReader)
-        fieldnames = csvReader.fieldnames + ['DrugClass1'] + ['DrugClass2']
+        fieldnames = csvReader.fieldnames + ['DrugClass1'] + ['DrugClass2'] + ["drug1ID"] + ["drug2ID"]
 
-        csvWriter = csv.DictWriter(outputf, fieldnames)
+        csvWriter = csv.DictWriter(outputf, fieldnames, delimiter='\t')
         csvWriter.writeheader()
 
         for row in csvReader:
 
-            # if len(row) > 20 and len(row["object"]) > 1 and len(row["precipitant"]) > 1:
             if len(row) > 20 and row["object"] and row["precipitant"]:
                 
                 # handle the cases that one character drug name 
                 if not (len(row["object"]) > 1 and len(row["precipitant"]) > 1):
                     continue
+
+                # add drug1ID, drug2ID to row (in Merged-PDDI interactions1 table)
+                # row["drug1ID"], row["drug2ID"] = None, None
+                if row["drug1"]:
+                    row["drug1ID"] = row["drug1"].replace("http://bio2rdf.org/drugbank:","")
+                if row["drug2"]:
+                    row["drug2ID"] = row["drug2"].replace("http://bio2rdf.org/drugbank:","")
 
                 # strip pipe in text
                 if row["evidenceStatement"] and '|' in row["evidenceStatement"]:
