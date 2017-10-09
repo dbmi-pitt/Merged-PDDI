@@ -8,6 +8,9 @@ INPUT_CLASS_MAPPING = "../data/drug-class-mapping.tsv"
 OUTPUT_FILE = "../data/postprocessed-dataset-not-conservative.tsv"
 MP_NS = "http://dbmi-icode-01.dbmi.pitt.edu/mp/"
 
+# maps source name in combined dataset to table sources_category
+categoryMap = {"FrenchDB": "French National Formulary (Fr.)", "World-Vista":"French National Formulary (Eng. - TESTING)"}
+
 # read MP mapping
 # replace old dikb url to MP_NS 
 mpMappingD = {}
@@ -83,7 +86,11 @@ with open(OUTPUT_FILE, 'wb') as outputf:
 
                 #if not row["managementOptions"] or row["managementOptions"] == "":
                 row["managementOptions"] = "None"
-                    
+
+                # maps category in source
+                if row["source"] in categoryMap:
+                    row["source"] = categoryMap[row["source"]]
+                
                 # print row
                 csvWriter.writerow(row)
                 
