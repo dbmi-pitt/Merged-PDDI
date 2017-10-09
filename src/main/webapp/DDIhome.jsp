@@ -434,7 +434,7 @@ Less conservative approach involves a match on InChI key or an exact case-insens
 
 <h5><b style="font-size:22px">Citations for PDDI sources </b></h5>
 
-<b style="font-size:15px">Five of the sources were developed for clinical application</b>
+<b style="font-size:15px">Seven of the sources were developed for clinical application</b>
 <ul class = "lead" style = "text-align: left; font-size: 13px;">
 <li>Credimeds: a list of PDDIs thought to be clinically relevant and supported by strong scientific evidence
 
@@ -466,6 +466,17 @@ among commonly used medications. Chart simplifies data from critical literature 
 
 Oscar-McMaster, “OSCAR Electronic Medical Record,” OSCAREMR, 2014. [Online]. Available: http://oscar-emr.com/. [Accessed: 13-Oct-2014]
 </li>
+
+<li>Liverpool HIV: reliable, comprehensive, up-to-date, evidence-based drug-drug interaction resource about HIV.
+
+ “http://www.hiv-druginteractions.org” 09-Oct-2017.
+</li>
+
+<li>Liverpool HEP: reliable, comprehensive, up-to-date, evidence-based drug-drug interaction resource about HEP.
+
+ “http://www.hep-druginteractions.org” 09-Oct-2017.
+</li>
+
 </ul>
 
 <b style="font-size:15px">Four of the sources were developed to support NLP algorithm development</b>
