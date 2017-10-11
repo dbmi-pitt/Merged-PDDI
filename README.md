@@ -64,14 +64,15 @@ STS(based on eclipse 3.2) can be editor of prototype (shared with domeo)
 
 1. unzip dataset
 
-$ bunzip data/CombinedDatasetNotConservativeAllsources.csv.bz2
+$ bunzip data/CombinedDatasetNotConservative.csv.bz2
 
-2. (OPTIONAL) filter dataset to 6 specified sources
+2. post process combine dataset 
 
-$ python scripts/parseAndMergeInSixSources.py
 append object/precipitant drug class, replace assertion/evidence in dikbv1.2 to MP claims and data/statement as evidence item
 
-Output six sources dataset: DIKB-6-sources.csv
+$ python scripts/postProcessCombineDataset.py
+
+Output: data/postprocessed-dataset-not-conservative.tsv
 
 3. load combined tsv dataset into mysql
  

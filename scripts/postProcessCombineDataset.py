@@ -9,7 +9,7 @@ OUTPUT_FILE = "../data/postprocessed-dataset-not-conservative.tsv"
 MP_NS = "http://dbmi-icode-01.dbmi.pitt.edu/mp/"
 
 # maps source name in combined dataset to table sources_category
-categoryMap = {"FrenchDB": "French National Formulary (Fr.)", "World-Vista":"French National Formulary (Eng. - TESTING)"}
+categoryMap = {"FrenchDB": "French National Formulary (Fr.)", "World-Vista":"French National Formulary (Eng. - TESTING)", "HIV": "Liverpool HIV", "HEP": "Liverpool HEP"}
 
 # read MP mapping
 # replace old dikb url to MP_NS 
