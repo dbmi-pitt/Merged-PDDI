@@ -51,8 +51,7 @@ dbpassword={$DB_PASSWORD}
 (3) use maven compile and deploy to tomcat
 
 $ mvn clean compile war:war
-$ sudo cp target/Merged-PDDI /var/lib/tomcat7/webapps/
-$ sudo service tomcat6 restart
+$ sudo cp target/Merged-PDDI.war /var/lib/tomcat7/webapps/
 
 (4) access prototype at : http://localhost:8080/Merged-PDDI
 
@@ -77,7 +76,7 @@ Output: data/postprocessed-dataset-not-conservative.tsv
 3. load combined tsv dataset into mysql
  
 Enable load local infile in mysql
-mysql -u root -p --local-infile=1 "Merged-PDDI" --show-warnings
+mysql -u root -p --local-infile=1 "merged_pddi" --show-warnings
 
 LOAD DATA LOCAL INFILE '/home/rdb20/Merged-PDDI/data/postprocessed-dataset-not-conservative.tsv' 
 INTO TABLE interactions1 FIELDS TERMINATED BY '\t' LINES TERMINATED BY '\n'
@@ -129,6 +128,6 @@ drug1   object  drug2   precipitant     certainty       contraindication        
 SET FOREIGN_KEY_CHECKS=0;
 
 TRUNCATE table interactions1;
-SELECT * FROM `Merged-PDDI`.interactions1;
+SELECT * FROM `merged_pddi`.interactions1;
 
 SET FOREIGN_KEY_CHECKS=1;
