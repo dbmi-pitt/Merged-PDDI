@@ -2,3 +2,5 @@ target/
 src/main/resources/db-connection.properties*
 *~
 *#
+data/CombinedDatasetNotConservative.csv
+data/postprocessed-dataset-not-conservative.tsv
