@@ -24,11 +24,6 @@ import javax.servlet.http.HttpSession;
 import com.dao.DBConnection;
 
 public class drug_ajax extends HttpServlet {
-
-    private ResultSet rs=null;
-    public String testresult = "";
-    public DBConnection dbconnection;
-	Connection conn = dbconnection.getConnection();
     
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,34 +35,40 @@ public class drug_ajax extends HttpServlet {
      * @throws IOException if an I/O error occurs
      * @throws SQLException 
      */
+
+    public DBConnection dbconnection;
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, SQLException {
+	throws ServletException, IOException, SQLException {
         response.setContentType("application/json");
         response.setCharacterEncoding("utf-8");
-        
+
+        ResultSet rs = null;
+	String testresult = "";
+
+	Connection conn = dbconnection.getConnection();
+	Statement stmt = null;
+	    
         String result = "";
         try{
             
             String drug1 = request.getParameter("drug"); 
             String sources = (String)request.getParameter("source"); 
             String selectAllDrugs;
-            //selectAllDrugs = "select distinct(precipitant) from interactions1 where `source` in ('source') and object = '" + drug1 + "' order by precipitant ASC";
-            if(sources.length()!=0)
-            {
+
+            if(sources.length()!=0) {
             	sources = sources.substring(0,sources.length()-1);
             	selectAllDrugs = "select distinct(precipitant) from interactions1 where `source` in (" + sources + ") and object like '%" + drug1 + "%' order by precipitant ASC";
-            }else
-            {
+            } else {
             	selectAllDrugs = "select distinct(precipitant) from interactions1 where `source` in ('source') and object = '" + drug1 + "' order by precipitant ASC";
             }
 
 	    // System.out.println(selectAllDrugs);
             // System.out.println("drug_ajax" + sources);
             
-            //String selectAllDrugs = "select distinct(precipitant) from interactions1 where `source` in (" + sources + ") and object = '" + drug1 + "' order by precipitant ASC";
-
-            rs = dbconnection.executeQuery(selectAllDrugs);
-            
+            // rs = dbconnection.executeQuery(selectAllDrugs);
+	    stmt = conn.createStatement();
+	    rs = stmt.executeQuery(selectAllDrugs);
             result += "[";
             
             while(rs.next()){
@@ -84,27 +85,39 @@ public class drug_ajax extends HttpServlet {
         }
         catch(Exception e){
             result += "]";
-            System.out.println("SQLException" + e.getMessage());
+            System.out.println("SQLException - drug_ajax: " + e.getMessage());
             e.printStackTrace();
         }        
         /*if (dbconnection.conn != null && !dbconnection.conn.isClosed()){
-			//dbconnection.closeConnection();
+		//dbconnection.closeConnection();
         	try { conn.close(); } catch (SQLException logOrIgnore) {}
         	try { DBConnection.select.close(); } catch (SQLException logOrIgnore) {}
 		}*/
         try {
-        	testresult = result;
-        	//System.out.println(result);
+	    testresult = result;
+	    //System.out.println(result);
 	    PrintWriter out = response.getWriter();
             out.write(result);
 	}
 	catch (Exception e){
-		e.printStackTrace();
-	}finally {
-        if (dbconnection.select != null) try { dbconnection.select.close(); } catch (SQLException logOrIgnore) {}
-        if (dbconnection.conn != null ) try { dbconnection.closeConnection();} catch (SQLException logOrIgnore) {}
-        if (conn != null ) try { conn.close();} catch (SQLException logOrIgnore) {}
-        if (rs != null ) try { rs.close();} catch (SQLException logOrIgnore) {}
+	    e.printStackTrace();
+	} finally {
+	    rs.close();
+	    stmt.close();
+	    conn.close();
+	    
+	    // if (dbconnection.select != null)
+	    // 	try { dbconnection.select.close();
+	    // 	} catch (SQLException logOrIgnore) {}
+	    // if (dbconnection.conn != null )
+	    // 	try { dbconnection.closeConnection();
+	    // 	} catch (SQLException logOrIgnore) {}
+	    // if (conn != null )
+	    // 	try { conn.close();
+	    // 	} catch (SQLException logOrIgnore) {}
+	    // if (rs != null )
+	    // 	try { rs.close();
+	    // 	} catch (SQLException logOrIgnore) {}
     	}
     }
 
