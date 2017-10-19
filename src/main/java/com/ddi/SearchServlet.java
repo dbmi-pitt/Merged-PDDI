@@ -11,7 +11,6 @@ import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
-import java.sql.Statement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -27,7 +26,6 @@ import javax.servlet.http.HttpSession;
 
 import com.dao.DBConnection;
 import com.dao.SourceAttribute;
-//import com.dao.DBConnection;
 import com.ddi.Results;
 
 public class SearchServlet extends HttpServlet {
@@ -36,9 +34,6 @@ public class SearchServlet extends HttpServlet {
      * 
      */
     private static final long serialVersionUID = 1L;
-    public ResultSet rs = null;
-    public ResultSet rs1 = null;
-    public Results results = new Results();
     
     
     public void SearchServlet(){
@@ -60,8 +55,11 @@ public class SearchServlet extends HttpServlet {
      */
     public void processRequest(HttpServletRequest request,
 			       HttpServletResponse response) throws ServletException, IOException, SQLException {
-
-	//System.out.println("[DEBUG] SearchServlet ...............");
+	
+	//System.out.println("[DEBUG] SearchServlet ...............");	
+        ResultSet rs = null;
+	ResultSet rs1 = null;
+	Results results = new Results();
 		
 	HashMap<String, ArrayList<String>> searchResults0= new HashMap<String, ArrayList<String>> ();
 	HashMap<String, ArrayList<String>> searchResults1= new HashMap<String, ArrayList<String>> ();
@@ -76,8 +74,8 @@ public class SearchServlet extends HttpServlet {
 	String selectAllDrugs[] = new String[2];
 	String tempAttribute = null;
 	String filterAttribute = null;
-	DBConnection dbconnection = null;
-	Connection conn = DBConnection.getConnection();
+	// DBConnection dbconnection = new DBConnection();
+	Connection conn = DBConnection.getInstance().getConnection();
 
 	String[] attributesUpper = {"Object/Drug2 Class", "Precipitant/Drug1 Class", "Certainty", "Contraindication", "Effect", "PK Mechanism", "ddiType", "Homepage", "Severity", "Description", "URI", "Management Options", "Evidence", "Evidence Source", "Evidence Statement","Date Annotated", "Who Annotated", "Numeric Value", "Pathway", "Precaution", "Research Statement Label", "Research Statement"};
 	
@@ -327,22 +325,6 @@ public class SearchServlet extends HttpServlet {
 			}
 		    }
 		}			
-			//System.out.println("[DEBUG] Search servlet, total results:" + searchResults.size());
-			/*
-			// sourceCSS=null;
-			if (totalResults.size() > 0) {
-				for (int i = 0; i < totalResults.get(0).size(); i++) {
-					Boolean noSources = false;
-					for (int j = 0; j < totalResults.size(); j++) {
-						if (totalResults.get(j).get(i).equals("None"))
-							noSources = true;
-					}
-					if (noSources == false)
-						sourceCSS.add("goodSource displayed buttons");
-					else
-						sourceCSS.add("noSource buttons");
-				}
-			}*/
 
 			results.setResults0(searchResults0);
 			results.setResults1(searchResults1);
@@ -372,18 +354,19 @@ public class SearchServlet extends HttpServlet {
 				try { conn.close(); } catch (SQLException logOrIgnore) {}
 				try { DBConnection.select.close(); } catch (SQLException logOrIgnore) {}
 			}*/
-		} catch (Exception e) {
-			System.out.println("Exception" + e.getMessage());
-			e.printStackTrace();
-		} finally {
-	        if (dbconnection.select != null) try { dbconnection.select.close(); } catch (SQLException logOrIgnore) {}
-	        if (dbconnection.conn != null ) try { dbconnection.conn.close();} catch (SQLException logOrIgnore) {}
-	        if (dbconnection.result != null ) try { dbconnection.result.close();} catch (SQLException logOrIgnore) {}
-	        if (conn != null ) try { conn.close();} catch (SQLException logOrIgnore) {}
-	        if (rs != null ) try { rs.close();} catch (SQLException logOrIgnore) {}
-	        if (rs1 != null ) try { rs1.close();} catch (SQLException logOrIgnore) {}
-	    }
+	} catch (Exception e) {
+	    System.out.println("Exception" + e.getMessage());
+	    e.printStackTrace();
+	} finally {
+	    // if (dbconnection.rs != null ) try { dbconnection.rs.close();} catch (SQLException logOrIgnore) {}
+	    // if (dbconnection.select != null) try { dbconnection.select.close(); } catch (SQLException logOrIgnore) {}
+	    // if (dbconnection.conn != null ) try { dbconnection.conn.close();} catch (SQLException logOrIgnore) {}
+	    
+	    // if (rs != null ) try { rs.close();} catch (SQLException logOrIgnore) {}
+	    // if (rs1 != null ) try { rs1.close();} catch (SQLException logOrIgnore) {}
+	    // if (conn != null ) try { conn.close();} catch (SQLException logOrIgnore) {}
 	}
+    }
 
 	// <editor-fold defaultstate="collapsed"
 	// desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

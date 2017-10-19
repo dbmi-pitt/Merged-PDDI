@@ -27,8 +27,6 @@ public class precipitant_ajax extends HttpServlet {
 
     private ResultSet rs=null;
     public String testresult = "";
-    public DBConnection dbconnection;
-	Connection conn = dbconnection.getConnection();
     
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -47,7 +45,8 @@ public class precipitant_ajax extends HttpServlet {
         
         String result = "";
         try{
-            
+	    //Connection conn = DBConnection.getInstance().getConnection();
+	    
             //String drug1 = request.getParameter("drug"); 
             String sources = (String)request.getParameter("source"); 
             //System.out.println("precipitant_ajax" + sources);
@@ -67,7 +66,7 @@ public class precipitant_ajax extends HttpServlet {
             
             //String selectAllDrugs = "select distinct(precipitant) from interactions1 where `source` in (" + sources + ") and object = '" + drug1 + "' order by precipitant ASC";
 
-            rs = dbconnection.executeQuery(selectAllDrugs);
+            rs = DBConnection.executeQuery(selectAllDrugs);
             
             result += "[";
             
@@ -79,7 +78,7 @@ public class precipitant_ajax extends HttpServlet {
 		result = result.substring(0, result.length()-2);
 	    else 
 		result = "[\"\"";
-            
+	    
             result += "]";
                                     
         }
@@ -88,25 +87,16 @@ public class precipitant_ajax extends HttpServlet {
             System.out.println("SQLException" + e.getMessage());
             e.printStackTrace();
         }        
-        /*if (dbconnection.conn != null && !dbconnection.conn.isClosed()){
-			//dbconnection.closeConnection();
-        	try { conn.close(); } catch (SQLException logOrIgnore) {}
-        	try { DBConnection.select.close(); } catch (SQLException logOrIgnore) {}
-		}*/
+
         try {
-        	testresult = result;
-        	//System.out.println(result);
+	    testresult = result;
+	    //System.out.println(result);
 	    PrintWriter out = response.getWriter();
             out.write(result);
 	}
 	catch (Exception e){
 		e.printStackTrace();
-	}finally {
-        if (dbconnection.select != null) try { dbconnection.select.close(); } catch (SQLException logOrIgnore) {}
-        if (dbconnection.conn != null ) try { dbconnection.closeConnection();} catch (SQLException logOrIgnore) {}
-        if (conn != null ) try { conn.close();} catch (SQLException logOrIgnore) {}
-        if (rs != null ) try { rs.close();} catch (SQLException logOrIgnore) {}
-    	}
+	}
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -45,10 +45,6 @@ public class drug_ajax extends HttpServlet {
 
         ResultSet rs = null;
 	String testresult = "";
-
-	Connection conn = dbconnection.getConnection();
-	Statement stmt = null;
-	    
         String result = "";
         try{
             
@@ -64,11 +60,9 @@ public class drug_ajax extends HttpServlet {
             }
 
 	    // System.out.println(selectAllDrugs);
-            // System.out.println("drug_ajax" + sources);
-            
-            // rs = dbconnection.executeQuery(selectAllDrugs);
-	    stmt = conn.createStatement();
-	    rs = stmt.executeQuery(selectAllDrugs);
+            // System.out.println("drug_ajax: " + sources);
+
+	    rs = DBConnection.executeQuery(selectAllDrugs);
             result += "[";
             
             while(rs.next()){
@@ -88,11 +82,7 @@ public class drug_ajax extends HttpServlet {
             System.out.println("SQLException - drug_ajax: " + e.getMessage());
             e.printStackTrace();
         }        
-        /*if (dbconnection.conn != null && !dbconnection.conn.isClosed()){
-		//dbconnection.closeConnection();
-        	try { conn.close(); } catch (SQLException logOrIgnore) {}
-        	try { DBConnection.select.close(); } catch (SQLException logOrIgnore) {}
-		}*/
+
         try {
 	    testresult = result;
 	    //System.out.println(result);
@@ -102,20 +92,6 @@ public class drug_ajax extends HttpServlet {
 	catch (Exception e){
 	    e.printStackTrace();
 	} finally {
-	    rs.close();
-	    stmt.close();
-	    conn.close();
-	    
-	    // if (dbconnection.select != null)
-	    // 	try { dbconnection.select.close();
-	    // 	} catch (SQLException logOrIgnore) {}
-	    // if (dbconnection.conn != null )
-	    // 	try { dbconnection.closeConnection();
-	    // 	} catch (SQLException logOrIgnore) {}
-	    // if (conn != null )
-	    // 	try { conn.close();
-	    // 	} catch (SQLException logOrIgnore) {}
-	    // if (rs != null )
 	    // 	try { rs.close();
 	    // 	} catch (SQLException logOrIgnore) {}
     	}
@@ -132,13 +108,13 @@ public class drug_ajax extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+	throws ServletException, IOException {
         try {
-			processRequest(request, response);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	    processRequest(request, response);
+	} catch (SQLException e) {
+	    // TODO Auto-generated catch block
+	    e.printStackTrace();
+	}
     }
 
     /**
@@ -150,14 +126,14 @@ public class drug_ajax extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-	public void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    public void doPost(HttpServletRequest request, HttpServletResponse response)
+	throws ServletException, IOException {
         try {
-			processRequest(request, response);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	    processRequest(request, response);
+	} catch (SQLException e) {
+	    // TODO Auto-generated catch block
+	    e.printStackTrace();
+	}
     }
 
     /**

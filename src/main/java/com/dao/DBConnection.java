@@ -6,6 +6,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.PreparedStatement;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.Properties;
@@ -16,137 +17,134 @@ import java.util.Properties;
  * @author Yifan Ning
  */
 
-public abstract class DBConnection {
+public class DBConnection {
+
+    private static DBConnection instance;
+    public Connection conn;
+    
+    private DBConnection() throws SQLException {
+	
 
 	
-    public static Connection conn;
-    public static Statement select;
-    public static ResultSet result;
-
-    public DBConnection() {
-	   
-    }
-
-
-    public static Connection getConnection() {
-	/*if (conn == null){
-	    return createDBInstance();
-	} else
-	    return conn;
-*/
-    	if(conn != null)
-    	{
-    		try {
-				if(!conn.isClosed())
-				{
-					conn.close();
-				}
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-    	}
-    		return createDBInstance();
-    }
-
-
-
-	/**
-	 * Gets a connection to the database
-	 * @return Connection
-	 */
-	protected static Connection createDBInstance() {
-
-
+	try {
 	    Properties prop = new Properties();
-	    //InputStream input = null;
+	    InputStream resourceStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("db-connection.properties"); 
+	    prop.load(resourceStream);
 
-		
-	    //System.out.println("connection url: " + url);
-		
-	    try {
-
-		//input = new FileInputStream("/home/rdb20/Merged-PDDI/db-connection.properties");
-		//prop.load(input);
-
-		InputStream resourceStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("db-connection.properties"); 
-		prop.load(resourceStream);
-		
-		String url = "jdbc:mysql://127.0.0.1:3306/";
-		
-		String db = prop.getProperty("database");
-		String driver = "com.mysql.jdbc.Driver";
-		String user = prop.getProperty("dbuser");
-		String pass = prop.getProperty("dbpassword");
-		url = url + db;
-		Class.forName(driver).newInstance();
-		conn = DriverManager.getConnection(url, user, pass);
-
+	    String url = "jdbc:mysql://127.0.0.1:3306/";    
+	    String db = prop.getProperty("database");
+	    String driver = "com.mysql.jdbc.Driver";
+	    String user = prop.getProperty("dbuser");
+	    String pass = prop.getProperty("dbpassword");
+	   
+	    Class.forName(driver).newInstance();
+	    this.conn = DriverManager.getConnection(url + db, user, pass);
+	    
 	} catch (Exception e) {
+	    System.err.println("Mysql Connection Error: ");
+	    e.printStackTrace();	    
+	} // finally {
+	//     if (conn != null) {
+	// 	try {
+	// 	    conn.close();
+	// 	} catch (SQLException e) { /* ignored */}
+	//     }
+	// }	
+    }
 
-		// error
-		System.err.println("Mysql Connection Error: ");
-		
-		// for debugging error
-		e.printStackTrace();
-	    }
+    public Connection getConnection() throws SQLException{
+	return conn;
+    }
 
-		if (conn == null)  {
-			System.out.println("~~~~~~~~~~ can't get a Mysql connection");
-		}
-		
-		// connection = conn;
-		return conn;
+    
+    public static DBConnection getInstance() throws SQLException {
+        if (instance == null) {
+            instance = new DBConnection();
+        } else if (instance.getConnection().isClosed()) {
+            instance = new DBConnection();
+        }
+        return instance;
+    }
+
+    /**
+     * Executes a Query
+     * @param query
+     * @return
+     * @throws SQLException
+     */
+    public static ResultSet executeQuery(String query) throws SQLException {
+	PreparedStatement pstmt = null;
+	ResultSet rs = null;
+	Connection connection = null;
+	
+	try {		
+	    connection = getInstance().getConnection();
+	    pstmt = connection.prepareStatement(query);
+	    rs = pstmt.executeQuery();
+	    return rs;
+	} catch (Exception e) {
+	    e.printStackTrace();
+	}//  finally {
+	//     if (rs != null) {
+	//     	try {
+	//     	    rs.close();
+	//     	} catch (SQLException e) { /* ignored */}
+	//     }
+	//     if (pstmt != null) {
+	//     	try {
+	//     	    pstmt.close();
+	//     	} catch (SQLException e) { /* ignored */}
+	//     }
+	//     if (connection != null) {
+	// 	try {
+	// 	    connection.close();
+	// 	} catch (SQLException e) { /* ignored */}
+	//     }
+	// }
+	
+	return null;	
+    }
+
+    // /**
+    //  * Closes the connection to the database
+    //  * @throws SQLException
+    //  */
+    // public static void closeConnection() throws SQLException{
+    // 	// if (rs != null) {
+    // 	//     try {
+    // 	// 	rs.close();
+    // 	//     } catch (SQLException e) { /* ignored */}
+    // 	// }
+    // 	// if (select != null) {
+    // 	//     try {
+    // 	// 	select.close();
+    // 	//     } catch (SQLException e) { /* ignored */}
+    // 	// }
+    // 	if (conn != null) {
+    // 	    try {
+    // 		conn.close();
+    // 	    } catch (SQLException e) { /* ignored */}
+    // 	}
+    // }
+	
+    
+    /*
+     * get recordset row count
+     * 
+     * static will allow you to use it independently, persay, 
+     * you don't have to init the class into an object to use this method
+     */
+    protected static int getResultSetSize(ResultSet resultSet) {
+	int size = -1;
+	
+	try {
+	    resultSet.last();
+	    size = resultSet.getRow();
+	    resultSet.beforeFirst();
+	} catch(SQLException e) {
+	    return size;
 	}
 	
-	/**
-	 * Executes a Query
-	 * @param query
-	 * @return
-	 * @throws SQLException
-	 */
-	public static ResultSet executeQuery(String query) throws SQLException{
-		
-		conn  = getConnection();
-		select = conn.createStatement();
-		result = select.executeQuery(query);
-		
-		return result;
-		
-	}
-
-	/**
-	 * Closes the connection to the database
-	 * @throws SQLException
-	 */
-	public static void closeConnection() throws SQLException{
-		
-		conn.close();
-		select.close();
-		result.close();
-		
-	}
-	
-
-	/*
-	 * get recordset row count
-	 * 
-	 * static will allow you to use it independently, persay, 
-	 * you don't have to init the class into an object to use this method
-	 */
-	protected static int getResultSetSize(ResultSet resultSet) {
-		int size = -1;
-
-		try {
-			resultSet.last();
-			size = resultSet.getRow();
-			resultSet.beforeFirst();
-		} catch(SQLException e) {
-			return size;
-		}
-
-		return size;
-	}
-
-
+	return size;
+    }
 }
