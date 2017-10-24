@@ -10,6 +10,8 @@ import java.sql.PreparedStatement;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.Properties;
+import javax.sql.rowset.CachedRowSet;
+import com.sun.rowset.CachedRowSetImpl;
 
 
 /**
@@ -23,9 +25,7 @@ public class DBConnection {
     public Connection conn;
     
     private DBConnection() throws SQLException {
-	
-
-	
+		
 	try {
 	    Properties prop = new Properties();
 	    InputStream resourceStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("db-connection.properties"); 
@@ -43,13 +43,7 @@ public class DBConnection {
 	} catch (Exception e) {
 	    System.err.println("Mysql Connection Error: ");
 	    e.printStackTrace();	    
-	} // finally {
-	//     if (conn != null) {
-	// 	try {
-	// 	    conn.close();
-	// 	} catch (SQLException e) { /* ignored */}
-	//     }
-	// }	
+	} 
     }
 
     public Connection getConnection() throws SQLException{
@@ -72,61 +66,43 @@ public class DBConnection {
      * @return
      * @throws SQLException
      */
-    public static ResultSet executeQuery(String query) throws SQLException {
+    public static CachedRowSet executeQuery(String query) throws SQLException {
 	PreparedStatement pstmt = null;
 	ResultSet rs = null;
 	Connection connection = null;
+	CachedRowSet rowset = null;
 	
 	try {		
 	    connection = getInstance().getConnection();
 	    pstmt = connection.prepareStatement(query);
 	    rs = pstmt.executeQuery();
-	    return rs;
+
+	    rowset = new CachedRowSetImpl();
+	    rowset.populate(rs);
+	    
 	} catch (Exception e) {
 	    e.printStackTrace();
-	}//  finally {
-	//     if (rs != null) {
-	//     	try {
-	//     	    rs.close();
-	//     	} catch (SQLException e) { /* ignored */}
-	//     }
-	//     if (pstmt != null) {
-	//     	try {
-	//     	    pstmt.close();
-	//     	} catch (SQLException e) { /* ignored */}
-	//     }
-	//     if (connection != null) {
-	// 	try {
-	// 	    connection.close();
-	// 	} catch (SQLException e) { /* ignored */}
-	//     }
-	// }
+	} finally {
+	    if (rs != null) {
+	    	try {
+	    	    rs.close();
+	    	} catch (SQLException e) { /* ignored */}
+	    }
+	    if (pstmt != null) {
+	    	try {
+	    	    pstmt.close();
+	    	} catch (SQLException e) { /* ignored */}
+	    }
+	    if (connection != null) {
+	    	try {
+	    	    connection.close();
+	    	} catch (SQLException e) { /* ignored */}
+	    }
+	}
 	
-	return null;	
+	return rowset;	
     }
 
-    // /**
-    //  * Closes the connection to the database
-    //  * @throws SQLException
-    //  */
-    // public static void closeConnection() throws SQLException{
-    // 	// if (rs != null) {
-    // 	//     try {
-    // 	// 	rs.close();
-    // 	//     } catch (SQLException e) { /* ignored */}
-    // 	// }
-    // 	// if (select != null) {
-    // 	//     try {
-    // 	// 	select.close();
-    // 	//     } catch (SQLException e) { /* ignored */}
-    // 	// }
-    // 	if (conn != null) {
-    // 	    try {
-    // 		conn.close();
-    // 	    } catch (SQLException e) { /* ignored */}
-    // 	}
-    // }
-	
     
     /*
      * get recordset row count

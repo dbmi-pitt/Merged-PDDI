@@ -35,8 +35,6 @@ public class drug_ajax extends HttpServlet {
      * @throws IOException if an I/O error occurs
      * @throws SQLException 
      */
-
-    public DBConnection dbconnection;
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
 	throws ServletException, IOException, SQLException {

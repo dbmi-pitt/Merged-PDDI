@@ -45,6 +45,8 @@ public class SourceAttribute {
 	public static String[] getNodistinction() {
 		
 		String tempattribute = prop.getProperty("nodistinction");
+		System.out.println(tempattribute);
+		
 		nodistinction = tempattribute.split(",");
 		//System.out.println(defaultAttributes);
 		return nodistinction;

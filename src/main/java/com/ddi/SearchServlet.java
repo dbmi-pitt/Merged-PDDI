@@ -74,8 +74,6 @@ public class SearchServlet extends HttpServlet {
 	String selectAllDrugs[] = new String[2];
 	String tempAttribute = null;
 	String filterAttribute = null;
-	// DBConnection dbconnection = new DBConnection();
-	Connection conn = DBConnection.getInstance().getConnection();
 
 	String[] attributesUpper = {"Object/Drug2 Class", "Precipitant/Drug1 Class", "Certainty", "Contraindication", "Effect", "PK Mechanism", "ddiType", "Homepage", "Severity", "Description", "URI", "Management Options", "Evidence", "Evidence Source", "Evidence Statement","Date Annotated", "Who Annotated", "Numeric Value", "Pathway", "Precaution", "Research Statement Label", "Research Statement"};
 	
@@ -326,46 +324,31 @@ public class SearchServlet extends HttpServlet {
 		    }
 		}			
 
-			results.setResults0(searchResults0);
-			results.setResults1(searchResults1);
-			results.setDrug1(drug1);
-			
-			results.setDrug2(drug2);
-			results.setDrug1ID(drug1ID);
-			results.setDrug2ID(drug2ID);
-			results.setSourceSet(sourceSet);
-			if(drugClass1 != null)
-				results.setDrugClass1(drugClass1);
-			if(drugClass2 != null)
-				results.setDrugClass2(drugClass2);
-
-			
-			
-			
-			HttpSession session = request.getSession();
-			session.setAttribute("ResultBean", results);
-			
-
-			RequestDispatcher dispatcher = request
-					.getRequestDispatcher("index.jsp");
-
-			dispatcher.forward(request, response);
-			/*if (dbconnection.conn != null && !dbconnection.conn.isClosed()){
-				try { conn.close(); } catch (SQLException logOrIgnore) {}
-				try { DBConnection.select.close(); } catch (SQLException logOrIgnore) {}
-			}*/
+	    results.setResults0(searchResults0);
+	    results.setResults1(searchResults1);
+	    results.setDrug1(drug1);
+	    
+	    results.setDrug2(drug2);
+	    results.setDrug1ID(drug1ID);
+	    results.setDrug2ID(drug2ID);
+	    results.setSourceSet(sourceSet);
+	    if(drugClass1 != null)
+		results.setDrugClass1(drugClass1);
+	    if(drugClass2 != null)
+		results.setDrugClass2(drugClass2);
+	    
+	    HttpSession session = request.getSession();
+	    session.setAttribute("ResultBean", results);
+	    
+	    RequestDispatcher dispatcher = request
+		.getRequestDispatcher("index.jsp");
+	    
+	    dispatcher.forward(request, response);
+	    
 	} catch (Exception e) {
 	    System.out.println("Exception" + e.getMessage());
 	    e.printStackTrace();
-	} finally {
-	    // if (dbconnection.rs != null ) try { dbconnection.rs.close();} catch (SQLException logOrIgnore) {}
-	    // if (dbconnection.select != null) try { dbconnection.select.close(); } catch (SQLException logOrIgnore) {}
-	    // if (dbconnection.conn != null ) try { dbconnection.conn.close();} catch (SQLException logOrIgnore) {}
-	    
-	    // if (rs != null ) try { rs.close();} catch (SQLException logOrIgnore) {}
-	    // if (rs1 != null ) try { rs1.close();} catch (SQLException logOrIgnore) {}
-	    // if (conn != null ) try { conn.close();} catch (SQLException logOrIgnore) {}
-	}
+	} 
     }
 
 	// <editor-fold defaultstate="collapsed"

@@ -45,7 +45,6 @@ public class precipitant_ajax extends HttpServlet {
         
         String result = "";
         try{
-	    //Connection conn = DBConnection.getInstance().getConnection();
 	    
             //String drug1 = request.getParameter("drug"); 
             String sources = (String)request.getParameter("source"); 
