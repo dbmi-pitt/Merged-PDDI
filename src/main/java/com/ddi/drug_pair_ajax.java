@@ -23,7 +23,7 @@ import javax.servlet.http.HttpSession;
 
 import com.dao.DBConnection;
 
-public class precipitant_ajax extends HttpServlet {
+public class drug_pair_ajax extends HttpServlet {
 
     private ResultSet rs=null;
     public String testresult = "";
@@ -45,34 +45,30 @@ public class precipitant_ajax extends HttpServlet {
         
         String result = "";
         try{
+	    System.out.println("[DEBUG] drug_pair_ajax");
 	    
-            //String drug1 = request.getParameter("drug"); 
+            String drug1 = request.getParameter("drug"); 
             String sources = (String)request.getParameter("source"); 
-            //System.out.println("precipitant_ajax" + sources);
-            String selectAllDrugs;
-            //selectAllDrugs = "select distinct(precipitant) from interactions1 where `source` in ('source') and object = '" + drug1 + "' order by precipitant ASC";
-            if(sources.length()!=0)
-            {
-            	sources = sources.substring(0,sources.length()-1);
-            	selectAllDrugs = "select distinct(object) from interactions1 where `source` in (" + sources + ")  order by object ASC";
-            	//System.out.println("precipitant_ajax" + selectAllDrugs);
-            }else
-            {
-            	selectAllDrugs = "select distinct(object) from interactions1 where `source` in ('source')  order by object ASC";
-            	System.out.println(selectAllDrugs);
-            }
-            //System.out.println("precipitant_ajax" + sources);
-            
-            //String selectAllDrugs = "select distinct(precipitant) from interactions1 where `source` in (" + sources + ") and object = '" + drug1 + "' order by precipitant ASC";
 
-            rs = DBConnection.executeQuery(selectAllDrugs);
+            String selectAllPairs;
+
+	    if(sources.length()!=0) {
+            	sources = sources.substring(0,sources.length()-1);
+            	selectAllPairs = "SELECT DISTINCT(drug) FROM (SELECT DISTINCT(precipitant) AS drug FROM interactions1 WHERE `source` IN (" + sources + ") AND object LIKE '%" + drug1 + "%' UNION ALL SELECT DISTINCT (object) AS drug FROM interactions1 WHERE `source` IN (" + sources + ") AND precipitant LIKE '%" + drug1 + "%') AS t ORDER BY drug ASC";
+		
+            } else {
+            	selectAllPairs = "SELECT DISTINCT(drug) FROM (SELECT DISTINCT(precipitant) AS drug FROM interactions1 WHERE object LIKE '%" + drug1 + "%' UNION ALL SELECT DISTINCT(object) AS drug FROM interactions1 WHERE precipitant LIKE '%" + drug1 + "%') AS t ORDER BY drug ASC";
+            }
+
+	    System.out.println("drug_pair_ajax: " + selectAllPairs);            
+            rs = DBConnection.executeQuery(selectAllPairs);
             
             result += "[";
             
             while(rs.next()){
-                result += "\"" + rs.getString("object").toLowerCase() + "\", ";
+                result += "\"" + rs.getString("drug").toLowerCase() + "\", ";
             }
-            //System.out.println("precipitant_ajax" + result.length());
+
 	    if (result.length() > 2)
 		result = result.substring(0, result.length()-2);
 	    else 
@@ -83,18 +79,16 @@ public class precipitant_ajax extends HttpServlet {
         }
         catch(Exception e){
             result += "]";
-            System.out.println("SQLException" + e.getMessage());
             e.printStackTrace();
         }        
 
         try {
 	    testresult = result;
-	    //System.out.println(result);
 	    PrintWriter out = response.getWriter();
             out.write(result);
 	}
 	catch (Exception e){
-		e.printStackTrace();
+	    e.printStackTrace();
 	}
     }
 

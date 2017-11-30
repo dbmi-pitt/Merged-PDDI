@@ -44,27 +44,25 @@ public class drug_ajax extends HttpServlet {
         ResultSet rs = null;
 	String testresult = "";
         String result = "";
-        try{
-            
-            String drug1 = request.getParameter("drug"); 
-            String sources = (String)request.getParameter("source"); 
-            String selectAllDrugs;
+        try{            
+            String sources = (String)request.getParameter("source");             
+	    String selectAllDrugs;
 
             if(sources.length()!=0) {
             	sources = sources.substring(0,sources.length()-1);
-            	selectAllDrugs = "select distinct(precipitant) from interactions1 where `source` in (" + sources + ") and object like '%" + drug1 + "%' order by precipitant ASC";
+            	selectAllDrugs = "SELECT DISTINCT(drug) FROM (SELECT DISTINCT(precipitant) AS drug FROM interactions1 WHERE `source` IN (" + sources + ") UNION ALL SELECT DISTINCT (object) AS drug FROM interactions1 WHERE `source` IN (" + sources + ")) AS t ORDER BY drug ASC";
+		
             } else {
-            	selectAllDrugs = "select distinct(precipitant) from interactions1 where `source` in ('source') and object = '" + drug1 + "' order by precipitant ASC";
+            	selectAllDrugs = "SELECT DISTINCT(drug) FROM (SELECT DISTINCT(precipitant) AS drug FROM interactions1 UNION ALL SELECT DISTINCT(object) AS drug FROM interactions1) AS t ORDER BY drug ASC";
             }
 
-	    // System.out.println(selectAllDrugs);
-            // System.out.println("drug_ajax: " + sources);
+	    System.out.println("drug_ajax: " + selectAllDrugs);
 
 	    rs = DBConnection.executeQuery(selectAllDrugs);
             result += "[";
             
             while(rs.next()){
-                result += "\"" + rs.getString("precipitant").toLowerCase() + "\", ";
+                result += "\"" + rs.getString("drug").toLowerCase() + "\", ";
             }
             
 	    if (result.length() > 2)
@@ -77,21 +75,17 @@ public class drug_ajax extends HttpServlet {
         }
         catch(Exception e){
             result += "]";
-            System.out.println("SQLException - drug_ajax: " + e.getMessage());
             e.printStackTrace();
         }        
 
         try {
 	    testresult = result;
-	    //System.out.println(result);
 	    PrintWriter out = response.getWriter();
             out.write(result);
 	}
 	catch (Exception e){
 	    e.printStackTrace();
 	} finally {
-	    // 	try { rs.close();
-	    // 	} catch (SQLException logOrIgnore) {}
     	}
     }
 

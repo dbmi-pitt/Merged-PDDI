@@ -78,6 +78,7 @@ public class DBConnection {
 	    rs = pstmt.executeQuery();
 
 	    rowset = new CachedRowSetImpl();
+	    // if (rs.next())
 	    rowset.populate(rs);
 	    
 	} catch (Exception e) {

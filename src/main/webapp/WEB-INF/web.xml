@@ -20,8 +20,8 @@ xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns
         <servlet-class>com.ddi.drug_ajax</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>precipitant_ajax</servlet-name>
-        <servlet-class>com.ddi.precipitant_ajax</servlet-class>
+        <servlet-name>drug_pair_ajax</servlet-name>
+        <servlet-class>com.ddi.drug_pair_ajax</servlet-class>
     </servlet>
     
     <servlet-mapping>
@@ -38,8 +38,8 @@ xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns
         <url-pattern>/drug_ajax</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>precipitant_ajax</servlet-name>
-        <url-pattern>/precipitant_ajax</url-pattern>
+        <servlet-name>drug_pair_ajax</servlet-name>
+        <url-pattern>/drug_pair_ajax</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
