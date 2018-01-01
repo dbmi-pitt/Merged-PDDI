@@ -50,10 +50,10 @@
 	  intended for informatics and pharmacovigilance research and
 	  is not a drug-drug interaction checking tool!</b> Rather, it
 	  provides access to a combined dataset (available via
-	  download) that merges together data from seventeen different
-	  sources (as of January 2018) including 8 clinically-oriented
-	  information sources, 4 Natural Language Processing (NLP)
-	  Corpora, and 5 Bioinformatics/Pharmacovigilance information
+	  download) that merges together data from more than a dozen different
+	  sources (as of January 2018) including several clinically-oriented
+	  information sources,  Natural Language Processing (NLP)
+	  Corpora, and Bioinformatics/Pharmacovigilance information
 	  sources. The browsing feature of this site applies to a subset of all available sources. Please download the CSV files if you want to work with the entire dataset. Please post any questions or requests to our forum on <a href="https://forums.dikb.org/c/merged-pddi-dataset">dikb.org</a>
 	</p>
 
@@ -166,18 +166,18 @@
 <BR><BR>
 
       <p>
-      <b style="font-size:22px">Download all 14 merged PDDI datasets</b><br>
+      <b style="font-size:22px">Download all 17 merged PDDI datasets</b><br>
 	<a style = "font-size:15px" href="https://dbmi-icode-01.dbmi.pitt.edu/dikb-evidence/pddi-sets/CombinedDatasetConservative.csv.zip">More conservative dataset</a>&nbsp;&nbsp;&nbsp;
 	<a style = "font-size:15px" href="https://dbmi-icode-01.dbmi.pitt.edu/dikb-evidence/pddi-sets/CombinedDatasetNotConservative.csv.zip">Less conservative dataset</a>
       </p>
 <p class = "lead" style = "font-size:13px">
 More conservative is limited matches between a DrugBank and UNII record to those cases where an exact case-insensitive match was identified for both an InChI identifier and either the drug preferred term or synonym. 
 <br>
-Less conservative approach involves a match on InChI key or an exact case-insensitive match of preferred term or a synonym. The latter approach resulted in a greater number of mappings (1613 and 2139 mappings respectively).
+Less conservative approach involves a match on InChI key or an exact case-insensitive match of preferred term or a synonym. The latter approach resulted in a greater number of mappings.
 </p>
 
 <h5><b style="font-size:22px">Funding Acknowledgements</b></h5>
-<p class = "lead" style = "font-size:13px">This project is supported by a grant from the National Library of Medicine: "Addressing gaps in clinically useful evidence on drug-drug interactions"   (1R01LM011838-01)</p>
+<p class = "lead" style = "font-size:13px">This project is supported by a grant from the National Library of Medicine: "Addressing gaps in clinically useful evidence on drug-drug interactions"   (R01LM011838)</p>
 
 
 <h5><b style="font-size:22px">Citations for PDDI sources </b></h5>
