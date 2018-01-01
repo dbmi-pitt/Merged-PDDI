@@ -344,7 +344,7 @@ We created this <a href="http://www.freenetlaw.com/free-medical-disclaimer/">med
 <HR>
 <div text-align = "center">
 <IMG style = "float: left; margin-right: 65px;" src="images/logo.png" alt="logo.png" align="top" width = "140px" height = "140px">
-<FONT SIZE="-1"><br>Copyright &#169 2015 - 2016 Richard D. Boyce<BR>All Rights Reserved<BR>
+<FONT SIZE="-1"><br>Copyright &#169 2015 - 2018 Richard D. Boyce and Serkan Ayvaz<BR>All Rights Reserved<BR>
 </FONT>
 <br>
 <br>
