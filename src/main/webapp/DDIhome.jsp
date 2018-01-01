@@ -166,7 +166,7 @@
 <BR><BR>
 
       <p>
-      <b style="font-size:22px">Download all 17 merged PDDI datasets</b><br>
+      <b style="font-size:22px">Download all merged PDDI datasets</b><br>
 	<a style = "font-size:15px" href="https://dbmi-icode-01.dbmi.pitt.edu/dikb-evidence/pddi-sets/CombinedDatasetConservative.csv.zip">More conservative dataset</a>&nbsp;&nbsp;&nbsp;
 	<a style = "font-size:15px" href="https://dbmi-icode-01.dbmi.pitt.edu/dikb-evidence/pddi-sets/CombinedDatasetNotConservative.csv.zip">Less conservative dataset</a>
       </p>
