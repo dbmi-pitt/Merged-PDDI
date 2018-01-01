@@ -46,15 +46,15 @@
 	 %>
       <div id="dialog-message" title="Description:">
 	<p class = "lead" style = "font-size: 15px;">
-	<b>Note - This potential drug-drug information source is
+	<b>Note - This free potential drug-drug information source is
 	  intended for informatics and pharmacovigilance research and
 	  is not a drug-drug interaction checking tool!</b> Rather, it
 	  provides access to a combined dataset (available via
-	  download) that merges together data from fourteen different
-	  sources (as of Fall 2014) including 5 clinically-oriented
+	  download) that merges together data from seventeen different
+	  sources (as of January 2018) including 8 clinically-oriented
 	  information sources, 4 Natural Language Processing (NLP)
 	  Corpora, and 5 Bioinformatics/Pharmacovigilance information
-	  sources.
+	  sources. The browsing feature of this site applies to a subset of all available sources. Please download the CSV files if you want to work with the entire dataset. Please post any questions or requests to our forum on <a href="https://forums.dikb.org/c/merged-pddi-dataset">dikb.org</a>
 	</p>
 
 	<p class = "lead" style = "font-size: 15px;">
