@@ -1,7 +1,3 @@
-CREATE DATABASE merged_pddi;
-USE merged_pddi;
-SET FOREIGN_KEY_CHECKS=0;
-
 --
 -- Table structure for table `interactions1`
 --
@@ -59,8 +55,8 @@ CREATE TABLE `sources_category` (
   `source` varchar(256) DEFAULT NULL,
   `category` varchar(256) DEFAULT NULL,
   `description` varchar(256) DEFAULT NULL,
-  KEY `source_idx` (`source`),
-  CONSTRAINT `source` FOREIGN KEY (`source`) REFERENCES `interactions1` (`source`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  KEY `source_idx` (`source`) -- ,
+  -- CONSTRAINT `source` FOREIGN KEY (`source`) REFERENCES `interactions1` (`source`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -68,7 +64,7 @@ CREATE TABLE `sources_category` (
 -- load data for table `sources_category`
 --
 
-LOCK TABLES `sources_category` WRITE;
+-- LOCK TABLES `sources_category` WRITE;
 /*!40000 ALTER TABLE `sources_category` DISABLE KEYS */;
 INSERT INTO `sources_category` VALUES ('CredibleMeds','Clinically-oriented','A list of clinically important drug-drug interactions.'),('DIKB','Bioinformatics- Pharmacovigilance','An evidence-focused knowledge base of pharmacokinetic PDDIs.'),('Drugbank','Bioinformatics- Pharmacovigilance','Comprehensive drug information resource.'),('NDF-RT','Clinically-oriented','PDDIs used until 2014 by the Veteran\'s Administration health care system.'),('ONC-HighPriority','Clinically-oriented','A consensus list of PDDIs that are recommended by the Office of the National Coordinator as high priority for inclusion in alerting systems.'),('ONC-NonInteruptive','Clinically-oriented','A consensus list of PDDIs that are recommended by the Office of the National Coordinator for use in non-interruptive alerts.'),('French National Formulary (Fr.)','Clinically-oriented','French National Formulary (Fr.)'),('French National Formulary (Eng. - TESTING)','Clinically-oriented','Clinically oriented drug interactions from the French National formulary translated to English by the WorldVista foundation'),('Liverpool HIV','Clinically-oriented', 'reliable, comprehensive, up-to-date, evidence-based drug-drug interaction resource about HIV.'),('Liverpool HEP','Clinically-oriented', 'reliable, comprehensive, up-to-date, evidence-based drug-drug interaction resource about HEP.');
 
