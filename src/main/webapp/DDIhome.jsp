@@ -187,8 +187,10 @@
 
       <h5><b style="font-size:22px">Citations for PDDI sources </b></h5>
 
-      <b style="font-size:15px">Seven of the sources were developed for clinical application</b>
+      <b style="font-size:15px">Eight of the sources were developed for clinical application</b>
       <ul class = "lead" style = "text-align: left; font-size: 13px;">
+	<li>French National Formulary: Thesaurus des interactions medicamenteuses. ANSM.2016. URL: <a target="new" href="http://ansm.sante.fr/var/ansm_site/storage/original/application/de444ea9eb4bc084905c917c902a805f.pdf">http://ansm.sante.fr/var/ansm_site/storage/original/application/de444ea9eb4bc084905c917c902a805f.pdf</a>. English translation provided by the <a target="new" href="http://worldvista.org/">World Vista</a> organization. 
+	</li>
 	<li>Credimeds: a list of PDDIs thought to be clinically relevant and supported by strong scientific evidence
 
 	  “Crediblemeds.org,” 05-Oct-2013. [Online]. Available: http://www.crediblemeds.org/.[Accessed: 05-Oct-2013].  
