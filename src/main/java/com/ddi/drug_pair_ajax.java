@@ -48,7 +48,17 @@ public class drug_pair_ajax extends HttpServlet {
 	    System.out.println("[DEBUG] drug_pair_ajax");
 	    
             String drug1 = request.getParameter("drug"); 
+	    if (drug1.matches(".*DOCTYPE.*") || drug1.matches(".*doctype.*") || drug1.matches(".*DOCTYPE.*") || drug1.matches(".*WARNING.*") || drug1.matches(".*warning.*")){
+		System.out.println("drug_pair_ajax: drug1 appears to have been hacked - returning void:\n\t" + drug1);
+		return;
+	    }
+
             String sources = (String)request.getParameter("source"); 
+	    if (sources.matches(".*DOCTYPE.*") || sources.matches(".*doctype.*") || sources.matches(".*DOCTYPE.*") || sources.matches(".*WARNING.*") || sources.matches(".*warning.*")){
+		System.out.println("drug_pair_ajax: sources appears to have been hacked - returning void:\n\t" + sources);
+		return;
+	    }
+
 
             String selectAllPairs;
 
